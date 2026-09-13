@@ -231,10 +231,31 @@ test("learning, component selection, sentence cancellation, grammar and culture 
   await page.getByLabel("difficulty").selectOption("easy");
   const slot = page.locator(".slot:not([disabled])");
   await expect(slot).toHaveCount(1);
+  // Selected components must read visibly larger than the option pool so
+  // lookalikes (口/囗, 土/士...) are easy to double-check before submitting.
+  const slotFontSize = parseFloat(
+    await page
+      .locator(".slot")
+      .first()
+      .evaluate((el) => getComputedStyle(el).fontSize),
+  );
+  const poolFontSize = parseFloat(
+    await page
+      .locator(".blocks button")
+      .first()
+      .evaluate((el) => getComputedStyle(el).fontSize),
+  );
+  expect(slotFontSize).toBeGreaterThan(poolFontSize);
   await page.locator(".blocks button").first().click();
   await expect(page.getByRole("button", { name: "조립 확인" })).toBeEnabled();
   await page.getByRole("button", { name: "조립 확인" }).click();
   await expect(page.locator(".feedback")).toBeVisible();
+  // Component recall is graded as a multiset, so a wrong pick here always
+  // means an actual missing/extra component — verify the diff explains it.
+  if (await page.locator(".feedback.error").count()) {
+    await expect(page.getByText("내가 고른 구성")).toBeVisible();
+    await expect(page.getByText(/정답:/)).toBeVisible();
+  }
   await page.goto("/sentence");
   await page.locator(".blocks button").first().click();
   await expect(page.locator(".slots button")).toHaveCount(1);

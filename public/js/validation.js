@@ -19,6 +19,14 @@ export const identity = (kind, r) =>
 const trim = (v) => (typeof v === "string" ? v.trim() : "");
 const parse = (v, fallback) =>
   v == null || v === "" ? fallback : typeof v === "string" ? JSON.parse(v) : v;
+// A decomposition tree has two node kinds: "layout" (a pure visual grouping —
+// left-right/top-bottom/surround/other — with no character of its own) and
+// "character" (a real, selectable component). A "character" node is always a
+// leaf of the *assembly* tree: even though it may carry its own nested
+// `decomposition` for a further, more detailed breakdown (e.g. 兄 = 口 + 儿
+// inside 祝 = 礻 + 兄), that nesting is for a future detailed/recursive drill
+// mode, not the default assembly question — leaves() intentionally stops at
+// the nearest character node on each branch instead of flattening through it.
 export function leaves(node, path = "root", position = "other") {
   if (!node) return [];
   if (node.type === "character") return [{ value: node.value, path, position }];
@@ -26,12 +34,39 @@ export function leaves(node, path = "root", position = "other") {
     leaves(c, `${path}.${i}`, i === 0 ? "first" : i === 1 ? "second" : "other"),
   );
 }
+// Direct, usable components for a basic assembly question: leaves() output,
+// minus anything that can't stand as a real answer choice (blank value, or a
+// decomposition that only ever points back at the character itself).
+export function usableComponents(decomposition, rootChar) {
+  if (!decomposition) return [];
+  let nodes;
+  try {
+    nodes = leaves(decomposition);
+  } catch {
+    return [];
+  }
+  const usable = (Array.isArray(nodes) ? nodes : []).filter(
+    (n) => n && typeof n.value === "string" && n.value.trim() !== "",
+  );
+  if (!usable.length) return [];
+  if (rootChar && usable.every((n) => n.value === rootChar)) return [];
+  return usable;
+}
+// A character is only fair game for an assembly (component recall) question
+// when its decomposition is well-formed and actually breaks it into 2+ parts.
+// Malformed/empty/self-referential decompositions still work fine for
+// meaning/pronunciation study — they're just excluded here.
+export const assemblyEligible = (c) =>
+  !!c && usableComponents(c.decomposition, c.char).length >= 2;
 function checkNode(n, depth = 0) {
   if (!n || typeof n !== "object" || depth > 8)
     throw Error("component 분해 깊이/구조 오류");
   if (n.type === "character") {
     if (!trim(n.value) || [...n.value].length > 4)
       throw Error("component value 오류");
+    // Optional recursive breakdown of this component itself (e.g. 兄 = 口 + 儿),
+    // reserved for a future detailed-assembly mode; validated the same way.
+    if (n.decomposition) checkNode(n.decomposition, depth + 1);
     return;
   }
   if (

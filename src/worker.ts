@@ -177,10 +177,14 @@ async function api(req: Request, env: Env) {
       throw new HttpError(403, "동일 출처 요청만 허용됩니다.");
   }
   if (path === "/api/components" && method === "GET")
+    // depth: how many "children[" hops cc.path is from the decomposition root —
+    // a cheap proxy for how big/abstract a component usually is (a direct child
+    // of some character sits at depth 1; something nested further is smaller),
+    // so the client can favor distractors at the same visual level as the answer.
     return json(
       (
         await env.DB.prepare(
-          "SELECT c.value,c.stroke_count,c.shape_group,cc.position,COUNT(*) AS frequency FROM components c JOIN character_components cc ON cc.component_value=c.value GROUP BY c.value,cc.position",
+          "SELECT c.value,c.stroke_count,c.shape_group,cc.position,COUNT(*) AS frequency,MIN((LENGTH(cc.path)-LENGTH(REPLACE(cc.path,'children[','')))/9) AS depth FROM components c JOIN character_components cc ON cc.component_value=c.value GROUP BY c.value,cc.position",
         ).all()
       ).results,
     );

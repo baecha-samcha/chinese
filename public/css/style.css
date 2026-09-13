@@ -321,55 +321,69 @@ h3 {
 .feedback.error {
   background: #382824;
 }
+.diff-row {
+  margin: 10px 0;
+}
+.diff-row .muted {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.diff-components {
+  font-family:
+    "Noto Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC",
+    sans-serif;
+  font-size: 26px;
+}
+.diff-components.wrong {
+  color: var(--danger);
+}
+.diff-components.missing {
+  color: var(--accent);
+}
 .blocks {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   padding: 16px 0;
   min-height: 80px;
-}
-.blocks button {
-  font-size: 26px;
-  min-width: 58px;
 }
 .slots {
   border: 1px dashed #65775c;
   border-radius: 14px;
-  min-height: 90px;
+  min-height: 96px;
   padding: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
 }
-.layout {
-  display: inline-flex;
-  gap: 7px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #637357;
-  border-radius: 9px;
-  padding: 8px;
-}
-.layout.top-bottom {
-  flex-direction: column;
-}
-.layout.surround {
-  border: 3px double #93aa77;
-  padding: 16px;
-}
-.layout.other {
-  flex-wrap: wrap;
-}
+/* Component glyphs are the whole point here — size, padding and centering are
+   deliberately generous so visually similar components (口/囗, 土/士, 己/已/巳…)
+   stay easy to tell apart. */
 .component {
-  font-size: 32px;
-  min-width: 42px;
+  font-size: 38px;
+  min-width: 64px;
+  min-height: 64px;
+  padding: 10px 16px;
+  line-height: 1;
 }
+.component:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+.component:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+/* Selected components (in .slots) read a notch larger than the option pool so
+   picking 口 vs 囗 is easy to double-check before submitting. */
 .slot {
-  min-width: 48px;
-  font-size: 30px;
+  min-width: 72px;
+  min-height: 72px;
+  font-size: 44px;
+  border-color: #7c9068;
 }
 .note {
   border-left: 3px solid var(--accent);
@@ -568,6 +582,17 @@ footer {
   }
   .hanzi {
     font-size: 46px;
+  }
+  .component {
+    font-size: 30px;
+    min-width: 52px;
+    min-height: 52px;
+    padding: 8px 12px;
+  }
+  .slot {
+    min-width: 56px;
+    min-height: 56px;
+    font-size: 34px;
   }
   nav {
     gap: 0;

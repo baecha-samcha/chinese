@@ -22,6 +22,36 @@ export const shuffle = (a, rng = Math.random) => {
   }
   return b;
 };
+// Component recall is graded as a multiset: order never matters, but a component
+// required twice (e.g. 木+木+日) must be picked twice. Never compare as Sets.
+export function diffComponentMultiset(expected, selected) {
+  const remaining = [...expected],
+    matched = [],
+    extra = [];
+  for (const v of selected || []) {
+    const i = remaining.indexOf(v);
+    if (i >= 0) {
+      remaining.splice(i, 1);
+      matched.push(v);
+    } else extra.push(v);
+  }
+  return {
+    matched,
+    missing: remaining,
+    extra,
+    correct: remaining.length === 0 && extra.length === 0,
+  };
+}
+export const sameComponentMultiset = (expected, selected) =>
+  diffComponentMultiset(expected, selected).correct;
+// Best-effort visual disambiguation for lookalike components (口 vs 囗, 己 vs 已 vs 巳...):
+// shown only alongside mismatch feedback, never used for grading.
+export function codePointLabel(ch) {
+  const cp = typeof ch === "string" && ch.length ? ch.codePointAt(0) : null;
+  return cp == null
+    ? String(ch)
+    : `${ch} (U+${cp.toString(16).toUpperCase().padStart(4, "0")})`;
+}
 export function toast(text) {
   document.querySelector("#toast").textContent = text;
   clearTimeout(toast.timer);

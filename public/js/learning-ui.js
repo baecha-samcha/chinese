@@ -6,6 +6,8 @@ import {
   toast,
   readLocal,
   writeLocal,
+  diffComponentMultiset,
+  codePointLabel,
 } from "./utils.js";
 import { normalizePinyin } from "./validation.js";
 import {
@@ -315,6 +317,32 @@ export function renderLearning(root, data, area) {
   root.append(toolbar, host, searchBox(data));
   next();
 }
+// Turns a wrong assembly answer into "what exactly did I get wrong" instead of
+// just showing the correct answer: what was picked, and — since duplicates are
+// possible (木+木+日) — precisely which components were extra or missing, via
+// multiset diff (never a Set, never position-based).
+function componentDiff(q, value) {
+  const expected = q.nodes.map((n) => n.value),
+    chosen = Array.isArray(value) ? value.filter(Boolean) : [],
+    { extra, missing } = diffComponentMultiset(expected, chosen),
+    row = (label, items, cls = "") =>
+      el(
+        "div",
+        { class: "diff-row" },
+        el("span", { class: "muted" }, label),
+        el(
+          "div",
+          { class: `diff-components ${cls}` },
+          items.length ? items.join(" + ") : "—",
+        ),
+      );
+  const rows = [row("내가 고른 구성", chosen)];
+  if (extra.length)
+    rows.push(row("잘못 고른 요소", extra.map(codePointLabel), "wrong"));
+  if (missing.length)
+    rows.push(row("빠진 요소", missing.map(codePointLabel), "missing"));
+  return rows;
+}
 export function renderQuestion(host, q, { onNext, onAnswer, index, total }) {
   let answered = false;
   const panel = el("section", { class: "card question" }),
@@ -365,6 +393,7 @@ export function renderQuestion(host, q, { onNext, onAnswer, index, total }) {
       "div",
       { class: `feedback ${correct ? "" : "error"}` },
       el("strong", {}, correct ? "정답이에요!" : "다시 기억해 두세요."),
+      ...(q.type === "component" && !correct ? componentDiff(q, value) : []),
       el("div", {}, `정답: ${q.answer}`),
       q.explanation ? el("div", { class: "muted" }, q.explanation) : null,
     );
@@ -468,20 +497,21 @@ export function renderQuestion(host, q, { onNext, onAnswer, index, total }) {
     answerBox.append(slots, pool, submit);
   }
   if (q.type === "component") {
+    // Component recall only: this is a flat set of blanks, not a diagram of
+    // 礻/兄's actual left-right position — grading (and so the UI) never uses
+    // which blank a component lands in, only which components were picked.
     const selected = q.nodes.map((n, i) =>
         q.blank >= 0 && q.blank !== i ? n.value : null,
       ),
-      slots = el("div", { class: "slots" }),
+      slots = el("div", { class: "slots", ariaLabel: "선택한 구성요소" }),
       pool = el("div", { class: "blocks" });
     const submit = button("조립 확인", () => finish(selected), "primary");
     const draw = () => {
-      let i = 0;
-      function tree(n) {
-        if (n.type === "character") {
-          const idx = i++,
-            fixed = q.blank >= 0 && q.blank !== idx;
+      slots.replaceChildren(
+        ...selected.map((v, idx) => {
+          const fixed = q.blank >= 0 && q.blank !== idx;
           const b = button(
-            selected[idx] || "?",
+            v || "?",
             () => {
               if (!answered && !fixed) {
                 selected[idx] = null;
@@ -491,23 +521,13 @@ export function renderQuestion(host, q, { onNext, onAnswer, index, total }) {
             "slot component",
           );
           b.disabled = fixed || answered;
+          b.setAttribute(
+            "aria-label",
+            v ? `${idx + 1}번째로 고른 구성요소 ${v}, 누르면 선택 취소` : `빈칸 ${idx + 1}`,
+          );
           return b;
-        }
-        return el(
-          "div",
-          {
-            class: `layout ${n.layout}`,
-            ariaLabel: {
-              "left-right": "좌우 구조",
-              "top-bottom": "상하 구조",
-              surround: "둘러싸기 구조",
-              other: "기타 구조",
-            }[n.layout],
-          },
-          ...n.children.map(tree),
-        );
-      }
-      slots.replaceChildren(tree(q.decomposition));
+        }),
+      );
       submit.disabled = selected.some((v) => !v) || answered;
     };
     for (const v of q.options) {
@@ -522,6 +542,7 @@ export function renderQuestion(host, q, { onNext, onAnswer, index, total }) {
         },
         "component",
       );
+      b.setAttribute("aria-label", `구성요소 ${v} 선택`);
       controls.push(b);
       pool.append(b);
     }
@@ -532,7 +553,7 @@ export function renderQuestion(host, q, { onNext, onAnswer, index, total }) {
       el(
         "p",
         { class: "muted" },
-        "빈칸 순서대로 선택 · 선택한 칸을 누르면 취소 · 같은 요소는 여러 번 선택 가능",
+        "이 글자를 이루는 구성요소를 모두 선택하세요 · 선택한 칸을 누르면 취소 · 같은 요소는 여러 번 선택 가능",
       ),
       pool,
       submit,

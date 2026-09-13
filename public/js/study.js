@@ -1,5 +1,5 @@
-import { shuffle, readLocal, writeLocal } from "./utils.js";
-import { leaves, strip } from "./validation.js";
+import { shuffle, readLocal, writeLocal, sameComponentMultiset } from "./utils.js";
+import { strip, usableComponents, assemblyEligible } from "./validation.js";
 export function getStats() {
   const s = readLocal("ch.stats", {});
   return s && typeof s === "object" && !Array.isArray(s) ? s : {};
@@ -81,6 +81,17 @@ const strokes = {
   入: 2,
   八: 2,
 };
+// Depth of a component within its decomposition tree: how many "layout" hops
+// separate it from the root. A direct child of the root (礻 in 祝 = 礻 + 兄)
+// sits at depth 1; something nested further down sits deeper. Used only to
+// keep distractors at roughly the same visual/abstraction size as the answer
+// (avoid mixing whole components like 礻/兄 with stroke-level pieces like
+// 丶/一/丿), never to grade anything.
+function depthOf(x) {
+  if (typeof x?.depth === "number") return x.depth;
+  if (typeof x?.path === "string") return x.path.split(".").length - 1;
+  return null;
+}
 export function componentChoices(nodes, pool, rng = Math.random) {
   const correct = new Set(nodes.map((x) => x.value));
   const scores = new Map();
@@ -99,6 +110,12 @@ export function componentChoices(nodes, pool, rng = Math.random) {
         pool.some((p) => p.value === n.value && p.shape_group === c.shape_group)
       )
         score += 4;
+      const nd = depthOf(n),
+        cd = depthOf(c);
+      if (nd != null && cd != null) {
+        if (nd === cd) score += 3;
+        else if (Math.abs(nd - cd) === 1) score += 1;
+      }
       best = Math.max(best, score);
     }
     if (best > 0) scores.set(c.value, Math.max(scores.get(c.value) || 0, best));
@@ -128,9 +145,7 @@ export function eligible(data, area, settings = {}) {
   if (area === "write")
     return data.vocabulary.flatMap((v) =>
       v.characters.flatMap((c, i) =>
-        c.decomposition && leaves(c.decomposition).length >= 2
-          ? [{ key: `write:${v.id}:${i}`, v, c, i }]
-          : [],
+        assemblyEligible(c) ? [{ key: `write:${v.id}:${i}`, v, c, i }] : [],
       ),
     );
   const kind = {
@@ -209,7 +224,7 @@ export function makeQuestion(data, area, settings = {}, source) {
   }
   if (area === "write") {
     const { v, c, i } = entry,
-      nodes = leaves(c.decomposition),
+      nodes = usableComponents(c.decomposition, c.char),
       difficulty = settings.difficulty || "normal",
       blank =
         difficulty === "easy" ? Math.floor(Math.random() * nodes.length) : -1;
@@ -303,7 +318,11 @@ export function makeQuestion(data, area, settings = {}, source) {
 export function grade(q, value) {
   if (q.type === "component")
     return (
-      Array.isArray(value) && q.nodes.every((n, i) => n.value === value[i])
+      Array.isArray(value) &&
+      sameComponentMultiset(
+        q.nodes.map((n) => n.value),
+        value,
+      )
     );
   if (q.type === "order") return strip(value) === strip(q.answer);
   if (q.type === "short")
