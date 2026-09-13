@@ -1,0 +1,583 @@
+{
+  "version": 1,
+  "vocabulary": [
+    {
+      "simplified": "请",
+      "traditional": "請",
+      "pinyin": "qǐng",
+      "meaning": "부탁하다",
+      "korean_hanja_reading": "청",
+      "characters": [
+        {
+          "char": "请",
+          "traditional": "請",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "讠"
+              },
+              {
+                "type": "character",
+                "value": "青"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "simplified": "好",
+      "traditional": "好",
+      "pinyin": "hǎo",
+      "meaning": "좋다",
+      "korean_hanja_reading": "호",
+      "characters": [
+        {
+          "char": "好",
+          "traditional": "好",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "女"
+              },
+              {
+                "type": "character",
+                "value": "子"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "simplified": "你",
+      "traditional": "你",
+      "pinyin": "nǐ",
+      "meaning": "너",
+      "korean_hanja_reading": "니",
+      "characters": [
+        {
+          "char": "你",
+          "traditional": "你",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "亻"
+              },
+              {
+                "type": "character",
+                "value": "尔"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "simplified": "吗",
+      "traditional": "嗎",
+      "pinyin": "ma",
+      "meaning": "의문을 나타내는 어기조사",
+      "korean_hanja_reading": "마",
+      "characters": [
+        {
+          "char": "吗",
+          "traditional": "嗎",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "口"
+              },
+              {
+                "type": "character",
+                "value": "马"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "simplified": "清",
+      "traditional": "清",
+      "pinyin": "qīng",
+      "meaning": "맑다",
+      "korean_hanja_reading": "청",
+      "characters": [
+        {
+          "char": "清",
+          "traditional": "清",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "氵"
+              },
+              {
+                "type": "character",
+                "value": "青"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "simplified": "情",
+      "traditional": "情",
+      "pinyin": "qíng",
+      "meaning": "감정",
+      "korean_hanja_reading": "정",
+      "characters": [
+        {
+          "char": "情",
+          "traditional": "情",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "忄"
+              },
+              {
+                "type": "character",
+                "value": "青"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "simplified": "晴",
+      "traditional": "晴",
+      "pinyin": "qíng",
+      "meaning": "날이 개다",
+      "korean_hanja_reading": "청",
+      "characters": [
+        {
+          "char": "晴",
+          "traditional": "晴",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "日"
+              },
+              {
+                "type": "character",
+                "value": "青"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "simplified": "学校",
+      "traditional": "學校",
+      "pinyin": "xuéxiào",
+      "meaning": "학교",
+      "korean_hanja_reading": "학교",
+      "characters": [
+        {
+          "char": "学",
+          "traditional": "學",
+          "decomposition": {
+            "type": "layout",
+            "layout": "top-bottom",
+            "children": [
+              {
+                "type": "layout",
+                "layout": "top-bottom",
+                "children": [
+                  {
+                    "type": "character",
+                    "value": "⺍"
+                  },
+                  {
+                    "type": "character",
+                    "value": "冖"
+                  }
+                ]
+              },
+              {
+                "type": "character",
+                "value": "子"
+              }
+            ]
+          }
+        },
+        {
+          "char": "校",
+          "traditional": "校",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "木"
+              },
+              {
+                "type": "character",
+                "value": "交"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "simplified": "学生",
+      "traditional": "學生",
+      "pinyin": "xuéshēng",
+      "meaning": "학생",
+      "korean_hanja_reading": "학생",
+      "characters": [
+        {
+          "char": "学",
+          "traditional": "學",
+          "decomposition": {
+            "type": "layout",
+            "layout": "top-bottom",
+            "children": [
+              {
+                "type": "layout",
+                "layout": "top-bottom",
+                "children": [
+                  {
+                    "type": "character",
+                    "value": "⺍"
+                  },
+                  {
+                    "type": "character",
+                    "value": "冖"
+                  }
+                ]
+              },
+              {
+                "type": "character",
+                "value": "子"
+              }
+            ]
+          }
+        },
+        {
+          "char": "生",
+          "traditional": "生"
+        }
+      ]
+    },
+    {
+      "simplified": "老师",
+      "traditional": "老師",
+      "pinyin": "lǎoshī",
+      "meaning": "선생님",
+      "korean_hanja_reading": "노사",
+      "characters": [
+        {
+          "char": "老",
+          "traditional": "老"
+        },
+        {
+          "char": "师",
+          "traditional": "師"
+        }
+      ]
+    },
+    {
+      "simplified": "明",
+      "traditional": "明",
+      "pinyin": "míng",
+      "meaning": "밝다",
+      "korean_hanja_reading": "명",
+      "characters": [
+        {
+          "char": "明",
+          "traditional": "明",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "日"
+              },
+              {
+                "type": "character",
+                "value": "月"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "simplified": "休",
+      "traditional": "休",
+      "pinyin": "xiū",
+      "meaning": "쉬다",
+      "korean_hanja_reading": "휴",
+      "characters": [
+        {
+          "char": "休",
+          "traditional": "休",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "亻"
+              },
+              {
+                "type": "character",
+                "value": "木"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "simplified": "打",
+      "traditional": "打",
+      "pinyin": "dǎ",
+      "meaning": "치다",
+      "korean_hanja_reading": "타",
+      "characters": [
+        {
+          "char": "打",
+          "traditional": "打",
+          "decomposition": {
+            "type": "layout",
+            "layout": "left-right",
+            "children": [
+              {
+                "type": "character",
+                "value": "扌"
+              },
+              {
+                "type": "character",
+                "value": "丁"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "sentences": [
+    {
+      "korean": "너는 학생이니?",
+      "chinese": "你是学生吗？",
+      "tokens": [
+        "你",
+        "是",
+        "学生",
+        "吗"
+      ],
+      "explanation": "평서문 끝에 吗를 붙여 예/아니요 의문문을 만듭니다."
+    },
+    {
+      "korean": "너는 이름이 뭐니?",
+      "chinese": "你叫什么名字？",
+      "tokens": [
+        "你",
+        "叫",
+        "什么",
+        "名字"
+      ],
+      "explanation": "什么로 묻는 단순 의문절에는 吗를 함께 쓰지 않습니다."
+    },
+    {
+      "korean": "나는 중국어를 공부한다.",
+      "chinese": "我学习中文。",
+      "tokens": [
+        "我",
+        "学习",
+        "中文"
+      ],
+      "explanation": "주어 + 동사 + 목적어 순서입니다."
+    },
+    {
+      "korean": "나는 선생님이 아니다.",
+      "chinese": "我不是老师。",
+      "tokens": [
+        "我",
+        "不",
+        "是",
+        "老师"
+      ],
+      "explanation": "不는 是 앞에 둡니다."
+    }
+  ],
+  "grammar": [
+    {
+      "title": "吗와 의문사",
+      "explanation": "같은 단순 의문절에서는 什么와 吗를 함께 쓰지 않습니다. 你知道他喜欢什么吗？처럼 내포절이 있는 문장은 별개입니다.",
+      "correct_examples": [
+        "你叫什么名字？",
+        "你知道他喜欢什么吗？"
+      ],
+      "wrong_examples": [
+        "你叫什么名字吗？"
+      ],
+      "tags": [
+        "의문문",
+        "초급"
+      ],
+      "questions": [
+        {
+          "type": "error",
+          "prompt": "你叫什么名字吗？에서 불필요한 부분은?",
+          "options": [
+            "你",
+            "叫",
+            "什么",
+            "吗"
+          ],
+          "answer": "吗"
+        },
+        {
+          "type": "blank",
+          "prompt": "你___什么名字？",
+          "options": [
+            "叫",
+            "是",
+            "吗",
+            "不"
+          ],
+          "answer": "叫"
+        },
+        {
+          "type": "order",
+          "prompt": "너는 학생이니? — 문장을 배열하세요.",
+          "tokens": [
+            "你",
+            "是",
+            "学生",
+            "吗"
+          ],
+          "answer": "你是学生吗？"
+        }
+      ]
+    },
+    {
+      "title": "是의 부정",
+      "explanation": "是 앞에 不를 놓아 부정합니다.",
+      "correct_examples": [
+        "我不是老师。"
+      ],
+      "wrong_examples": [
+        "我是老师不。",
+        "我是不老师。"
+      ],
+      "tags": [
+        "부정"
+      ],
+      "questions": [
+        {
+          "type": "blank",
+          "prompt": "我___是老师。",
+          "options": [
+            "不",
+            "吗",
+            "什么",
+            "谁"
+          ],
+          "answer": "不"
+        }
+      ]
+    },
+    {
+      "title": "기본 어순",
+      "explanation": "초급 평서문은 주어 + 동사 + 목적어 순서로 구성합니다.",
+      "correct_examples": [
+        "我学习中文。"
+      ],
+      "wrong_examples": [
+        "我中文学习。"
+      ],
+      "tags": [
+        "어순"
+      ],
+      "questions": [
+        {
+          "type": "order",
+          "prompt": "나는 중국어를 공부한다.",
+          "tokens": [
+            "我",
+            "学习",
+            "中文"
+          ],
+          "answer": "我学习中文。"
+        }
+      ]
+    }
+  ],
+  "culture": [
+    {
+      "category": "명절",
+      "question": "중국의 음력 새해 명절은?",
+      "answer": "춘절",
+      "distractors": [
+        "중추절",
+        "단오절",
+        "청명절"
+      ],
+      "explanation": "춘절(春节)은 음력 새해를 맞이하는 명절입니다."
+    },
+    {
+      "category": "음식",
+      "question": "중추절에 대표적으로 먹는 음식은?",
+      "answer": "월병",
+      "distractors": [
+        "쭝쯔",
+        "탕위안",
+        "자오쯔"
+      ],
+      "explanation": "월병(月饼)은 중추절의 대표 음식입니다."
+    },
+    {
+      "category": "지역",
+      "question": "중국의 수도는?",
+      "answer": "베이징",
+      "distractors": [
+        "상하이",
+        "광저우",
+        "시안"
+      ],
+      "explanation": "베이징(北京)이 수도입니다."
+    },
+    {
+      "category": "숫자/색 상징",
+      "question": "중국에서 경사와 행운을 상징하는 대표적인 색은?",
+      "answer": "빨간색",
+      "distractors": [
+        "흰색",
+        "검은색",
+        "회색"
+      ],
+      "explanation": "빨간색은 명절과 결혼식 등 경사스러운 상황에서 널리 사용합니다."
+    }
+  ]
+}

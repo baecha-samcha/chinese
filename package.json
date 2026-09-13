@@ -1,0 +1,30 @@
+{
+  "name": "ch-study",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "vendor": "node scripts/vendor.mjs",
+    "postinstall": "npm run vendor",
+    "dev": "wrangler dev --ip 127.0.0.1",
+    "db:migrate": "wrangler d1 migrations apply ch-study --local",
+    "db:seed": "wrangler d1 execute ch-study --local --file=fixtures/seed.sql",
+    "deploy": "wrangler deploy",
+    "check": "node scripts/check.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "format": "prettier --write public/js src tests scripts public/css public/index.html",
+    "fixtures": "node scripts/seed.mjs && node scripts/xlsx-fixture.mjs"
+  },
+  "dependencies": {
+    "jose": "^6.1.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260911.1",
+    "@playwright/test": "^1.55.0",
+    "prettier": "^3.9.6",
+    "typescript": "^5.9.0",
+    "wrangler": "^4.0.0"
+  }
+}
