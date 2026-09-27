@@ -51,7 +51,9 @@ test("same-kind and mismatched cards count once and reset the timer", () => {
 });
 test("correct cards are disabled and score from the current timestamps", () => {
   const g = createMatchGame(vocabulary, 0);
-  const a = g.cards[0],
+  const a = g.cards.find((a) =>
+      g.cards.some((b) => b.kind !== a.kind && b.pair === a.pair),
+    ),
     b = g.cards.find((c) => c.pair === a.pair && c.kind !== a.kind);
   selectMatchCard(g, a.id, 1000);
   assert.equal(selectMatchCard(g, b.id, 5000).points, 50);
@@ -62,7 +64,9 @@ test("correct cards are disabled and score from the current timestamps", () => {
 });
 test("deadline blocks inputs even if no render tick has run", () => {
   const g = createMatchGame(vocabulary, 0);
-  const a = g.cards[0],
+  const a = g.cards.find((a) =>
+      g.cards.some((b) => b.kind !== a.kind && b.pair === a.pair),
+    ),
     b = g.cards.find((c) => c.pair === a.pair && c.kind !== a.kind);
   selectMatchCard(g, a.id, 179999);
   assert.equal(selectMatchCard(g, b.id, 180000), null);
@@ -211,5 +215,42 @@ test("deadline and navigation cancel pending replacements", () => {
     assert.equal(g.pending.length, 0);
     assert.equal(g.serial, serial);
     assert.equal(g.correct, 1);
+  }
+});
+
+function seededRandom(seed) {
+  return () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 2 ** 32;
+}
+test("initial columns share only the minimum possible pairs", () => {
+  for (let size = 1; size <= 15; size++) {
+    for (let seed = 1; seed <= 20; seed++) {
+      const g = createMatchGame(
+        vocabulary.slice(0, size),
+        0,
+        seededRandom(seed),
+      );
+      invariant(g);
+      const matches = g.cards.filter(
+        (a) =>
+          a.kind === "zh" &&
+          g.cards.some((b) => b.kind === "ko" && a.pair === b.pair),
+      );
+      assert.equal(matches.length, Math.max(1, 2 * Math.min(4, size) - size));
+    }
+  }
+});
+test("new cards never form a pair when playable distinct replacements exist, even with aligned queues", () => {
+  for (let seed = 1; seed <= 20; seed++) {
+    const g = createMatchGame(vocabulary, 0, seededRandom(seed));
+    // Reproduce the queue alignment that used to keep feeding matching pairs.
+    g.queues.zh = [...g.pool];
+    g.queues.ko = [...g.pool];
+    for (let turn = 0; turn < 100; turn++) {
+      const ids = solve(g, turn * 300);
+      const slots = ids.map((id) => g.cards.findIndex((c) => c.id === id));
+      tickMatch(g, turn * 300 + 250);
+      invariant(g);
+      assert.notEqual(g.cards[slots[0]].pair, g.cards[slots[1]].pair);
+    }
   }
 });

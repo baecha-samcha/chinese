@@ -61,19 +61,26 @@ function makeCard(game, word, kind) {
 
 function initializeBoard(game) {
   const chosen = [];
+  // Seven unambiguous words allow four cards per column with one shared pair.
   for (const word of shuffle(game.pool, game.rng)) {
     if (chosen.every((other) => compatible(word, other))) chosen.push(word);
-    if (chosen.length === 4) break;
+    if (chosen.length === 7) break;
   }
-  const left = shuffle(chosen, game.rng),
-    right = shuffle(chosen, game.rng);
-  game.cards = left.flatMap((word, i) => [
+  const left = chosen.slice(0, 4);
+  const right = [left[0], ...chosen.slice(4)];
+  // Small pools necessarily share more words across the two columns.
+  for (const word of shuffle(left.slice(1), game.rng)) {
+    if (right.length === left.length) break;
+    right.push(word);
+  }
+  const columns = { zh: shuffle(left, game.rng), ko: shuffle(right, game.rng) };
+  game.cards = columns.zh.flatMap((word, i) => [
     makeCard(game, word, "zh"),
-    makeCard(game, right[i], "ko"),
+    makeCard(game, columns.ko[i], "ko"),
   ]);
   for (const kind of ["zh", "ko"])
     game.queues[kind] = shuffle(
-      game.pool.filter((word) => !chosen.includes(word)),
+      game.pool.filter((word) => !columns[kind].includes(word)),
       game.rng,
     );
 }
@@ -130,8 +137,16 @@ function replenish(game, pending) {
         !zh.has(b.pair)
       )
         continue;
-      if (!best || a.cost + b.cost < best.cost)
-        best = { zh: a.word, ko: b.word, cost: a.cost + b.cost };
+      // Prefer linking new cards to cards already on the board. Queue priority
+      // alone can repeatedly select a fresh self-contained pair when it is the
+      // only match, leaving the other six cards stranded indefinitely.
+      const samePair = a.pair === b.pair;
+      if (
+        !best ||
+        Number(samePair) < Number(best.samePair) ||
+        (samePair === best.samePair && a.cost + b.cost < best.cost)
+      )
+        best = { zh: a.word, ko: b.word, cost: a.cost + b.cost, samePair };
     }
   // The removed pair is always a legal fallback, even if every other pair is pending.
   for (const id of pending.ids) {

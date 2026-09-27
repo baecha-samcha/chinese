@@ -124,7 +124,18 @@ test("four rows preserve untouched nodes while solved slots fade and refill", as
     window.originalMatchNodes = nodes;
     return nodes.map((n) => ({ id: n.dataset.cardId, text: n.textContent }));
   });
-  const word = words.find((w) => w.simplified === before[0].text);
+  expect(
+    words.filter(
+      (w) =>
+        before.some((c) => c.text === w.simplified) &&
+        before.some((c) => c.text === w.meaning),
+    ),
+  ).toHaveLength(1);
+  const word = words.find(
+    (w) =>
+      before.some((c) => c.text === w.simplified) &&
+      before.some((c) => c.text === w.meaning),
+  );
   await page
     .getByRole("button", { name: word.simplified, exact: true })
     .click();
@@ -137,15 +148,21 @@ test("four rows preserve untouched nodes while solved slots fade and refill", as
       .evaluate((n) => getComputedStyle(n).animationDuration),
   ).toBe("0.25s");
   await page.clock.runFor(300);
-  const after = await page
-    .locator(".match-card")
-    .evaluateAll((nodes) =>
-      nodes.map((n, i) => ({
-        id: n.dataset.cardId,
-        text: n.textContent,
-        same: n === window.originalMatchNodes[i],
-      })),
-    );
+  const after = await page.locator(".match-card").evaluateAll((nodes) =>
+    nodes.map((n, i) => ({
+      id: n.dataset.cardId,
+      text: n.textContent,
+      same: n === window.originalMatchNodes[i],
+    })),
+  );
+  const inserted = after
+    .filter((card, i) => card.id !== before[i].id)
+    .map((card) => card.text);
+  expect(
+    words.some(
+      (w) => inserted.includes(w.simplified) && inserted.includes(w.meaning),
+    ),
+  ).toBe(false);
   before.forEach((card, i) => {
     if ([word.simplified, word.meaning].includes(card.text))
       expect(after[i].id).not.toBe(card.id);
@@ -153,14 +170,12 @@ test("four rows preserve untouched nodes while solved slots fade and refill", as
   });
   for (const width of [390, 1280]) {
     await page.setViewportSize({ width, height: 844 });
-    const positions = await page
-      .locator(".match-card")
-      .evaluateAll((nodes) =>
-        nodes.map((n) => ({
-          x: n.getBoundingClientRect().x,
-          y: n.getBoundingClientRect().y,
-        })),
-      );
+    const positions = await page.locator(".match-card").evaluateAll((nodes) =>
+      nodes.map((n) => ({
+        x: n.getBoundingClientRect().x,
+        y: n.getBoundingClientRect().y,
+      })),
+    );
     expect(new Set(positions.map((p) => p.x)).size).toBe(2);
     expect(new Set(positions.map((p) => p.y)).size).toBe(4);
     await page.screenshot({ path: `outputs/match-continuous-${width}.png` });
