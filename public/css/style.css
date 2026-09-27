@@ -613,3 +613,28 @@ footer {
     letter-spacing: -0.8px;
   }
 }
+
+.match-board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.match-card {
+  min-height: 105px;
+  font-size: 20px;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.match-card[aria-pressed="true"] {
+  outline: 3px solid var(--accent, #b4ce95);
+  outline-offset: 2px;
+}
+.match-card.matched {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
+.match-feedback { min-height: 1.6em; }
+@media (max-width: 600px) {
+  .match-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .match-card { min-height: 85px; font-size: 18px; }
+}

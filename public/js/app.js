@@ -6,10 +6,14 @@ import {
   renderTest,
   areas,
 } from "./learning-ui.js";
+import { renderMatch } from "./match-ui.js";
 const main = document.querySelector("#main");
 let dataset = null,
   version = 0;
+let cleanup;
 async function route() {
+  cleanup?.();
+  cleanup = null;
   const token = ++version,
     path = location.pathname.replace(/\/$/, "") || "/";
   if ("speechSynthesis" in window) speechSynthesis.cancel();
@@ -46,7 +50,9 @@ async function route() {
             }),
           ),
         );
-      if (path === "/") renderHome(screen, dataset);
+      if (token !== version) return;
+      if (path === "/match") cleanup = renderMatch(screen, dataset);
+      else if (path === "/") renderHome(screen, dataset);
       else if (areas[path.slice(1)])
         renderLearning(screen, dataset, path.slice(1));
       else if (path === "/test") renderTest(screen, dataset);
@@ -61,7 +67,7 @@ async function route() {
     }
     if (token !== version) return;
     main.replaceChildren(screen);
-    document.title = `${path === "/" ? "홈" : areas[path.slice(1)]?.[0] || (path.startsWith("/admin") ? "관리" : path === "/test" ? "종합시험" : "차곡")} · 차곡 중국어 시험 대비`;
+    document.title = `${path === "/" ? "홈" : areas[path.slice(1)]?.[0] || (path.startsWith("/admin") ? "관리" : path === "/match" ? "짝 맞추기" : path === "/test" ? "종합시험" : "차곡")} · 차곡 중국어 시험 대비`;
     main.querySelector(".question")?.focus({ preventScroll: true });
   } catch (e) {
     if (token === version)

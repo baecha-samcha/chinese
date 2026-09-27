@@ -139,6 +139,22 @@ function choice(options, answer) {
     ]),
   ]);
 }
+// Only vocabulary and sentences carry provenance. Grammar/culture are common.
+export function filterStudySource(data, settings = {}) {
+  const selected = String(settings.studySource ?? "all");
+  if (!["0", "1"].includes(selected)) return data;
+  const matches = (r) => r.source != null && String(r.source) === selected;
+  const vocabulary = data.vocabulary.filter(matches);
+  const values = new Set(vocabulary.flatMap((v) =>
+    v.characters.flatMap((c) => usableComponents(c.decomposition, c.char).map((n) => n.value)),
+  ));
+  return {
+    ...data,
+    vocabulary,
+    sentences: (data.sentences || []).filter(matches),
+    components: (data.components || []).filter((c) => values.has(c.value)),
+  };
+}
 export function eligible(data, area, settings = {}) {
   if (area === "learn" || area === "pronunciation")
     return data.vocabulary.map((v) => ({ key: `vocabulary:${v.id}`, v }));

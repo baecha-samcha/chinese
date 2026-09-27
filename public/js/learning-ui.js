@@ -164,6 +164,7 @@ export function renderHome(root, data) {
       ),
     ),
   );
+  root.append(el("a", { class: "card link-card", href: "/match", "data-route": "" }, el("h3", {}, "짝 맞추기"), el("p", { class: "muted" }, "3분 동안 중국어와 한국어 뜻을 빠르게 연결해요.")));
   root.append(searchBox(data));
   if (!data.vocabulary.length)
     root.append(
@@ -190,6 +191,18 @@ function selectSetting(settings, key, options, refresh) {
     ),
   );
   return select;
+}
+export function sourceControl(settings, refresh) {
+  settings.studySource = ["0", "1"].includes(String(settings.studySource))
+    ? String(settings.studySource) : "all";
+  const select = selectSetting(settings, "studySource", [
+    ["all", "둘 다"], ["0", "교과서만"], ["1", "보충자료만"],
+  ], refresh);
+  select.setAttribute("aria-label", "학습 출처");
+  return el("section", {class: "source-filter"},
+    el("label", {class: "toolbar"}, "학습 범위", select),
+    el("p", {class: "muted"}, "단어·문장에 적용됩니다. 문법·문화는 공통 범위이며, 출처 미지정 항목은 ‘둘 다’에 포함됩니다."),
+  );
 }
 export function renderLearning(root, data, area) {
   const [name, desc] = areas[area],
