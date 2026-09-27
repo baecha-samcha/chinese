@@ -1,12 +1,20 @@
 import { el, button, title, readLocal } from "./utils.js";
 import { filterStudySource, record } from "./study.js";
 import { sourceControl } from "./learning-ui.js";
-import { createMatchGame, selectMatchCard, tickMatch } from "./match.js";
+import {
+  createMatchGame,
+  selectMatchCard,
+  tickMatch,
+  endMatch,
+} from "./match.js";
 
 export function renderMatch(root, data) {
   const settings = readLocal("ch.settings", {});
   let interval, game;
-  const stop = () => clearInterval(interval);
+  const stop = () => {
+    clearInterval(interval);
+    if (game) endMatch(game);
+  };
   function setup() {
     stop();
     root.replaceChildren(
@@ -75,36 +83,46 @@ export function renderMatch(root, data) {
       const focusedId = board.contains(document.activeElement)
         ? document.activeElement.dataset.cardId
         : null;
-      board.replaceChildren(
-        ...game.cards.map((card) => {
-          const b = button(
-            card.text,
-            () => {
-              const result = selectMatchCard(game, card.id, performance.now());
-              if (result) {
-                const saved = record(
-                  {
-                    key: `match:${result.vocabularyId}`,
-                    vocabularyId: result.vocabularyId,
-                  },
-                  result.correct,
-                );
-                feedback.textContent = `${result.correct ? `정답! +${result.points}점` : "오답 · +0점. 다시 골라보세요."}${saved ? "" : " 학습 기록을 저장하지 못했습니다."}`;
-              }
-              update();
-              if (!game.ended) drawBoard();
-            },
-            `match-card ${card.kind === "zh" ? "hanzi" : ""} ${card.matched ? "matched" : ""}`,
-          );
-          b.disabled = card.matched;
-          b.lang = card.kind === "zh" ? "zh-CN" : "ko";
-          b.dataset.cardId = card.id;
-          b.setAttribute("aria-pressed", String(game.selected === card.id));
-          if (card.matched)
-            b.setAttribute("aria-label", `${card.text} · 매칭 완료`);
-          return b;
-        }),
-      );
+      game.cards.forEach((card, index) => {
+        const existing = board.children[index];
+        const b =
+          existing?.dataset.cardId === card.id
+            ? existing
+            : button(
+                card.text,
+                () => {
+                  const result = selectMatchCard(
+                    game,
+                    card.id,
+                    performance.now(),
+                  );
+                  if (result) {
+                    const saved = record(
+                      {
+                        key: `match:${result.vocabularyId}`,
+                        vocabularyId: result.vocabularyId,
+                      },
+                      result.correct,
+                    );
+                    feedback.textContent = `${result.correct ? `정답! +${result.points}점` : "오답 · +0점. 다시 골라보세요."}${saved ? "" : " 학습 기록을 저장하지 못했습니다."}`;
+                  }
+                  update();
+                  if (!game.ended) drawBoard();
+                },
+                `match-card ${card.kind === "zh" ? "hanzi" : ""} ${card.matched ? "matched" : ""}`,
+              );
+        b.classList.toggle("matched", card.matched);
+        b.disabled = card.matched;
+        b.lang = card.kind === "zh" ? "zh-CN" : "ko";
+        b.dataset.cardId = card.id;
+        b.setAttribute("aria-pressed", String(game.selected === card.id));
+        if (card.matched)
+          b.setAttribute("aria-label", `${card.text} · 매칭 완료`);
+        if (b !== existing) {
+          if (existing) existing.replaceWith(b);
+          else board.append(b);
+        }
+      });
       if (focusedId) {
         const target =
           [...board.children].find(
@@ -114,7 +132,9 @@ export function renderMatch(root, data) {
       }
     }
     function update() {
+      const serial = game.serial;
       tickMatch(game, performance.now());
+      if (!game.ended && game.serial !== serial) drawBoard();
       if (game.ended) {
         stop();
         root.replaceChildren(

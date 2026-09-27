@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  endMatch,
   matchPoints,
   createMatchGame,
   tickMatch,
@@ -59,26 +60,6 @@ test("correct cards are disabled and score from the current timestamps", () => {
   assert.equal(selectMatchCard(g, a.id, 6000), null);
   assert.equal(g.selected, null);
 });
-test("full boards refill, exhaust the bag before repeating, and keep the game running", () => {
-  const g = createMatchGame(vocabulary, 0);
-  const ids = [];
-  for (let round = 0; round < 4; round++) {
-    const cards = [...g.cards];
-    for (const a of cards.filter((c) => c.kind === "zh")) {
-      ids.push(a.vocabularyId);
-      selectMatchCard(g, a.id, 1000);
-      selectMatchCard(
-        g,
-        cards.find((c) => c.pair === a.pair && c.kind === "ko").id,
-        1000,
-      );
-    }
-  }
-  assert.equal(new Set(ids).size, 15);
-  assert.equal(ids.length, 15);
-  assert.equal(g.round, 5);
-  assert.equal(g.ended, false);
-});
 test("deadline blocks inputs even if no render tick has run", () => {
   const g = createMatchGame(vocabulary, 0);
   const a = g.cards[0],
@@ -104,7 +85,7 @@ test("empty datasets and repeated labels are safe", () => {
   );
   assert.equal(g.pool.length, 2);
   assert.equal(g.cards.length, 2);
-  assert.equal(g.bag.length, 1);
+  assert.equal(g.queues.zh.length, 1);
 });
 
 test("selecting the same card again cancels without scoring or resetting the timer", () => {
@@ -127,4 +108,108 @@ test("boards contain at most four pairs with Chinese left and Korean right", () 
     g.cards.map((card) => card.kind),
     ["zh", "ko", "zh", "ko", "zh", "ko", "zh", "ko"],
   );
+});
+
+function solve(g, time) {
+  const a = g.cards.find(
+    (a) =>
+      !a.matched &&
+      g.cards.some((b) => !b.matched && b.kind !== a.kind && b.pair === a.pair),
+  );
+  const b = g.cards.find(
+    (b) => !b.matched && b.kind !== a.kind && b.pair === a.pair,
+  );
+  selectMatchCard(g, a.id, time);
+  selectMatchCard(g, b.id, time);
+  return [a.id, b.id];
+}
+function invariant(g) {
+  for (const kind of ["zh", "ko"]) {
+    const cards = g.cards.filter((c) => c.kind === kind);
+    assert.equal(new Set(cards.map((c) => c.text.trim())).size, cards.length);
+    assert.equal(new Set(cards.map((c) => c.pair)).size, cards.length);
+  }
+  const active = g.cards.filter((c) => !c.matched);
+  assert.ok(
+    active.some((a) =>
+      active.some((b) => a.kind !== b.kind && a.pair === b.pair),
+    ),
+  );
+}
+test("only solved slots refill after 250ms, stale clicks cannot score, selection survives", () => {
+  const g = createMatchGame(vocabulary, 0);
+  const before = [...g.cards],
+    ids = solve(g, 100);
+  const other = g.cards.find((c) => !c.matched);
+  selectMatchCard(g, other.id, 200);
+  tickMatch(g, 349);
+  assert.deepEqual(g.cards, before);
+  tickMatch(g, 350);
+  before.forEach((c, i) =>
+    ids.includes(c.id)
+      ? assert.notEqual(g.cards[i].id, c.id)
+      : assert.equal(g.cards[i], c),
+  );
+  assert.equal(g.selected, other.id);
+  selectMatchCard(g, other.id, 351);
+  assert.equal(g.selected, null);
+  assert.equal(selectMatchCard(g, ids[0], 352), null);
+  assert.equal(g.correct, 1);
+  invariant(g);
+});
+test("independent queues cycle, distinct replacements stay playable over rapid matches", () => {
+  let seed = 17;
+  const rng = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 2 ** 32;
+  const g = createMatchGame(vocabulary, 0, rng);
+  const seen = { zh: new Set(), ko: new Set() };
+  let different = false;
+  for (let i = 0; i < 200; i++) {
+    g.cards.forEach((c) => seen[c.kind].add(c.pair));
+    const ids = solve(g, i * 500);
+    const slots = ids.map((id) => g.cards.findIndex((c) => c.id === id));
+    tickMatch(g, i * 500 + 250);
+    different ||= g.cards[slots[0]].pair !== g.cards[slots[1]].pair;
+    invariant(g);
+  }
+  assert.ok(different);
+  assert.equal(seen.zh.size, 15);
+  assert.equal(seen.ko.size, 15);
+});
+test("small pools and overlapping replacements remain playable", () => {
+  for (let size = 1; size <= 4; size++) {
+    const g = createMatchGame(vocabulary.slice(0, size), 0);
+    for (let i = 0; i < size; i++) solve(g, i);
+    assert.equal(g.correct, size);
+    tickMatch(g, 300);
+    assert.equal(g.cards.length, size * 2);
+    invariant(g);
+  }
+});
+test("ambiguous labels are deferred across replacements", () => {
+  const words = [
+    ...vocabulary.slice(0, 6),
+    { id: 99, simplified: "別", meaning: "뜻0" },
+  ];
+  const g = createMatchGame(words, 0);
+  for (let i = 0; i < 100; i++) {
+    solve(g, i * 300);
+    tickMatch(g, i * 300 + 250);
+    invariant(g);
+    const distinct = [...new Set(g.cards.map((c) => c.pair))].map(
+      (id) => g.pool[id],
+    );
+    assert.equal(new Set(distinct.map((w) => w.meaning)).size, distinct.length);
+  }
+});
+test("deadline and navigation cancel pending replacements", () => {
+  for (const stop of [(g) => tickMatch(g, 180000), endMatch]) {
+    const g = createMatchGame(vocabulary, 0);
+    solve(g, 179900);
+    const serial = g.serial;
+    stop(g);
+    tickMatch(g, 180500);
+    assert.equal(g.pending.length, 0);
+    assert.equal(g.serial, serial);
+    assert.equal(g.correct, 1);
+  }
 });

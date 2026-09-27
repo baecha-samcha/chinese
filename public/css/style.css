@@ -630,11 +630,14 @@ footer {
   outline-offset: 2px;
 }
 .match-card.matched {
-  opacity: 0.3;
-  text-decoration: line-through;
+  animation: match-disappear 250ms ease-out forwards;
 }
 .match-feedback { min-height: 1.6em; }
 @media (max-width: 600px) {
   .match-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .match-card { min-height: 85px; font-size: 18px; }
+}
+
+@keyframes match-disappear {
+  to { opacity: 0; transform: scale(0.92); }
 }

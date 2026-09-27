@@ -22,7 +22,9 @@ export function createMatchGame(
   const game = {
     pool,
     rng,
-    bag: [],
+    queues: { zh: [], ko: [] },
+    pending: [],
+    serial: 0,
     cards: [],
     selected: null,
     deadline: now + 180000,
@@ -33,66 +35,119 @@ export function createMatchGame(
     correct: 0,
     wrong: 0,
     ended: pool.length === 0,
-    round: 0,
   };
-  if (!game.ended) nextMatchSet(game);
+  if (!game.ended) initializeBoard(game);
   return game;
 }
 
-function nextMatchSet(game) {
-  if (!game.bag.length) game.bag = shuffle(game.pool, game.rng);
-  const chinese = new Set(),
-    korean = new Set(),
-    chosen = [];
-  // Defer ambiguous labels to the next board, retaining the unplayed bag.
-  game.bag = game.bag.filter((v) => {
-    if (
-      chosen.length === 4 ||
-      chinese.has(v.simplified.trim()) ||
-      korean.has(v.meaning.trim())
-    )
-      return true;
-    chosen.push(v);
-    chinese.add(v.simplified.trim());
-    korean.add(v.meaning.trim());
-    return false;
-  });
-  game.round++;
-  const cards = chosen.flatMap((v, i) => [
-    {
-      id: `${game.round}:${i}:zh`,
-      pair: i,
-      kind: "zh",
-      text: v.simplified,
-      vocabularyId: v.id,
-      matched: false,
-    },
-    {
-      id: `${game.round}:${i}:ko`,
-      pair: i,
-      kind: "ko",
-      text: v.meaning,
-      vocabularyId: v.id,
-      matched: false,
-    },
+function compatible(a, b) {
+  return (
+    a === b ||
+    (a.simplified.trim() !== b.simplified.trim() &&
+      a.meaning.trim() !== b.meaning.trim())
+  );
+}
+
+function makeCard(game, word, kind) {
+  return {
+    id: String(++game.serial),
+    pair: game.pool.indexOf(word),
+    kind,
+    text: kind === "zh" ? word.simplified : word.meaning,
+    vocabularyId: word.id,
+    matched: false,
+  };
+}
+
+function initializeBoard(game) {
+  const chosen = [];
+  for (const word of shuffle(game.pool, game.rng)) {
+    if (chosen.every((other) => compatible(word, other))) chosen.push(word);
+    if (chosen.length === 4) break;
+  }
+  const left = shuffle(chosen, game.rng),
+    right = shuffle(chosen, game.rng);
+  game.cards = left.flatMap((word, i) => [
+    makeCard(game, word, "zh"),
+    makeCard(game, right[i], "ko"),
   ]);
-  const left = shuffle(
-    cards.filter((card) => card.kind === "zh"),
-    game.rng,
+  for (const kind of ["zh", "ko"])
+    game.queues[kind] = shuffle(
+      game.pool.filter((word) => !chosen.includes(word)),
+      game.rng,
+    );
+}
+
+// Cancel pending work both at the deadline and when leaving the screen.
+export function endMatch(game) {
+  game.ended = true;
+  game.selected = null;
+  game.pending = [];
+}
+
+function replenish(game, pending) {
+  const remaining = game.cards.filter((card) => !pending.ids.includes(card.id));
+  const candidates = (kind) => {
+    if (!game.queues[kind].length)
+      game.queues[kind] = shuffle(game.pool, game.rng);
+    const queue = game.queues[kind];
+    // Blocked, unplayed entries remain queued. Reuse is permitted only as fallback.
+    return [...queue, ...game.pool.filter((word) => !queue.includes(word))]
+      .filter((word) =>
+        remaining.every(
+          (card) =>
+            (card.kind !== kind || card.pair !== game.pool.indexOf(word)) &&
+            compatible(word, game.pool[card.pair]),
+        ),
+      )
+      .map((word) => ({
+        word,
+        pair: game.pool.indexOf(word),
+        cost:
+          (queue.includes(word) ? 0 : game.pool.length * 2) +
+          (game.pool.indexOf(word) === pending.pair ? game.pool.length : 0) +
+          Math.max(0, queue.indexOf(word)),
+      }));
+  };
+  const left = candidates("zh"),
+    right = candidates("ko");
+  const active = remaining.filter((card) => !card.matched);
+  const zh = new Set(
+    active.filter((card) => card.kind === "zh").map((card) => card.pair),
   );
-  const right = shuffle(
-    cards.filter((card) => card.kind === "ko"),
-    game.rng,
+  const ko = new Set(
+    active.filter((card) => card.kind === "ko").map((card) => card.pair),
   );
-  game.cards = left.flatMap((card, i) => [card, right[i]]);
+  const alreadyPlayable = [...zh].some((id) => ko.has(id));
+  let best;
+  for (const a of left)
+    for (const b of right) {
+      if (!compatible(a.word, b.word)) continue;
+      if (
+        !alreadyPlayable &&
+        a.pair !== b.pair &&
+        !ko.has(a.pair) &&
+        !zh.has(b.pair)
+      )
+        continue;
+      if (!best || a.cost + b.cost < best.cost)
+        best = { zh: a.word, ko: b.word, cost: a.cost + b.cost };
+    }
+  // The removed pair is always a legal fallback, even if every other pair is pending.
+  for (const id of pending.ids) {
+    const slot = game.cards.findIndex((card) => card.id === id);
+    const kind = game.cards[slot].kind;
+    const word = best[kind];
+    game.cards[slot] = makeCard(game, word, kind);
+    game.queues[kind] = game.queues[kind].filter((entry) => entry !== word);
+  }
 }
 
 export function tickMatch(game, now) {
   if (game.ended) return;
   game.bigTimer = Math.max(0, (game.deadline - now) / 1000);
   if (game.bigTimer === 0) {
-    game.ended = true;
-    game.selected = null;
+    endMatch(game);
     game.smallTimer = Math.max(0, (game.smallDeadline - now) / 1000);
     return;
   }
@@ -102,6 +157,9 @@ export function tickMatch(game, now) {
       (Math.floor((now - game.smallDeadline) / 10000) + 1) * 10000;
   }
   game.smallTimer = (game.smallDeadline - now) / 1000;
+  while (game.pending.length && game.pending[0].due <= now) {
+    replenish(game, game.pending.shift());
+  }
 }
 
 export function selectMatchCard(game, id, now) {
@@ -127,7 +185,11 @@ export function selectMatchCard(game, id, now) {
   game.smallTimer = 10;
   if (correct) {
     first.matched = card.matched = true;
-    if (game.cards.every((c) => c.matched)) nextMatchSet(game);
+    game.pending.push({
+      ids: [first.id, card.id],
+      pair: first.pair,
+      due: now + 250,
+    });
   }
   return { correct, points, vocabularyId: first.vocabularyId };
 }

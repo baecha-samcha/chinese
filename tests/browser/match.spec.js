@@ -39,15 +39,13 @@ test("match plays, refills, resets timers, ends and restarts on mobile", async (
   await expect(page.getByTestId("match-score")).toHaveText("0");
   for (const width of [390, 1280]) {
     await page.setViewportSize({ width, height: 844 });
-    const cards = await page
-      .locator(".match-card")
-      .evaluateAll((nodes) =>
-        nodes.map((node) => ({
-          lang: node.lang,
-          x: node.getBoundingClientRect().x,
-          y: node.getBoundingClientRect().y,
-        })),
-      );
+    const cards = await page.locator(".match-card").evaluateAll((nodes) =>
+      nodes.map((node) => ({
+        lang: node.lang,
+        x: node.getBoundingClientRect().x,
+        y: node.getBoundingClientRect().y,
+      })),
+    );
     expect(cards.map((card) => card.lang)).toEqual([
       "zh-CN",
       "ko",
@@ -74,6 +72,8 @@ test("match plays, refills, resets timers, ends and restarts on mobile", async (
   await expect(page.getByTestId("match-score")).toHaveText("100");
   await page.getByRole("button", { name: "今天", exact: true }).click();
   await page.getByRole("button", { name: "오늘", exact: true }).click();
+  await expect(page.locator(".match-card:disabled")).toHaveCount(2);
+  await page.clock.runFor(250);
   await expect(page.locator(".match-card:disabled")).toHaveCount(0);
   await expect(page.getByTestId("match-score")).toHaveText("200");
   expect(
@@ -101,4 +101,84 @@ test("match plays, refills, resets timers, ends and restarts on mobile", async (
   await page.clock.runFor(180000);
   await expect(page.getByRole("heading", { name: "매칭 결과" })).toHaveCount(0);
   expect(errors).toEqual([]);
+});
+
+test("four rows preserve untouched nodes while solved slots fade and refill", async ({
+  page,
+}) => {
+  const words = Array.from({ length: 15 }, (_, i) => ({
+    id: i + 1,
+    simplified: `字${i}`,
+    meaning: `뜻${i}`,
+    characters: [],
+  }));
+  await page.route("**/api/vocabulary", (route) =>
+    route.fulfill({ json: words }),
+  );
+  await page.goto("/match");
+  await page.clock.install();
+  await page.clock.pauseAt(new Date());
+  await page.getByRole("button", { name: "게임 시작" }).click();
+  await expect(page.locator(".match-card")).toHaveCount(8);
+  const before = await page.locator(".match-card").evaluateAll((nodes) => {
+    window.originalMatchNodes = nodes;
+    return nodes.map((n) => ({ id: n.dataset.cardId, text: n.textContent }));
+  });
+  const word = words.find((w) => w.simplified === before[0].text);
+  await page
+    .getByRole("button", { name: word.simplified, exact: true })
+    .click();
+  await page.getByRole("button", { name: word.meaning, exact: true }).click();
+  await expect(page.locator(".matched")).toHaveCount(2);
+  expect(
+    await page
+      .locator(".matched")
+      .first()
+      .evaluate((n) => getComputedStyle(n).animationDuration),
+  ).toBe("0.25s");
+  await page.clock.runFor(300);
+  const after = await page
+    .locator(".match-card")
+    .evaluateAll((nodes) =>
+      nodes.map((n, i) => ({
+        id: n.dataset.cardId,
+        text: n.textContent,
+        same: n === window.originalMatchNodes[i],
+      })),
+    );
+  before.forEach((card, i) => {
+    if ([word.simplified, word.meaning].includes(card.text))
+      expect(after[i].id).not.toBe(card.id);
+    else expect(after[i]).toEqual({ ...card, same: true });
+  });
+  for (const width of [390, 1280]) {
+    await page.setViewportSize({ width, height: 844 });
+    const positions = await page
+      .locator(".match-card")
+      .evaluateAll((nodes) =>
+        nodes.map((n) => ({
+          x: n.getBoundingClientRect().x,
+          y: n.getBoundingClientRect().y,
+        })),
+      );
+    expect(new Set(positions.map((p) => p.x)).size).toBe(2);
+    expect(new Set(positions.map((p) => p.y)).size).toBe(4);
+    await page.screenshot({ path: `outputs/match-continuous-${width}.png` });
+  }
+  const stats = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("ch.stats")),
+  );
+  expect(stats[`match:${word.id}`].correct).toBe(1);
+  // Leave while a replacement is pending.
+  const labels = await page.locator(".match-card").allTextContents();
+  const next = words.find(
+    (w) => labels.includes(w.simplified) && labels.includes(w.meaning),
+  );
+  await page
+    .getByRole("button", { name: next.simplified, exact: true })
+    .click();
+  await page.getByRole("button", { name: next.meaning, exact: true }).click();
+  await page.getByRole("link", { name: "뜻", exact: true }).click();
+  await page.clock.runFor(500);
+  await expect(page.locator(".match-card")).toHaveCount(0);
 });
