@@ -165,6 +165,21 @@ const culture = [
   },
 ];
 const data = { vocabulary: vocab, sentences, grammar, culture };
+// Exam scope tags for the exam-filter tests. 2026-final is a test-only exam;
+// 好 belongs to both exams and 学校 only to the final.
+const examTags = {
+  vocabulary: [
+    ["simplified", "你", ["2026-midterm"]],
+    ["simplified", "好", ["2026-midterm", "2026-final"]],
+    ["simplified", "学校", ["2026-final"]],
+  ],
+  sentences: [["korean", "너는 학생이니?", ["2026-midterm"]]],
+  grammar: [["title", "吗와 의문사", ["2026-midterm"]]],
+  culture: [["question", "중국의 음력 새해 명절은?", ["2026-midterm"]]],
+};
+for (const [kind, list] of Object.entries(examTags))
+  for (const [key, value, tags] of list)
+    data[kind].find((r) => r[key] === value).exam_tags = tags;
 for (const [kind, rows] of Object.entries(data))
   for (const row of rows) {
     const v = validateRow(kind, row);
@@ -182,6 +197,7 @@ const tables = {
 };
 const statements = [
   "-- Test data only. Re-running is safe for unchanged seed identities.",
+  "INSERT OR IGNORE INTO exams (id,label,sort_order) VALUES ('2026-final','2026 기말고사',1);",
 ];
 for (const [kind, rows] of Object.entries(data))
   for (const r of rows) {

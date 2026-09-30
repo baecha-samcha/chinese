@@ -1,4 +1,4 @@
-import { el, button, toast, download } from "./utils.js";
+import { el, button, toast, download, scopeBadges } from "./utils.js";
 import { api } from "./api.js";
 import { validateRow, kinds } from "./validation.js";
 export function parseCSV(text) {
@@ -140,6 +140,9 @@ const labels = {
   culture: "문화",
 };
 export function renderImport(root, onImported) {
+  // Labels for exam_tags badges; until loaded the badges show the raw IDs.
+  let exams = [];
+  api("exams").then((x) => (exams = x), () => {});
   let raw = [],
     preview = null,
     kind = "vocabulary",
@@ -458,9 +461,7 @@ export function renderImport(root, onImported) {
             ),
             el("div", { class: "muted" }, data.pinyin || data.answer || ""),
             el("div", {}, data.meaning || ""),
-            ["vocabulary", "sentences"].includes(kind)
-              ? el("span", { class: "badge" }, data.source === 0 ? "교과서" : data.source === 1 ? "보충자료" : "출처 미지정")
-              : null,
+            ...scopeBadges(data, exams),
           ),
           el("td", {}, [...r.errors, ...r.warnings].join(" / ") || "정상"),
           cell,
@@ -482,7 +483,7 @@ export function renderImport(root, onImported) {
     el(
       "div",
       { class: "note" },
-      "CSV 첫 행은 필드명입니다. characters / tokens / 예문 배열은 JSON 형식으로 입력하세요. 단어·문장의 source 열: 0=교과서, 1=보충자료, 빈칸=출처 미지정(둘 다에서만 학습). 문장은 선택 열 pinyin(성조 포함 병음)과 category(예: 자기소개)를 가질 수 있습니다. XLSX는 vocabulary, sentences, grammar, culture 시트를 각각 선택해 가져옵니다. 최대 500행 · 파일 5 MB · JSON 요청 2 MB.",
+      "CSV 첫 행은 필드명입니다. characters / tokens / 예문 배열은 JSON 형식으로 입력하세요. 단어·문장의 source 열: 0=교과서, 1=보충자료, 빈칸=출처 미지정(둘 다에서만 학습). 모든 유형의 선택 열 exam_tags는 포함되는 시험 범위 ID입니다(예: 2026-midterm, 여러 개는 쉼표로 구분). 문장은 선택 열 pinyin(성조 포함 병음)과 category(예: 자기소개)를 가질 수 있습니다. XLSX는 vocabulary, sentences, grammar, culture 시트를 각각 선택해 가져옵니다. 최대 500행 · 파일 5 MB · JSON 요청 2 MB.",
     ),
     el(
       "div",

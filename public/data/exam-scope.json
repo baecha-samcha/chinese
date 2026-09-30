@@ -1,9 +1,16 @@
 {
-  "version": "2026-09-30",
+  "exam": {
+    "id": "2026-midterm",
+    "label": "2026 중간고사"
+  },
+  "version": "2026-midterm@01a6a414106a",
   "provenance": {
-    "file": "outputs/backup-before-0003.sql",
-    "sha256": "726f241311aa019a1b762185bdd0eb7a53234302a3d32254eda28494e2dc15d7",
-    "note": "기존 운영 백업의 source 0(교과서), 1(보충자료) 및 교재 출처가 명시된 문법·문화. PDF 원본 미제공으로 원본 대조는 미완료."
+    "file": "prod-20260930.sql",
+    "sha256": "30647b438a8f8eb5ec1485af2b807d0a61c5e0d44a5dd515bdd762e95e823c9f",
+    "migrationsApplied": [
+      "0004_exam_scope.sql"
+    ],
+    "note": "exam_tags에 2026-midterm가 있는 행. 범위 근거: scripts/data/exam-2026-midterm.json"
   },
   "vocabulary": [
     {
@@ -14,10 +21,24 @@
       "source": 0
     },
     {
+      "id": 3,
+      "simplified": "们",
+      "pinyin": "men",
+      "meaning": "~들(복수를 나타냄)",
+      "source": 0
+    },
+    {
       "id": 5,
       "simplified": "明天",
       "pinyin": "míngtiān",
       "meaning": "내일",
+      "source": 0
+    },
+    {
+      "id": 6,
+      "simplified": "见",
+      "pinyin": "jiàn",
+      "meaning": "만나다",
       "source": 0
     },
     {
@@ -67,6 +88,13 @@
       "simplified": "关系",
       "pinyin": "guānxi",
       "meaning": "관계",
+      "source": 0
+    },
+    {
+      "id": 20,
+      "simplified": "谢",
+      "pinyin": "xiè",
+      "meaning": "감사하다",
       "source": 0
     },
     {
@@ -161,6 +189,34 @@
       "source": 0
     },
     {
+      "id": 50,
+      "simplified": "南丁格尔",
+      "pinyin": "nándīnggé'ěr",
+      "meaning": "나이팅게일",
+      "source": 0
+    },
+    {
+      "id": 52,
+      "simplified": "贝多芬",
+      "pinyin": "bèiduōfēn",
+      "meaning": "베토벤",
+      "source": 0
+    },
+    {
+      "id": 54,
+      "simplified": "居里",
+      "pinyin": "jūlǐ",
+      "meaning": "퀴리",
+      "source": 0
+    },
+    {
+      "id": 56,
+      "simplified": "甘地",
+      "pinyin": "gāndì",
+      "meaning": "간디",
+      "source": 0
+    },
+    {
       "id": 61,
       "simplified": "谁",
       "pinyin": "shéi",
@@ -172,6 +228,20 @@
       "simplified": "朋友",
       "pinyin": "péngyou",
       "meaning": "친구",
+      "source": 0
+    },
+    {
+      "id": 64,
+      "simplified": "大",
+      "pinyin": "dà",
+      "meaning": "(나이가) 많다",
+      "source": 0
+    },
+    {
+      "id": 66,
+      "simplified": "了",
+      "pinyin": "le",
+      "meaning": "~이/가 되다",
       "source": 0
     },
     {
@@ -245,10 +315,24 @@
       "source": 0
     },
     {
+      "id": 85,
+      "simplified": "狗",
+      "pinyin": "gǒu",
+      "meaning": "개",
+      "source": 0
+    },
+    {
       "id": 88,
       "simplified": "妹妹",
       "pinyin": "mèimei",
       "meaning": "여동생",
+      "source": 0
+    },
+    {
+      "id": 89,
+      "simplified": "两",
+      "pinyin": "liǎng",
+      "meaning": "2, 둘",
       "source": 0
     },
     {
@@ -294,6 +378,13 @@
       "source": 0
     },
     {
+      "id": 99,
+      "simplified": "天",
+      "pinyin": "tiān",
+      "meaning": "날, 일",
+      "source": 0
+    },
+    {
       "id": 100,
       "simplified": "星期日",
       "pinyin": "xīngqīrì",
@@ -329,10 +420,45 @@
       "source": 0
     },
     {
+      "id": 110,
+      "simplified": "回",
+      "pinyin": "huí",
+      "meaning": "돌아가다",
+      "source": 0
+    },
+    {
+      "id": 111,
+      "simplified": "家",
+      "pinyin": "jiā",
+      "meaning": "집",
+      "source": 0
+    },
+    {
+      "id": 113,
+      "simplified": "劳动节",
+      "pinyin": "láodòngjié",
+      "meaning": "노동절",
+      "source": 0
+    },
+    {
       "id": 114,
       "simplified": "生日",
       "pinyin": "shēngrì",
       "meaning": "생일",
+      "source": 0
+    },
+    {
+      "id": 115,
+      "simplified": "音乐",
+      "pinyin": "yīnyuè",
+      "meaning": "음악",
+      "source": 0
+    },
+    {
+      "id": 116,
+      "simplified": "考试",
+      "pinyin": "kǎoshì",
+      "meaning": "시험",
       "source": 0
     },
     {
@@ -392,10 +518,24 @@
       "source": 1
     },
     {
+      "id": 136,
+      "simplified": "下",
+      "pinyin": "xià",
+      "meaning": "다음",
+      "source": 1
+    },
+    {
       "id": 141,
       "simplified": "一起",
       "pinyin": "yìqǐ",
       "meaning": "함께",
+      "source": 1
+    },
+    {
+      "id": 142,
+      "simplified": "玩儿",
+      "pinyin": "wánr",
+      "meaning": "놀다",
       "source": 1
     },
     {
@@ -952,13 +1092,6 @@
       "source": 0
     },
     {
-      "id": 223,
-      "simplified": "差不多",
-      "pinyin": "chàbuduō",
-      "meaning": "거의 같다; 큰 차이가 없다",
-      "source": 0
-    },
-    {
       "id": 224,
       "simplified": "春节",
       "pinyin": "Chūnjié",
@@ -1019,13 +1152,6 @@
       "simplified": "粽子",
       "pinyin": "zòngzi",
       "meaning": "쫑쯔",
-      "source": 0
-    },
-    {
-      "id": 233,
-      "simplified": "龙舟",
-      "pinyin": "lóngzhōu",
-      "meaning": "용선",
       "source": 0
     },
     {
@@ -2067,6 +2193,127 @@
   ],
   "sentences": [
     {
+      "id": 5,
+      "chinese": "麻烦你了。",
+      "korean": "폐를 끼쳤습니다.",
+      "source": 1,
+      "tokens": [
+        "麻烦",
+        "你",
+        "了"
+      ]
+    },
+    {
+      "id": 6,
+      "chinese": "请原谅。",
+      "korean": "양해해 주세요.",
+      "source": 1,
+      "tokens": [
+        "请",
+        "原谅"
+      ]
+    },
+    {
+      "id": 8,
+      "chinese": "你姓什么？",
+      "korean": "성이 무엇이니?",
+      "source": 1,
+      "tokens": [
+        "你",
+        "姓",
+        "什么"
+      ]
+    },
+    {
+      "id": 10,
+      "chinese": "我来自我介绍一下。",
+      "korean": "제 소개 좀 할게요.",
+      "source": 1,
+      "tokens": [
+        "我",
+        "来",
+        "自我介绍",
+        "一下"
+      ]
+    },
+    {
+      "id": 11,
+      "chinese": "我给你介绍一下。",
+      "korean": "제가 소개해 드릴게요.",
+      "source": 1,
+      "tokens": [
+        "我",
+        "给",
+        "你",
+        "介绍",
+        "一下"
+      ]
+    },
+    {
+      "id": 12,
+      "chinese": "见到你很高兴。",
+      "korean": "만나서 기뻐요.",
+      "source": 1,
+      "tokens": [
+        "见到",
+        "你",
+        "很",
+        "高兴"
+      ]
+    },
+    {
+      "id": 13,
+      "chinese": "认识你很荣幸。",
+      "korean": "알게 되어 영광입니다.",
+      "source": 1,
+      "tokens": [
+        "认识",
+        "你",
+        "很",
+        "荣幸"
+      ]
+    },
+    {
+      "id": 14,
+      "chinese": "久仰久仰！",
+      "korean": "예전부터 존함을 들었습니다.",
+      "source": 1,
+      "tokens": [
+        "久仰",
+        "久仰"
+      ]
+    },
+    {
+      "id": 15,
+      "chinese": "祝贺你！",
+      "korean": "축하합니다!",
+      "source": 1,
+      "tokens": [
+        "祝贺",
+        "你"
+      ]
+    },
+    {
+      "id": 16,
+      "chinese": "新年快乐！",
+      "korean": "새해 즐겁게 보내!",
+      "source": 1,
+      "tokens": [
+        "新年",
+        "快乐"
+      ]
+    },
+    {
+      "id": 17,
+      "chinese": "圣诞快乐！",
+      "korean": "메리 크리스마스!",
+      "source": 1,
+      "tokens": [
+        "圣诞",
+        "快乐"
+      ]
+    },
+    {
       "id": 19,
       "chinese": "祝你考上大学！",
       "korean": "대학에 합격하세요!",
@@ -2148,6 +2395,20 @@
       ]
     },
     {
+      "id": 31,
+      "chinese": "你家有几口人？",
+      "korean": "너희 가족은 몇 명이니?",
+      "source": 1,
+      "tokens": [
+        "你",
+        "家",
+        "有",
+        "几",
+        "口",
+        "人"
+      ]
+    },
+    {
       "id": 32,
       "chinese": "我家有四口人。",
       "korean": "우리 가족은 네 명이야.",
@@ -2204,16 +2465,6 @@
       "tokens": [
         "你们",
         "好"
-      ]
-    },
-    {
-      "id": 37,
-      "chinese": "老师，再见！",
-      "korean": "선생님, 안녕히 계세요!",
-      "source": 0,
-      "tokens": [
-        "老师",
-        "再见"
       ]
     },
     {
@@ -2308,16 +2559,6 @@
       ]
     },
     {
-      "id": 47,
-      "chinese": "老师，对不起！",
-      "korean": "선생님, 죄송합니다!",
-      "source": 0,
-      "tokens": [
-        "老师",
-        "对不起"
-      ]
-    },
-    {
       "id": 48,
       "chinese": "没关系！",
       "korean": "괜찮아요.",
@@ -2336,16 +2577,6 @@
         "没",
         "事",
         "儿"
-      ]
-    },
-    {
-      "id": 50,
-      "chinese": "真不好意思！",
-      "korean": "정말 미안해요! / 정말 실례합니다!",
-      "source": 0,
-      "tokens": [
-        "真",
-        "不好意思"
       ]
     },
     {
@@ -2431,16 +2662,6 @@
       ]
     },
     {
-      "id": 59,
-      "chinese": "老师，早！",
-      "korean": "선생님, 좋은 아침입니다!",
-      "source": 1,
-      "tokens": [
-        "老师",
-        "早"
-      ]
-    },
-    {
       "id": 60,
       "chinese": "你早！",
       "korean": "좋은 아침!",
@@ -2511,17 +2732,6 @@
       "tokens": [
         "晚",
         "安"
-      ]
-    },
-    {
-      "id": 67,
-      "chinese": "明天见，拜拜！",
-      "korean": "내일 봐, 바이바이!",
-      "source": 1,
-      "tokens": [
-        "明天",
-        "见",
-        "拜拜"
       ]
     },
     {

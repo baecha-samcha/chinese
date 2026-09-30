@@ -35,6 +35,11 @@ test('a question that prints another question\'s answer sentence is incompatible
  assert.ok(bank.SA01.some(q=>incompatible(q,q15)));
  assert.equal(incompatible(bank.Q01[0],q15),false);
 });
+test('SA03 word banks never list the answers in blank order',()=>{
+ for(const q of bank.SA03){const order=q.fields.map(f=>q.wordBank.indexOf(f.answers[0]));assert.ok(order.some((n,i)=>i&&order[i-1]>n),q.id);}
+ const leaky=structuredClone(bank.SA03[0]);leaky.wordBank=[...leaky.fields.map(f=>f.answers[0]),...leaky.wordBank.filter(w=>!leaky.fields.some(f=>f.answers[0]===w))];
+ assert.ok(validateQuestion(leaky,scope).some(e=>e.includes('빈칸 순서대로')));
+});
 test('Q02 reads 糕 in 年糕 as gāo (nián+gāo, not niáng+āo) and rejects a wrong key',()=>{
  const q=bank.Q02.find(q=>q.rule.target==='年糕');assert.equal(q.answer,'高');assert.deepEqual(validateQuestion(q,scope),[]);
  const wrong=structuredClone(q);wrong.answer='长';assert.ok(validateQuestion(wrong,scope).some(e=>e.includes('정답·오답')));

@@ -70,6 +70,9 @@ export function validateQuestion(q,scope,checkScope=createScopeValidator(scope))
   if(q.type==='word_bank'&&!q.allowReuse) {
     const expected=q.fields.map(f=>f.answers[0]);
     if(new Set(expected).size!==expected.length||expected.some(t=>!q.wordBank.includes(t))) errors.push('단어 보기·중복 사용 규칙 위반');
+    // Listing the answers in blank order would let the bank give them away.
+    const order=expected.map(t=>q.wordBank.indexOf(t));
+    if(order.every((n,i)=>!i||order[i-1]<n)) errors.push('단어 보기에 정답이 빈칸 순서대로 나열됨');
   }
   return errors;
 }

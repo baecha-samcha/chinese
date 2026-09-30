@@ -326,8 +326,28 @@ export function filterStudySource(data, settings = {}) {
     components: (data.components || []).filter((c) => values.has(c.value)),
   };
 }
+// Exam scope is a tag (exam_tags) on every study table, independent of source.
+export function filterStudyExam(data, settings = {}) {
+  const selected = String(settings.studyExam ?? "all");
+  if (selected === "all") return data;
+  const matches = (r) => (r.exam_tags || []).includes(selected);
+  const vocabulary = data.vocabulary.filter(matches);
+  const values = new Set(vocabulary.flatMap((v) =>
+    v.characters.flatMap((c) => usableComponents(c.decomposition, c.char).map((n) => n.value)),
+  ));
+  return {
+    ...data,
+    vocabulary,
+    sentences: (data.sentences || []).filter(matches),
+    grammar: (data.grammar || []).filter(matches),
+    culture: (data.culture || []).filter(matches),
+    components: (data.components || []).filter((c) => values.has(c.value)),
+  };
+}
+export const filterStudyScope = (data, settings = {}) =>
+  filterStudyExam(filterStudySource(data, settings), settings);
 export function eligible(data, area, settings = {}) {
-  data = filterStudySource(data, settings);
+  data = filterStudyScope(data, settings);
   if (area === "learn") {
     const directions = quizDirections(settings);
     return studyItems(data, settings).flatMap((item) => {
@@ -377,7 +397,7 @@ export function eligible(data, area, settings = {}) {
     .map((x) => ({ key: `${area}:${x.id}`, item: x }));
 }
 export function makeQuestion(data, area, settings = {}, source) {
-  data = filterStudySource(data, settings);
+  data = filterStudyScope(data, settings);
   const entry = source || weightedPick(eligible(data, area, settings));
   if (!entry) return null;
   const base = { key: entry.key, entryKey: entry.key, entry, area };

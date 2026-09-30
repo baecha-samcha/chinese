@@ -17,13 +17,18 @@ export async function api(path, options = {}) {
 }
 export async function loadStudy() {
   try {
-    const [vocabulary, sentences, grammar, culture, components] =
+    const [vocabulary, sentences, grammar, culture, components, exams] =
       await Promise.all(
-        ["vocabulary", "sentences", "grammar", "culture", "components"].map(
-          (k) => api(k),
-        ),
+        [
+          "vocabulary",
+          "sentences",
+          "grammar",
+          "culture",
+          "components",
+          "exams",
+        ].map((k) => api(k)),
       );
-    const data = { vocabulary, sentences, grammar, culture, components };
+    const data = { vocabulary, sentences, grammar, culture, components, exams };
     writeLocal("ch.dataset", data);
     return { ...data, cached: false };
   } catch (e) {

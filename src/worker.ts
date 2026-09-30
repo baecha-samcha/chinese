@@ -28,6 +28,7 @@ const columns: Record<string, string[]> = {
     "korean_hanja_reading",
     "characters",
     "source",
+    "exam_tags",
   ],
   sentences: [
     "korean",
@@ -37,6 +38,7 @@ const columns: Record<string, string[]> = {
     "source",
     "pinyin",
     "category",
+    "exam_tags",
   ],
   grammar: [
     "title",
@@ -45,8 +47,16 @@ const columns: Record<string, string[]> = {
     "wrong_examples",
     "tags",
     "questions",
+    "exam_tags",
   ],
-  culture: ["category", "question", "answer", "distractors", "explanation"],
+  culture: [
+    "category",
+    "question",
+    "answer",
+    "distractors",
+    "explanation",
+    "exam_tags",
+  ],
 };
 const jsonFields = [
   "characters",
@@ -56,6 +66,7 @@ const jsonFields = [
   "tags",
   "questions",
   "distractors",
+  "exam_tags",
 ];
 const keys = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
 const json = (data: unknown, status = 200) =>
@@ -77,6 +88,14 @@ async function rows(env: Env, kind: string) {
   return (
     await env.DB.prepare(`SELECT * FROM ${tables[kind]} ORDER BY id DESC`).all()
   ).results.map(decode);
+}
+// Registered exam scopes; rows reference them by id in exam_tags.
+async function examIds(env: Env) {
+  return new Set(
+    (await env.DB.prepare("SELECT id FROM exams").all()).results.map(
+      (r) => r.id as string,
+    ),
+  );
 }
 async function isAdmin(req: Request, env: Env) {
   const host = new URL(req.url).hostname;
@@ -193,6 +212,14 @@ async function api(req: Request, env: Env) {
     if (req.headers.get("Origin") !== url.origin)
       throw new HttpError(403, "동일 출처 요청만 허용됩니다.");
   }
+  if (path === "/api/exams" && method === "GET")
+    return json(
+      (
+        await env.DB.prepare(
+          "SELECT id,label FROM exams ORDER BY sort_order,id",
+        ).all()
+      ).results,
+    );
   if (path === "/api/components" && method === "GET")
     // depth: how many "children[" hops cc.path is from the decomposition root —
     // a cheap proxy for how big/abstract a component usually is (a direct child
@@ -225,9 +252,10 @@ async function api(req: Request, env: Env) {
     )
       throw new HttpError(400, "유형을 선택하고 1~500개 행을 전달하세요.");
     const existing = await rows(env, b.kind);
-    const seen = [...existing];
+    const seen = [...existing],
+      exams = await examIds(env);
     const preview = b.rows.map((r: any) => {
-      const v = validateRow(b.kind, r, seen);
+      const v = validateRow(b.kind, r, seen, exams);
       if (v.status !== "ERROR") seen.push({ ...v.data, id: 0 });
       return v;
     });
@@ -330,7 +358,7 @@ async function api(req: Request, env: Env) {
   }
   if ((method === "POST" && !id) || (method === "PUT" && id)) {
     const b = await body(req),
-      v = validateRow(kind, b);
+      v = validateRow(kind, b, [], await examIds(env));
     if (v.status === "ERROR") return json(v, 422);
     if (
       id &&

@@ -96,6 +96,25 @@ function checkNode(n, depth = 0) {
     throw Error("component layout/children 오류");
   n.children.forEach((c) => checkNode(c, depth + 1));
 }
+// Exam scope IDs (exams.id), e.g. "2026-midterm". They say which exams a row
+// belongs to and are independent of source, which says where it came from.
+export const EXAM_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+export function examTags(v) {
+  if (v == null || (typeof v === "string" && !v.trim())) return [];
+  const list =
+    typeof v !== "string"
+      ? v
+      : v.trim().startsWith("[")
+        ? JSON.parse(v)
+        : v.split(/[,\s]+/).filter(Boolean);
+  if (
+    !Array.isArray(list) ||
+    list.length > 20 ||
+    list.some((t) => typeof t !== "string" || t.length > 64 || !EXAM_ID.test(t.trim()))
+  )
+    throw Error("exam_tags: 시험 범위 ID 목록 필요 (예: 2026-midterm)");
+  return [...new Set(list.map((t) => t.trim()))];
+}
 function strings(v, field, min = 0) {
   const a = parse(v, []);
   if (
@@ -107,7 +126,8 @@ function strings(v, field, min = 0) {
     throw Error(`${field}: 문자열 배열 필요`);
   return a.map((s) => s.trim());
 }
-export function validateRow(kind, raw, existing = []) {
+// examIds (optional): the registered exam IDs; unknown exam_tags are errors.
+export function validateRow(kind, raw, existing = [], examIds) {
   const errors = [],
     warnings = [];
   let data = {};
@@ -123,6 +143,10 @@ export function validateRow(kind, raw, existing = []) {
       else if (source === 1 || source === "1") data.source = 1;
       else errors.push("source: 0(교과서) 또는 1(보충자료)만 입력하세요");
     }
+    data.exam_tags = examTags(raw.exam_tags);
+    for (const t of data.exam_tags)
+      if (examIds && !examIds.has(t))
+        errors.push(`exam_tags: 등록되지 않은 시험 범위 ${t}`);
     const fields =
       kind === "vocabulary"
         ? [

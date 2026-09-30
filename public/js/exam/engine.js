@@ -32,7 +32,7 @@ export function generateExam(scope,{rng=Math.random,now=Date.now(),duration=DEFA
     return false;
   };
   if(!pick(0)) throw Error('정답 노출 없이 출제할 수 있는 문항 조합이 없습니다.');
-  return {schemaVersion:EXAM_VERSION,id:globalThis.crypto.randomUUID(),scopeVersion:scope.version,scopeProvenance:scope.provenance,createdAt:now,deadline:now+duration,status:'active',questions,responses:{},manualScores:{},validation:report};
+  return {schemaVersion:EXAM_VERSION,id:globalThis.crypto.randomUUID(),exam:scope.exam,scopeVersion:scope.version,scopeProvenance:scope.provenance,createdAt:now,deadline:now+duration,status:'active',questions,responses:{},manualScores:{},validation:report};
 }
 export function normalizeField(field,value) {
   if(field.mode==='sequence') return String(value??'').replace(/[\s,→\->]/g,'');

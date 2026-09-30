@@ -1,5 +1,5 @@
 import { el, button, title, readLocal } from "./utils.js";
-import { filterStudySource, record } from "./study.js";
+import { filterStudyScope, record } from "./study.js";
 import { sourceControl } from "./learning-ui.js";
 import {
   createMatchGame,
@@ -24,8 +24,8 @@ export function renderMatch(root, data) {
         "공개된 중국어와 한국어 카드를 하나씩 골라 3분 동안 짝을 맞추세요.",
       ),
     );
-    root.append(sourceControl(settings, setup));
-    const vocabulary = filterStudySource(data, settings).vocabulary;
+    root.append(sourceControl(settings, setup, data.exams));
+    const vocabulary = filterStudyScope(data, settings).vocabulary;
     const available = vocabulary.some(
       (v) => v.simplified?.trim() && v.meaning?.trim(),
     );

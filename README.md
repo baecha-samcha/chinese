@@ -111,10 +111,10 @@ CSV는 UTF-8, 첫 행은 영문 필드명입니다. XLSX도 첫 행이 필드명
 
 | 유형 | 필수 열 | 선택 열 |
 | --- | --- | --- |
-| vocabulary | simplified, pinyin, meaning | traditional, korean_hanja_reading, characters, source |
-| sentences | korean, chinese, tokens | explanation, source, pinyin, category |
-| grammar | title, explanation, correct_examples, wrong_examples | tags, questions |
-| culture | category, question, answer | distractors, explanation |
+| vocabulary | simplified, pinyin, meaning | traditional, korean_hanja_reading, characters, source, exam_tags |
+| sentences | korean, chinese, tokens | explanation, source, pinyin, category, exam_tags |
+| grammar | title, explanation, correct_examples, wrong_examples | tags, questions, exam_tags |
+| culture | category, question, answer | distractors, explanation, exam_tags |
 
 배열/객체 열은 **JSON 문자열**로 저장합니다. `characters`가 없으면 simplified를 Unicode 글자 단위로 분리합니다. 분해 없는 글자는 뜻·발음은 학습하지만 조립에서는 제외됩니다.
 
@@ -123,6 +123,27 @@ CSV는 UTF-8, 첫 행은 영문 필드명입니다. XLSX도 첫 행이 필드명
 홈, 학습 화면, 종합시험의 **학습 범위**에서 `둘 다`, `교과서만`, `보충자료만`을 선택합니다. 선택은 이 브라우저에 저장되어 화면 이동·새로고침 후에도 유지됩니다. 단어 뜻·발음·조립, 문장 배열, 검색, 종합시험의 출제 수와 객관식 오답 후보에도 같은 범위를 적용합니다. 시험 시작 후에는 범위를 변경할 수 없습니다. 범위를 바꾸면 연습 문제 대기열과 시험 자동 배분을 새 범위로 다시 구성합니다. 누적 풀이 통계는 기존 전체 학습 기록입니다.
 
 단어·문장 시트의 `source`는 `0`=교과서, `1`=보충자료입니다. XLSX 숫자와 CSV/JSON의 `"0"`, `"1"` 문자열을 모두 처리합니다. 빈칸·null·열 누락은 **출처 미지정**으로 보존하고 ‘둘 다’에서만 포함합니다. 기존 데이터를 교과서로 임의 분류하지 않습니다. 문법·문화는 출처 구분 없이 공통 범위입니다. `source_url`은 참고 출처 URL이며 학습 범위를 지정하는 `source`와는 별개의 열입니다.
+
+### 시험 범위 태그 (`exam_tags`)
+
+`source`는 **어디에서 나온 자료인지**(교과서/보충자료), `exam_tags`는 **어느 시험 범위에 포함되는지**를 나타내는 별개의 값입니다. 시험 범위는 `exams` 테이블에 `2026-midterm`(표시 이름 ‘2026 중간고사’)처럼 안정적인 ID와 표시 이름으로 등록하고, 네 가지 데이터 모두 `exam_tags`에 ID 목록을 가집니다. 한 항목이 여러 시험에 들어갈 수 있습니다(예: `["2026-midterm","2026-final"]`). 문법 `tags`(주제 태그)와는 다른 열입니다.
+
+- 학습 화면의 **시험 범위**에서 `전체` 또는 등록된 시험을 고릅니다. 학습 범위(출처)와 함께 적용됩니다(예: 보충자료 ∩ 2026 중간고사).
+- CSV/XLSX의 `exam_tags` 열은 JSON 배열 또는 쉼표 구분 ID(`2026-midterm, 2026-final`)를 받습니다. 등록되지 않은 ID는 서버 검증에서 오류입니다. 열이 없는 덮어쓰기 가져오기는 기존 태그를 유지합니다.
+- 관리 목록과 가져오기 미리보기에서 출처와 시험 범위를 별도 배지로 표시합니다.
+
+`2026-midterm`은 `exam-scope.pdf`(교과서 pp.30–75 스캔 + 중국어 I 보충자료) 인쇄본과 대조해 `migrations/0004_exam_scope.sql`로 기록했습니다. 항목별 PDF 쪽수 근거와 미확인 항목은 `scripts/data/exam-2026-midterm.json`에 있습니다. 이 migration은 스키마를 추가하고, 근거가 있는 출처 미지정 행의 `source`만 채우며(이미 있는 출처는 변경하지 않음), 확인된 행에 태그를 붙입니다. 행은 id와 내용이 함께 맞을 때만 갱신하고 삭제·ID 변경은 없습니다.
+
+새 시험(예: 기말고사)을 추가하려면 같은 형식의 근거 파일을 만들고 `node scripts/exam-scope.mjs migration scripts/data/exam-2026-final.json > migrations/0005_….sql`로 migration을 만든 뒤 적용합니다(`--with-schema`는 0004에서만 사용).
+
+실전 시험 모드는 태그된 행의 고정 스냅숏 `public/data/exam-scope.json`으로 출제합니다. 운영 D1 export에서 다시 만들 때:
+
+```bash
+npx wrangler d1 export ch-study --remote --output /tmp/ch-export.sql   # 읽기 전용 export
+node scripts/exam-scope.mjs build --dump /tmp/ch-export.sql --exam 2026-midterm
+```
+
+아직 운영에 적용되지 않은 migration은 export 사본에만 적용한 뒤 태그된 행을 고릅니다. export 파일은 저장소에 넣지 않습니다.
 
 ### 단어·문장 공통 퀴즈 (`/learn`)
 
@@ -192,6 +213,9 @@ npm run deploy
 | sentences | 한국어, 중국어, tokens JSON, 해설 |
 | grammar_rules | 제목/해설, 정답/오답 예문, tags, questions JSON |
 | culture_items | 분류/질문/정답, distractors JSON, 해설 |
+| exams | 시험 범위 ID(`2026-midterm`)·표시 이름·정렬 순서 (0004) |
+
+`vocabulary`·`sentences`에는 `source`(0002), 네 학습 테이블 모두에 `exam_tags` JSON 배열(0004)이 있습니다.
 
 단어 insert/update trigger가 파생 글자와 component 관계를 갱신하고 삭제 시 FK cascade가 적용됩니다. component metadata는 운영자가 필요할 때 D1에서 보완할 수 있습니다. 한자별 고정 오답 목록은 없습니다. 실제 등록 pool에서 위치, 알려진 획수·형태군을 점수화하여 가중 무작위 추출합니다. pool이 작으면 선택지가 적어질 수 있습니다. IDS 자동 분석기는 향후 `CharacterData.decomposition`을 생성하는 어댑터로 연결하면 됩니다.
 
@@ -205,6 +229,7 @@ npm run deploy
 | POST | `/api/{vocabulary,sentences,grammar,culture}` | 관리자 |
 | PUT, DELETE | `/api/{vocabulary,sentences,grammar,culture}/:id` | 관리자 |
 | GET | `/api/components` | 공개 학습 |
+| GET | `/api/exams` | 공개 학습, 등록된 시험 범위 |
 | GET | `/api/admin/session` | 인증 여부만 반환 |
 | POST | `/api/import/preview` | 관리자 |
 | POST | `/api/import` | 관리자, preview fingerprint 필수 |
@@ -245,7 +270,7 @@ public/js/utils.js         안전한 DOM·저장 유틸리티
 src/worker.ts              인증·REST·Static Assets
 migrations/                D1 schema와 trigger
 fixtures/                  seed SQL·테스트 데이터
-scripts/                   의존성 복사·seed 재생성
+scripts/                   의존성 복사·seed 재생성·시험 범위(exam-scope.mjs)
 tests/                     로직·브라우저·API 테스트
 ```
 

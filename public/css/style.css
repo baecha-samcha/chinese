@@ -245,6 +245,11 @@ h3 {
   font-size: 12px;
   color: var(--muted);
 }
+/* Exam scope tags, set apart from the source badge. */
+.badge.exam {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

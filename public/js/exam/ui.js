@@ -54,7 +54,7 @@ export async function renderExam(root) {
     const nav=el('aside',{class:'exam-answer-sheet','aria-label':'답안 현황'},el('h2',{},'답안 현황'),el('p',{},'채워진 번호는 답안 작성 완료'),el('div',{class:'exam-numbers'},session.questions.map(q=>button(q.slot,()=>root.querySelector(`#exam-${q.slot}`).scrollIntoView({behavior:'smooth',block:'start'})))));
     [...nav.querySelectorAll('button')].forEach((b,i)=>b.dataset.jump=session.questions[i].slot);
     if(results)paper.append(el('section',{class:'exam-results','aria-label':'시험 결과'},el('h2',{},`채점된 점수 ${scoreText(results.score)} / ${results.max}`),el('p',{},results.pending?`${scoreText(results.pending)}점은 수동 채점 대기입니다. 아래 기준표를 확인하여 직접 채점하세요.`:'채점을 마쳤습니다. 수동 점수는 자기 채점 결과입니다.'),el('p',{},'부분 점수가 반영됩니다. 정답·해설은 제출 후에만 표시됩니다.')));
-    paper.append(el('div',{class:'exam-paper-heading'},el('h2',{},'중국어 I'),el('p',{},'객관식 23문항 · 서답형 3문항 · 서술형 3문항 / 100점 / 50분'),el('p',{},'한자 답안은 간체자로 씁니다. 범위: 교과서·2026 보충자료의 기존 학습 데이터.')));
+    paper.append(el('div',{class:'exam-paper-heading'},el('h2',{},'중국어 I'),el('p',{},'객관식 23문항 · 서답형 3문항 · 서술형 3문항 / 100점 / 50분'),el('p',{},`한자 답안은 간체자로 씁니다. 범위: ${session.exam?.label?`${session.exam.label} 시험 범위로 확인된 교과서·보충자료 항목`:'교과서·보충자료의 기존 학습 데이터'}.`)));
     let section='';
     session.questions.forEach((q,index)=>{
       if(q.section!==section){section=q.section;paper.append(el('h2',{class:'exam-section'},section));}
@@ -96,7 +96,7 @@ export async function renderExam(root) {
       const data=await getScope();if(disposed)return;
       const report=validateBank(buildBank(data),data);if(report.errors.length)throw Error(report.errors.join('\n'));
       const current=readSession();
-      const panel=el('section',{class:'exam-lobby card'},el('span',{class:'eyebrow'},'CHINESE I · PRACTICE EXAM'),el('h1',{},'실전처럼 시험보기'),el('p',{},'29문항 · 100점 · 50분. 실제 시험처럼 문제지를 읽고 답안지를 완성하세요.'),el('ul',{},el('li',{},'각 문항 위치의 변형 중 하나가 출제됩니다. 시험 중 문제는 바뀌지 않습니다.'),el('li',{},'답안은 입력 즉시 이 브라우저에 저장됩니다. 새로고침하거나 다른 화면으로 이동해도 시간은 계속 흐릅니다.'),el('li',{},'시간이 끝나면 자동 제출됩니다. 설명·번역·문화 특징은 제출 후 기준표로 직접 채점합니다.')),el('p',{class:'note'},'현재 자료로 구성한 연습시험입니다. 기출 4페이지와 PDF 원본은 저장소에 없어 원본 대조는 미완료입니다. 문화 지도는 확인된 북방·남방 음식 1종으로 출제됩니다.'),error);
+      const panel=el('section',{class:'exam-lobby card'},el('span',{class:'eyebrow'},'CHINESE I · PRACTICE EXAM'),el('h1',{},'실전처럼 시험보기'),el('p',{},'29문항 · 100점 · 50분. 실제 시험처럼 문제지를 읽고 답안지를 완성하세요.'),el('ul',{},el('li',{},'각 문항 위치의 변형 중 하나가 출제됩니다. 시험 중 문제는 바뀌지 않습니다.'),el('li',{},'답안은 입력 즉시 이 브라우저에 저장됩니다. 새로고침하거나 다른 화면으로 이동해도 시간은 계속 흐릅니다.'),el('li',{},'시간이 끝나면 자동 제출됩니다. 설명·번역·문화 특징은 제출 후 기준표로 직접 채점합니다.')),el('p',{class:'note'},`시험 범위: ${data.exam.label}. 범위 자료(교과서·보충자료 PDF)의 인쇄본과 대조해 확인한 단어·문장·문법·문화로 출제합니다. 기출 4페이지는 저장소에 없어 문항 형식 대조는 미완료입니다. 문화 지도는 확인된 북방·남방 음식 1종으로 출제됩니다.`),error);
       panel.append(button(current?.status==='active'?'이어서 풀기':'50분 시험 시작',()=>{try{session=startExam(data);draw();tick();}catch(e){report(e);}},'primary'));
       if(current?.status==='submitted')panel.append(button('마지막 결과 보기',()=>{session=current;draw();}));
       let history=[];try{history=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');}catch{}

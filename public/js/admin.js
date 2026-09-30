@@ -1,4 +1,4 @@
-import { el, button, title, toast, download } from "./utils.js";
+import { el, button, title, toast, download, scopeBadges } from "./utils.js";
 import { api } from "./api.js";
 import { renderImport, toCSV } from "./import.js";
 import { normalizePinyin } from "./validation.js";
@@ -93,6 +93,7 @@ export async function renderAdmin(root, path, onChanged) {
     return;
   }
   let rows = await api(kind);
+  const exams = await api("exams").catch(() => []);
   const list = el("div", {}),
     editor = el("div", {}),
     search = el("input", {
@@ -120,6 +121,7 @@ export async function renderAdmin(root, path, onChanged) {
             korean_hanja_reading: "",
             characters: [],
             source: null,
+            exam_tags: [],
           }
         : kind === "sentences"
           ? {
@@ -130,6 +132,7 @@ export async function renderAdmin(root, path, onChanged) {
               pinyin: "",
               category: "",
               source: null,
+              exam_tags: [],
             }
           : kind === "grammar"
             ? {
@@ -139,6 +142,7 @@ export async function renderAdmin(root, path, onChanged) {
                 wrong_examples: [],
                 tags: [],
                 questions: [],
+                exam_tags: [],
               }
             : {
                 category: "기타",
@@ -146,6 +150,7 @@ export async function renderAdmin(root, path, onChanged) {
                 answer: "",
                 distractors: [],
                 explanation: "",
+                exam_tags: [],
               };
     const textarea = el("textarea", {
         value: JSON.stringify(data, null, 2),
@@ -182,7 +187,7 @@ export async function renderAdmin(root, path, onChanged) {
         el(
           "p",
           { class: "muted" },
-          "배열과 재귀 분해를 보존하는 JSON 편집기입니다. 단어·문장의 source는 0=교과서, 1=보충자료, null=출처 미지정입니다. 대량 등록은 파일 가져오기를 이용하세요.",
+          '배열과 재귀 분해를 보존하는 JSON 편집기입니다. 단어·문장의 source는 0=교과서, 1=보충자료, null=출처 미지정입니다. exam_tags는 이 항목이 포함되는 시험 범위 ID 목록입니다(예: ["2026-midterm"]). 대량 등록은 파일 가져오기를 이용하세요.',
         ),
         textarea,
         error,
@@ -281,6 +286,7 @@ export async function renderAdmin(root, path, onChanged) {
               { class: "muted" },
               r.pinyin || r.chinese || r.category || "",
             ),
+            el("div", { class: "row" }, ...scopeBadges(r, exams)),
           ),
           el("td", {}, r.meaning || r.explanation || r.answer || ""),
           actions,

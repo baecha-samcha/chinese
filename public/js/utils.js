@@ -89,3 +89,18 @@ export const title = (eyebrow, heading, description) =>
     el("h1", {}, heading),
     el("p", { class: "muted" }, description),
   );
+// Provenance (source) and exam scope (exam_tags) are shown as separate badges.
+export const sourceLabel = (source) =>
+  source === 0 ? "교과서" : source === 1 ? "보충자료" : "출처 미지정";
+export const scopeBadges = (row, exams = []) => [
+  ...("source" in row
+    ? [el("span", { class: "badge" }, sourceLabel(row.source))]
+    : []),
+  ...(row.exam_tags || []).map((id) =>
+    el(
+      "span",
+      { class: "badge exam" },
+      exams.find((x) => x.id === id)?.label || id,
+    ),
+  ),
+];

@@ -20,7 +20,7 @@ import {
   getStats,
   drawFromQueue,
   scheduleRetry,
-  filterStudySource,
+  filterStudyScope,
 } from "./study.js";
 import {
   FIELDS,
@@ -88,7 +88,7 @@ export function searchBox(data) {
 export function renderHome(root, data) {
   const fullData = data;
   const settings = readLocal("ch.settings", {});
-  data = filterStudySource(data, settings);
+  data = filterStudyScope(data, settings);
   const stats = Object.values(getStats()),
     correct = stats.reduce((s, x) => s + x.correct, 0),
     wrong = stats.reduce((s, x) => s + x.wrong, 0);
@@ -131,7 +131,7 @@ export function renderHome(root, data) {
   root.append(sourceControl(settings, () => {
     root.replaceChildren();
     renderHome(root, fullData);
-  }));
+  }, fullData.exams));
   root.append(
     el(
       "div",
@@ -211,16 +211,31 @@ function selectSetting(settings, key, options, refresh) {
   );
   return select;
 }
-export function sourceControl(settings, refresh) {
+// Source (where a row came from) and exam scope (which exams include it) are
+// separate filters; exams comes from /api/exams.
+export function sourceControl(settings, refresh, exams = []) {
   settings.studySource = ["0", "1"].includes(String(settings.studySource))
     ? String(settings.studySource) : "all";
   const select = selectSetting(settings, "studySource", [
     ["all", "둘 다"], ["0", "교과서만"], ["1", "보충자료만"],
   ], refresh);
   select.setAttribute("aria-label", "학습 출처");
+  settings.studyExam = exams.some((x) => x.id === settings.studyExam)
+    ? settings.studyExam : "all";
+  const exam = exams.length
+    ? selectSetting(settings, "studyExam", [
+      ["all", "전체"], ...exams.map((x) => [x.id, x.label]),
+    ], refresh)
+    : null;
+  exam?.setAttribute("aria-label", "시험 범위");
   return el("section", {class: "source-filter"},
-    el("label", {class: "toolbar"}, "학습 범위", select),
-    el("p", {class: "muted"}, "단어·문장에 적용됩니다. 문법·문화는 공통 범위이며, 출처 미지정 항목은 ‘둘 다’에 포함됩니다."),
+    el("div", {class: "row"},
+      el("label", {class: "toolbar"}, "학습 범위", select),
+      exam ? el("label", {class: "toolbar"}, "시험 범위", exam) : null,
+    ),
+    el("p", {class: "muted"}, exam
+      ? "학습 범위(교과서·보충자료)는 단어·문장에 적용되고 출처 미지정 항목은 ‘둘 다’에 포함됩니다. 시험 범위는 그 시험에 포함된 단어·문장·문법·문화만 남깁니다."
+      : "단어·문장에 적용됩니다. 문법·문화는 공통 범위이며, 출처 미지정 항목은 ‘둘 다’에 포함됩니다."),
   );
 }
 // Question/answer field pickers for the shared quiz: any source × target
@@ -398,7 +413,7 @@ export function renderLearning(root, data, area) {
       grammarMode: "mixed",
       cultureMode: "choice",
     });
-  data = filterStudySource(data, settings);
+  data = filterStudyScope(data, settings);
   let q, lastKey;
   let queueState = { queue: [], signature: "" };
   const host = el("div", { class: "study" }),
@@ -447,7 +462,7 @@ export function renderLearning(root, data, area) {
   root.append(sourceControl(settings, () => {
     root.replaceChildren();
     renderLearning(root, fullData, area);
-  }));
+  }, fullData.exams));
   if (area === "learn") toolbar.append(quizSettings(settings, data, next));
   if (area === "write")
     toolbar.append(
@@ -828,7 +843,7 @@ export function renderTest(root, data) {
   root.append(sourceControl(settings, () => {
     root.replaceChildren();
     renderTest(root, data);
-  }));
+  }, data.exams));
   const setup = el("div", { class: "card" }),
     counts = {},
     inputs = {},
@@ -909,7 +924,8 @@ export function renderTest(root, data) {
           const questions = buildExam(data, counts, examSettings());
           if (!questions.length) throw Error("문제 수를 선택하세요.");
           setup.remove();
-          root.querySelector(".source-filter select").disabled = true;
+          for (const s of root.querySelectorAll(".source-filter select"))
+            s.disabled = true;
           const host = el("div", { class: "study" });
           root.append(host);
           let index = 0;
