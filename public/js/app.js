@@ -36,6 +36,12 @@ async function route() {
       await renderAdmin(screen, path, async () => {
         dataset = null;
       });
+    } else if (path === "/exam") {
+      const { renderExam } = await import("./exam/ui.js");
+      if (token !== version) return;
+      const examCleanup = await renderExam(screen);
+      if (token !== version) { examCleanup?.(); return; }
+      cleanup = examCleanup;
     } else {
       dataset = dataset || (await loadStudy());
       if (dataset.cached)
@@ -73,7 +79,7 @@ if ("serviceWorker" in navigator)
     }
     if (token !== version) return;
     main.replaceChildren(screen);
-    document.title = `${path === "/" ? "홈" : areas[path.slice(1)]?.[0] || (path.startsWith("/admin") ? "관리" : path === "/match" ? "짝 맞추기" : path === "/test" ? "종합시험" : "차곡")} · 차곡 중국어 시험 대비`;
+    document.title = `${path === "/" ? "홈" : areas[path.slice(1)]?.[0] || (path.startsWith("/admin") ? "관리" : path === "/match" ? "짝 맞추기" : path === "/exam" ? "실전시험" : path === "/test" ? "종합시험" : "차곡")} · 차곡 중국어 시험 대비`;
     main.querySelector(".question")?.focus({ preventScroll: true });
   } catch (e) {
     if (token === version)

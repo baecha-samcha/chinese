@@ -2,11 +2,18 @@
 // static GET is served network-first (fresh when online, cached copy when the
 // network fails or stalls). /api and /admin are never cached - study data is
 // already cached in localStorage by api.js, and admin needs the server.
-const CACHE = "ch-shell-v1";
+const CACHE = "ch-shell-v2-exam";
 const NETWORK_TIMEOUT_MS = 4000;
 const SHELL = [
   "/",
   "/css/style.css",
+  "/css/exam.css",
+  "/data/exam-scope.json",
+  "/js/exam/blueprint.js",
+  "/js/exam/bank.js",
+  "/js/exam/validation.js",
+  "/js/exam/engine.js",
+  "/js/exam/ui.js",
   "/vendor/fonts/hanamin/hanamin-fallback.css",
   "/js/app.js",
   "/js/api.js",

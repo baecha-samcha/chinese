@@ -671,6 +671,9 @@ test("pinyin parses syllables and preserves separators, case and ü", async () =
     ["Éluósī", 3, ["É", "luó", "sī"], [2, 2, 1]],
     ["Xī'ān", 2, ["Xī", "'", "ān"], [1, 0, 1]],
     ["nǚ lǜ", 2, ["nǚ", " ", "lǜ"], [3, 0, 4]],
+    // No apostrophe means the next syllable does not start with a/o/e.
+    ["niángāo", 2, ["nián", "gāo"], [2, 1]],
+    ["Jiānádà", 3, ["Jiā", "ná", "dà"], [1, 2, 4]],
   ]) {
     const parts = parseSyllables(input.normalize("NFD"), count);
     assert.deepEqual(
@@ -687,6 +690,10 @@ test("pinyin parses syllables and preserves separators, case and ü", async () =
   assert.deepEqual(
     parseSyllables("xian", 2).map((p) => p.text),
     ["xi", "an"],
+  );
+  assert.deepEqual(
+    parseSyllables("niángāo").map((p) => p.text),
+    ["nián", "gāo"],
   );
   assert.deepEqual(
     parseSyllables("xian", 1).map((p) => p.text),

@@ -1,0 +1,3873 @@
+{
+  "version": "2026-09-30",
+  "provenance": {
+    "file": "outputs/backup-before-0003.sql",
+    "sha256": "726f241311aa019a1b762185bdd0eb7a53234302a3d32254eda28494e2dc15d7",
+    "note": "기존 운영 백업의 source 0(교과서), 1(보충자료) 및 교재 출처가 명시된 문법·문화. PDF 원본 미제공으로 원본 대조는 미완료."
+  },
+  "vocabulary": [
+    {
+      "id": 1,
+      "simplified": "你",
+      "pinyin": "nǐ",
+      "meaning": "너",
+      "source": 0
+    },
+    {
+      "id": 5,
+      "simplified": "明天",
+      "pinyin": "míngtiān",
+      "meaning": "내일",
+      "source": 0
+    },
+    {
+      "id": 8,
+      "simplified": "早上",
+      "pinyin": "zǎoshang",
+      "meaning": "아침",
+      "source": 0
+    },
+    {
+      "id": 10,
+      "simplified": "我",
+      "pinyin": "wǒ",
+      "meaning": "나",
+      "source": 0
+    },
+    {
+      "id": 12,
+      "simplified": "他",
+      "pinyin": "tā",
+      "meaning": "그",
+      "source": 0
+    },
+    {
+      "id": 13,
+      "simplified": "她",
+      "pinyin": "tā",
+      "meaning": "그녀",
+      "source": 0
+    },
+    {
+      "id": 14,
+      "simplified": "谢谢",
+      "pinyin": "xièxie",
+      "meaning": "고맙다",
+      "source": 0
+    },
+    {
+      "id": 17,
+      "simplified": "对不起",
+      "pinyin": "duìbuqǐ",
+      "meaning": "미안하다",
+      "source": 0
+    },
+    {
+      "id": 19,
+      "simplified": "关系",
+      "pinyin": "guānxi",
+      "meaning": "관계",
+      "source": 0
+    },
+    {
+      "id": 21,
+      "simplified": "多",
+      "pinyin": "duō",
+      "meaning": "많다; 얼마나",
+      "source": 0
+    },
+    {
+      "id": 22,
+      "simplified": "看",
+      "pinyin": "kàn",
+      "meaning": "보다",
+      "source": 0
+    },
+    {
+      "id": 24,
+      "simplified": "老师",
+      "pinyin": "lǎoshī",
+      "meaning": "선생님",
+      "source": 0
+    },
+    {
+      "id": 26,
+      "simplified": "爸爸",
+      "pinyin": "bàba",
+      "meaning": "아버지",
+      "source": 0
+    },
+    {
+      "id": 27,
+      "simplified": "妈妈",
+      "pinyin": "māma",
+      "meaning": "어머니",
+      "source": 0
+    },
+    {
+      "id": 30,
+      "simplified": "名字",
+      "pinyin": "míngzi",
+      "meaning": "이름",
+      "source": 0
+    },
+    {
+      "id": 34,
+      "simplified": "高兴",
+      "pinyin": "gāoxìng",
+      "meaning": "기쁘다",
+      "source": 0
+    },
+    {
+      "id": 35,
+      "simplified": "去",
+      "pinyin": "qù",
+      "meaning": "가다",
+      "source": 0
+    },
+    {
+      "id": 36,
+      "simplified": "忙",
+      "pinyin": "máng",
+      "meaning": "바쁘다",
+      "source": 0
+    },
+    {
+      "id": 38,
+      "simplified": "是",
+      "pinyin": "shì",
+      "meaning": "~이다",
+      "source": 0
+    },
+    {
+      "id": 40,
+      "simplified": "国",
+      "pinyin": "guó",
+      "meaning": "나라",
+      "source": 0
+    },
+    {
+      "id": 41,
+      "simplified": "人",
+      "pinyin": "rén",
+      "meaning": "사람",
+      "source": 0
+    },
+    {
+      "id": 49,
+      "simplified": "学生",
+      "pinyin": "xuésheng",
+      "meaning": "학생",
+      "source": 0
+    },
+    {
+      "id": 61,
+      "simplified": "谁",
+      "pinyin": "shéi",
+      "meaning": "누구",
+      "source": 0
+    },
+    {
+      "id": 63,
+      "simplified": "朋友",
+      "pinyin": "péngyou",
+      "meaning": "친구",
+      "source": 0
+    },
+    {
+      "id": 68,
+      "simplified": "书",
+      "pinyin": "shū",
+      "meaning": "책",
+      "source": 0
+    },
+    {
+      "id": 69,
+      "simplified": "椅子",
+      "pinyin": "yǐzi",
+      "meaning": "의자",
+      "source": 0
+    },
+    {
+      "id": 70,
+      "simplified": "书包",
+      "pinyin": "shūbāo",
+      "meaning": "책가방",
+      "source": 0
+    },
+    {
+      "id": 72,
+      "simplified": "长",
+      "pinyin": "cháng",
+      "meaning": "길다",
+      "source": 0
+    },
+    {
+      "id": 73,
+      "simplified": "重",
+      "pinyin": "zhòng",
+      "meaning": "무겁다",
+      "source": 0
+    },
+    {
+      "id": 76,
+      "simplified": "弟弟",
+      "pinyin": "dìdi",
+      "meaning": "남동생",
+      "source": 0
+    },
+    {
+      "id": 79,
+      "simplified": "哥哥",
+      "pinyin": "gēge",
+      "meaning": "오빠, 형",
+      "source": 0
+    },
+    {
+      "id": 81,
+      "simplified": "几",
+      "pinyin": "jǐ",
+      "meaning": "몇",
+      "source": 0
+    },
+    {
+      "id": 82,
+      "simplified": "年级",
+      "pinyin": "niánjí",
+      "meaning": "학년",
+      "source": 0
+    },
+    {
+      "id": 83,
+      "simplified": "高中",
+      "pinyin": "gāozhōng",
+      "meaning": "고등학교",
+      "source": 0
+    },
+    {
+      "id": 88,
+      "simplified": "妹妹",
+      "pinyin": "mèimei",
+      "meaning": "여동생",
+      "source": 0
+    },
+    {
+      "id": 90,
+      "simplified": "可爱",
+      "pinyin": "kě'ài",
+      "meaning": "귀엽다",
+      "source": 0
+    },
+    {
+      "id": 91,
+      "simplified": "聪明",
+      "pinyin": "cōngming",
+      "meaning": "똑똑하다",
+      "source": 0
+    },
+    {
+      "id": 92,
+      "simplified": "今天",
+      "pinyin": "jīntiān",
+      "meaning": "오늘",
+      "source": 0
+    },
+    {
+      "id": 96,
+      "simplified": "前天",
+      "pinyin": "qiántiān",
+      "meaning": "그저께",
+      "source": 0
+    },
+    {
+      "id": 97,
+      "simplified": "昨天",
+      "pinyin": "zuótiān",
+      "meaning": "어제",
+      "source": 0
+    },
+    {
+      "id": 98,
+      "simplified": "后天",
+      "pinyin": "hòutiān",
+      "meaning": "모레",
+      "source": 0
+    },
+    {
+      "id": 100,
+      "simplified": "星期日",
+      "pinyin": "xīngqīrì",
+      "meaning": "일요일",
+      "source": 0
+    },
+    {
+      "id": 101,
+      "simplified": "现在",
+      "pinyin": "xiànzài",
+      "meaning": "지금",
+      "source": 0
+    },
+    {
+      "id": 103,
+      "simplified": "分",
+      "pinyin": "fēn",
+      "meaning": "분",
+      "source": 0
+    },
+    {
+      "id": 104,
+      "simplified": "吃",
+      "pinyin": "chī",
+      "meaning": "먹다",
+      "source": 0
+    },
+    {
+      "id": 109,
+      "simplified": "起床",
+      "pinyin": "qǐchuáng",
+      "meaning": "기상하다",
+      "source": 0
+    },
+    {
+      "id": 114,
+      "simplified": "生日",
+      "pinyin": "shēngrì",
+      "meaning": "생일",
+      "source": 0
+    },
+    {
+      "id": 117,
+      "simplified": "上学",
+      "pinyin": "shàngxué",
+      "meaning": "등교하다",
+      "source": 0
+    },
+    {
+      "id": 119,
+      "simplified": "散步",
+      "pinyin": "sànbù",
+      "meaning": "산책하다",
+      "source": 0
+    },
+    {
+      "id": 121,
+      "simplified": "快乐",
+      "pinyin": "kuàilè",
+      "meaning": "즐겁다",
+      "source": 0
+    },
+    {
+      "id": 126,
+      "simplified": "小学",
+      "pinyin": "xiǎoxué",
+      "meaning": "초등학교",
+      "source": 0
+    },
+    {
+      "id": 127,
+      "simplified": "初中",
+      "pinyin": "chūzhōng",
+      "meaning": "중학교",
+      "source": 0
+    },
+    {
+      "id": 129,
+      "simplified": "大学",
+      "pinyin": "dàxué",
+      "meaning": "대학교",
+      "source": 0
+    },
+    {
+      "id": 131,
+      "simplified": "今年",
+      "pinyin": "jīnnián",
+      "meaning": "올해",
+      "source": 1
+    },
+    {
+      "id": 132,
+      "simplified": "词典",
+      "pinyin": "cídiǎn",
+      "meaning": "사전",
+      "source": 1
+    },
+    {
+      "id": 141,
+      "simplified": "一起",
+      "pinyin": "yìqǐ",
+      "meaning": "함께",
+      "source": 1
+    },
+    {
+      "id": 144,
+      "simplified": "我们",
+      "pinyin": "wǒmen",
+      "meaning": "우리",
+      "source": 0
+    },
+    {
+      "id": 145,
+      "simplified": "您",
+      "pinyin": "nín",
+      "meaning": "당신(존칭)",
+      "source": 0
+    },
+    {
+      "id": 146,
+      "simplified": "你们",
+      "pinyin": "nǐmen",
+      "meaning": "너희, 여러분",
+      "source": 0
+    },
+    {
+      "id": 147,
+      "simplified": "他们",
+      "pinyin": "tāmen",
+      "meaning": "그들",
+      "source": 0
+    },
+    {
+      "id": 148,
+      "simplified": "她们",
+      "pinyin": "tāmen",
+      "meaning": "그녀들",
+      "source": 0
+    },
+    {
+      "id": 149,
+      "simplified": "好",
+      "pinyin": "hǎo",
+      "meaning": "좋다",
+      "source": 0
+    },
+    {
+      "id": 150,
+      "simplified": "大家",
+      "pinyin": "dàjiā",
+      "meaning": "여러분, 모두",
+      "source": 0
+    },
+    {
+      "id": 151,
+      "simplified": "再见",
+      "pinyin": "zàijiàn",
+      "meaning": "다시 만나다; 안녕히 가다",
+      "source": 0
+    },
+    {
+      "id": 152,
+      "simplified": "晚上",
+      "pinyin": "wǎnshang",
+      "meaning": "저녁, 밤",
+      "source": 0
+    },
+    {
+      "id": 153,
+      "simplified": "嗨",
+      "pinyin": "hāi",
+      "meaning": "안녕(친근한 인사)",
+      "source": 0
+    },
+    {
+      "id": 154,
+      "simplified": "哈喽",
+      "pinyin": "hālóu",
+      "meaning": "헬로, 안녕",
+      "source": 0
+    },
+    {
+      "id": 155,
+      "simplified": "拜拜",
+      "pinyin": "báibai",
+      "meaning": "바이바이, 안녕",
+      "source": 0
+    },
+    {
+      "id": 156,
+      "simplified": "不",
+      "pinyin": "bù",
+      "meaning": "~아니다; ~하지 않다",
+      "source": 0
+    },
+    {
+      "id": 157,
+      "simplified": "客气",
+      "pinyin": "kèqi",
+      "meaning": "예의를 차리다; 사양하다",
+      "source": 0
+    },
+    {
+      "id": 158,
+      "simplified": "不客气",
+      "pinyin": "bú kèqi",
+      "meaning": "천만에요; 별말씀을요",
+      "source": 0
+    },
+    {
+      "id": 159,
+      "simplified": "没",
+      "pinyin": "méi",
+      "meaning": "없다; ~하지 않았다",
+      "source": 0
+    },
+    {
+      "id": 160,
+      "simplified": "没关系",
+      "pinyin": "méi guānxi",
+      "meaning": "괜찮다; 상관없다",
+      "source": 0
+    },
+    {
+      "id": 161,
+      "simplified": "不好意思",
+      "pinyin": "bù hǎoyìsi",
+      "meaning": "미안하다; 실례하다",
+      "source": 0
+    },
+    {
+      "id": 162,
+      "simplified": "事",
+      "pinyin": "shì",
+      "meaning": "일, 사건",
+      "source": 0
+    },
+    {
+      "id": 163,
+      "simplified": "同学",
+      "pinyin": "tóngxué",
+      "meaning": "학우, 학생",
+      "source": 0
+    },
+    {
+      "id": 164,
+      "simplified": "叫",
+      "pinyin": "jiào",
+      "meaning": "~라고 부르다; 이름이 ~이다",
+      "source": 0
+    },
+    {
+      "id": 165,
+      "simplified": "什么",
+      "pinyin": "shénme",
+      "meaning": "무엇",
+      "source": 0
+    },
+    {
+      "id": 166,
+      "simplified": "呢",
+      "pinyin": "ne",
+      "meaning": "~는?; 어기조사",
+      "source": 0
+    },
+    {
+      "id": 167,
+      "simplified": "认识",
+      "pinyin": "rènshi",
+      "meaning": "알다; 알게 되다",
+      "source": 0
+    },
+    {
+      "id": 168,
+      "simplified": "很",
+      "pinyin": "hěn",
+      "meaning": "매우; 아주",
+      "source": 0
+    },
+    {
+      "id": 169,
+      "simplified": "漂亮",
+      "pinyin": "piàoliang",
+      "meaning": "예쁘다, 아름답다",
+      "source": 0
+    },
+    {
+      "id": 170,
+      "simplified": "哪",
+      "pinyin": "nǎ",
+      "meaning": "어느, 어떤",
+      "source": 0
+    },
+    {
+      "id": 171,
+      "simplified": "中国",
+      "pinyin": "Zhōngguó",
+      "meaning": "중국",
+      "source": 0
+    },
+    {
+      "id": 172,
+      "simplified": "韩国",
+      "pinyin": "Hánguó",
+      "meaning": "한국",
+      "source": 0
+    },
+    {
+      "id": 173,
+      "simplified": "也",
+      "pinyin": "yě",
+      "meaning": "~도 또한",
+      "source": 0
+    },
+    {
+      "id": 174,
+      "simplified": "吗",
+      "pinyin": "ma",
+      "meaning": "예/아니오 의문을 나타내는 어기조사",
+      "source": 0
+    },
+    {
+      "id": 175,
+      "simplified": "美国",
+      "pinyin": "Měiguó",
+      "meaning": "미국",
+      "source": 0
+    },
+    {
+      "id": 176,
+      "simplified": "日本",
+      "pinyin": "Rìběn",
+      "meaning": "일본",
+      "source": 0
+    },
+    {
+      "id": 177,
+      "simplified": "西班牙",
+      "pinyin": "Xībānyá",
+      "meaning": "스페인",
+      "source": 0
+    },
+    {
+      "id": 178,
+      "simplified": "英国",
+      "pinyin": "Yīngguó",
+      "meaning": "영국",
+      "source": 0
+    },
+    {
+      "id": 179,
+      "simplified": "法国",
+      "pinyin": "Fǎguó",
+      "meaning": "프랑스",
+      "source": 0
+    },
+    {
+      "id": 180,
+      "simplified": "德国",
+      "pinyin": "Déguó",
+      "meaning": "독일",
+      "source": 0
+    },
+    {
+      "id": 181,
+      "simplified": "印度",
+      "pinyin": "Yìndù",
+      "meaning": "인도",
+      "source": 0
+    },
+    {
+      "id": 182,
+      "simplified": "姓",
+      "pinyin": "xìng",
+      "meaning": "성이 ~이다; 성",
+      "source": 0
+    },
+    {
+      "id": 183,
+      "simplified": "老",
+      "pinyin": "lǎo",
+      "meaning": "늙다; 성 앞에서 존칭에 쓰임",
+      "source": 0
+    },
+    {
+      "id": 184,
+      "simplified": "小",
+      "pinyin": "xiǎo",
+      "meaning": "작다; 성 앞에서 친근한 호칭에 쓰임",
+      "source": 0
+    },
+    {
+      "id": 185,
+      "simplified": "兄弟",
+      "pinyin": "xiōngdì",
+      "meaning": "형제; 친한 남자 친구 사이의 호칭",
+      "source": 0
+    },
+    {
+      "id": 186,
+      "simplified": "姐妹",
+      "pinyin": "jiěmèi",
+      "meaning": "자매; 친한 여자 친구 사이의 호칭",
+      "source": 0
+    },
+    {
+      "id": 187,
+      "simplified": "美女",
+      "pinyin": "měinǚ",
+      "meaning": "미녀; 젊은 여성에 대한 호칭",
+      "source": 0
+    },
+    {
+      "id": 188,
+      "simplified": "帅哥",
+      "pinyin": "shuàigē",
+      "meaning": "미남; 젊은 남성에 대한 호칭",
+      "source": 0
+    },
+    {
+      "id": 189,
+      "simplified": "真",
+      "pinyin": "zhēn",
+      "meaning": "정말, 진짜",
+      "source": 0
+    },
+    {
+      "id": 190,
+      "simplified": "帅",
+      "pinyin": "shuài",
+      "meaning": "잘생기다",
+      "source": 0
+    },
+    {
+      "id": 191,
+      "simplified": "这",
+      "pinyin": "zhè",
+      "meaning": "이것, 이",
+      "source": 0
+    },
+    {
+      "id": 192,
+      "simplified": "那",
+      "pinyin": "nà",
+      "meaning": "저것, 저",
+      "source": 0
+    },
+    {
+      "id": 193,
+      "simplified": "的",
+      "pinyin": "de",
+      "meaning": "~의; 수식 관계를 나타내는 조사",
+      "source": 0
+    },
+    {
+      "id": 194,
+      "simplified": "岁",
+      "pinyin": "suì",
+      "meaning": "살(나이 단위)",
+      "source": 0
+    },
+    {
+      "id": 195,
+      "simplified": "高",
+      "pinyin": "gāo",
+      "meaning": "높다; 키가 크다",
+      "source": 0
+    },
+    {
+      "id": 196,
+      "simplified": "长城",
+      "pinyin": "Chángchéng",
+      "meaning": "만리장성",
+      "source": 0
+    },
+    {
+      "id": 197,
+      "simplified": "有",
+      "pinyin": "yǒu",
+      "meaning": "있다; 가지고 있다",
+      "source": 0
+    },
+    {
+      "id": 198,
+      "simplified": "没有",
+      "pinyin": "méiyǒu",
+      "meaning": "없다; 가지고 있지 않다",
+      "source": 0
+    },
+    {
+      "id": 199,
+      "simplified": "个",
+      "pinyin": "ge",
+      "meaning": "개(일반적인 양사)",
+      "source": 0
+    },
+    {
+      "id": 200,
+      "simplified": "上",
+      "pinyin": "shàng",
+      "meaning": "오르다; 다니다",
+      "source": 0
+    },
+    {
+      "id": 201,
+      "simplified": "小狗",
+      "pinyin": "xiǎogǒu",
+      "meaning": "강아지",
+      "source": 0
+    },
+    {
+      "id": 202,
+      "simplified": "手机",
+      "pinyin": "shǒujī",
+      "meaning": "휴대전화",
+      "source": 0
+    },
+    {
+      "id": 203,
+      "simplified": "姐姐",
+      "pinyin": "jiějie",
+      "meaning": "누나, 언니",
+      "source": 0
+    },
+    {
+      "id": 204,
+      "simplified": "高考",
+      "pinyin": "gāokǎo",
+      "meaning": "중국의 대학 입학시험",
+      "source": 0
+    },
+    {
+      "id": 205,
+      "simplified": "旗袍",
+      "pinyin": "qípáo",
+      "meaning": "치파오",
+      "source": 0
+    },
+    {
+      "id": 206,
+      "simplified": "月",
+      "pinyin": "yuè",
+      "meaning": "월; 달",
+      "source": 0
+    },
+    {
+      "id": 207,
+      "simplified": "号",
+      "pinyin": "hào",
+      "meaning": "일(날짜)",
+      "source": 0
+    },
+    {
+      "id": 208,
+      "simplified": "星期",
+      "pinyin": "xīngqī",
+      "meaning": "요일; 주",
+      "source": 0
+    },
+    {
+      "id": 209,
+      "simplified": "星期天",
+      "pinyin": "xīngqītiān",
+      "meaning": "일요일",
+      "source": 0
+    },
+    {
+      "id": 210,
+      "simplified": "点",
+      "pinyin": "diǎn",
+      "meaning": "시; 점",
+      "source": 0
+    },
+    {
+      "id": 211,
+      "simplified": "刻",
+      "pinyin": "kè",
+      "meaning": "15분을 나타내는 단위",
+      "source": 0
+    },
+    {
+      "id": 212,
+      "simplified": "半",
+      "pinyin": "bàn",
+      "meaning": "반; 30분",
+      "source": 0
+    },
+    {
+      "id": 213,
+      "simplified": "差",
+      "pinyin": "chà",
+      "meaning": "모자라다; ~전(시각 표현)",
+      "source": 0
+    },
+    {
+      "id": 214,
+      "simplified": "饭",
+      "pinyin": "fàn",
+      "meaning": "밥, 식사",
+      "source": 0
+    },
+    {
+      "id": 215,
+      "simplified": "吧",
+      "pinyin": "ba",
+      "meaning": "제안·추측 등을 나타내는 어기조사",
+      "source": 0
+    },
+    {
+      "id": 216,
+      "simplified": "回家",
+      "pinyin": "huíjiā",
+      "meaning": "귀가하다",
+      "source": 0
+    },
+    {
+      "id": 217,
+      "simplified": "睡觉",
+      "pinyin": "shuìjiào",
+      "meaning": "자다",
+      "source": 0
+    },
+    {
+      "id": 218,
+      "simplified": "放学",
+      "pinyin": "fàngxué",
+      "meaning": "하교하다",
+      "source": 0
+    },
+    {
+      "id": 219,
+      "simplified": "上课",
+      "pinyin": "shàngkè",
+      "meaning": "수업하다; 수업이 시작되다",
+      "source": 0
+    },
+    {
+      "id": 220,
+      "simplified": "下课",
+      "pinyin": "xiàkè",
+      "meaning": "수업이 끝나다",
+      "source": 0
+    },
+    {
+      "id": 221,
+      "simplified": "听音乐",
+      "pinyin": "tīng yīnyuè",
+      "meaning": "음악을 듣다",
+      "source": 0
+    },
+    {
+      "id": 222,
+      "simplified": "祝",
+      "pinyin": "zhù",
+      "meaning": "축원하다; 바라다",
+      "source": 0
+    },
+    {
+      "id": 223,
+      "simplified": "差不多",
+      "pinyin": "chàbuduō",
+      "meaning": "거의 같다; 큰 차이가 없다",
+      "source": 0
+    },
+    {
+      "id": 224,
+      "simplified": "春节",
+      "pinyin": "Chūnjié",
+      "meaning": "춘절",
+      "source": 0
+    },
+    {
+      "id": 225,
+      "simplified": "中秋节",
+      "pinyin": "Zhōngqiūjié",
+      "meaning": "중추절",
+      "source": 0
+    },
+    {
+      "id": 226,
+      "simplified": "月饼",
+      "pinyin": "yuèbǐng",
+      "meaning": "월병",
+      "source": 0
+    },
+    {
+      "id": 227,
+      "simplified": "春联",
+      "pinyin": "chūnlián",
+      "meaning": "춘련",
+      "source": 0
+    },
+    {
+      "id": 228,
+      "simplified": "红包",
+      "pinyin": "hóngbāo",
+      "meaning": "홍바오; 붉은 봉투",
+      "source": 0
+    },
+    {
+      "id": 229,
+      "simplified": "饺子",
+      "pinyin": "jiǎozi",
+      "meaning": "교자, 물만두",
+      "source": 0
+    },
+    {
+      "id": 230,
+      "simplified": "年糕",
+      "pinyin": "niángāo",
+      "meaning": "떡",
+      "source": 0
+    },
+    {
+      "id": 231,
+      "simplified": "端午节",
+      "pinyin": "Duānwǔjié",
+      "meaning": "단오절",
+      "source": 0
+    },
+    {
+      "id": 232,
+      "simplified": "粽子",
+      "pinyin": "zòngzi",
+      "meaning": "쫑쯔",
+      "source": 0
+    },
+    {
+      "id": 233,
+      "simplified": "龙舟",
+      "pinyin": "lóngzhōu",
+      "meaning": "용선",
+      "source": 0
+    },
+    {
+      "id": 234,
+      "simplified": "麦当劳",
+      "pinyin": "Màidāngláo",
+      "meaning": "맥도날드",
+      "source": 1
+    },
+    {
+      "id": 235,
+      "simplified": "肯德基",
+      "pinyin": "Kěndéjī",
+      "meaning": "KFC",
+      "source": 1
+    },
+    {
+      "id": 236,
+      "simplified": "吉他",
+      "pinyin": "jítā",
+      "meaning": "기타",
+      "source": 1
+    },
+    {
+      "id": 237,
+      "simplified": "乐天利",
+      "pinyin": "Lètiānlì",
+      "meaning": "롯데리아",
+      "source": 1
+    },
+    {
+      "id": 238,
+      "simplified": "咖啡",
+      "pinyin": "kāfēi",
+      "meaning": "커피",
+      "source": 1
+    },
+    {
+      "id": 239,
+      "simplified": "沙发",
+      "pinyin": "shāfā",
+      "meaning": "소파",
+      "source": 1
+    },
+    {
+      "id": 240,
+      "simplified": "热狗",
+      "pinyin": "règǒu",
+      "meaning": "핫도그",
+      "source": 1
+    },
+    {
+      "id": 241,
+      "simplified": "足球",
+      "pinyin": "zúqiú",
+      "meaning": "축구",
+      "source": 1
+    },
+    {
+      "id": 242,
+      "simplified": "电脑",
+      "pinyin": "diànnǎo",
+      "meaning": "컴퓨터",
+      "source": 1
+    },
+    {
+      "id": 243,
+      "simplified": "动画",
+      "pinyin": "dònghuà",
+      "meaning": "만화, 애니메이션",
+      "source": 1
+    },
+    {
+      "id": 244,
+      "simplified": "黑板",
+      "pinyin": "hēibǎn",
+      "meaning": "칠판",
+      "source": 1
+    },
+    {
+      "id": 245,
+      "simplified": "卡片",
+      "pinyin": "kǎpiàn",
+      "meaning": "카드",
+      "source": 1
+    },
+    {
+      "id": 246,
+      "simplified": "啤酒",
+      "pinyin": "píjiǔ",
+      "meaning": "맥주",
+      "source": 1
+    },
+    {
+      "id": 247,
+      "simplified": "冰淇淋",
+      "pinyin": "bīngqílín",
+      "meaning": "아이스크림",
+      "source": 1
+    },
+    {
+      "id": 248,
+      "simplified": "迷你裙",
+      "pinyin": "mínǐqún",
+      "meaning": "미니스커트",
+      "source": 1
+    },
+    {
+      "id": 249,
+      "simplified": "比萨饼",
+      "pinyin": "bǐsàbǐng",
+      "meaning": "피자",
+      "source": 1
+    },
+    {
+      "id": 250,
+      "simplified": "汉堡包",
+      "pinyin": "hànbǎobāo",
+      "meaning": "햄버거",
+      "source": 1
+    },
+    {
+      "id": 251,
+      "simplified": "摩托车",
+      "pinyin": "mótuōchē",
+      "meaning": "오토바이",
+      "source": 1
+    },
+    {
+      "id": 252,
+      "simplified": "乒乓球",
+      "pinyin": "pīngpāngqiú",
+      "meaning": "탁구",
+      "source": 1
+    },
+    {
+      "id": 253,
+      "simplified": "教室",
+      "pinyin": "jiàoshì",
+      "meaning": "교실",
+      "source": 1
+    },
+    {
+      "id": 254,
+      "simplified": "笔记本",
+      "pinyin": "bǐjìběn",
+      "meaning": "공책",
+      "source": 1
+    },
+    {
+      "id": 255,
+      "simplified": "铅笔",
+      "pinyin": "qiānbǐ",
+      "meaning": "연필",
+      "source": 1
+    },
+    {
+      "id": 256,
+      "simplified": "铅笔盒",
+      "pinyin": "qiānbǐhé",
+      "meaning": "필통",
+      "source": 1
+    },
+    {
+      "id": 257,
+      "simplified": "自动铅笔",
+      "pinyin": "zìdòng qiānbǐ",
+      "meaning": "샤프, 자동연필",
+      "source": 1
+    },
+    {
+      "id": 258,
+      "simplified": "圆珠笔",
+      "pinyin": "yuánzhūbǐ",
+      "meaning": "볼펜",
+      "source": 1
+    },
+    {
+      "id": 259,
+      "simplified": "荧光笔",
+      "pinyin": "yíngguāngbǐ",
+      "meaning": "형광펜",
+      "source": 1
+    },
+    {
+      "id": 260,
+      "simplified": "修正带",
+      "pinyin": "xiūzhèngdài",
+      "meaning": "수정테이프",
+      "source": 1
+    },
+    {
+      "id": 261,
+      "simplified": "白板",
+      "pinyin": "báibǎn",
+      "meaning": "화이트보드",
+      "source": 1
+    },
+    {
+      "id": 262,
+      "simplified": "白板笔",
+      "pinyin": "báibǎnbǐ",
+      "meaning": "보드마카펜",
+      "source": 1
+    },
+    {
+      "id": 263,
+      "simplified": "橡皮",
+      "pinyin": "xiàngpí",
+      "meaning": "지우개",
+      "source": 1
+    },
+    {
+      "id": 264,
+      "simplified": "窗门",
+      "pinyin": "chuāngmén",
+      "meaning": "창문(보충자료 표기)",
+      "source": 1
+    },
+    {
+      "id": 265,
+      "simplified": "储物柜",
+      "pinyin": "chǔwùguì",
+      "meaning": "사물함",
+      "source": 1
+    },
+    {
+      "id": 266,
+      "simplified": "电视",
+      "pinyin": "diànshì",
+      "meaning": "TV",
+      "source": 1
+    },
+    {
+      "id": 267,
+      "simplified": "钟表",
+      "pinyin": "zhōngbiǎo",
+      "meaning": "시계",
+      "source": 1
+    },
+    {
+      "id": 268,
+      "simplified": "垃圾桶",
+      "pinyin": "lājītǒng",
+      "meaning": "휴지통",
+      "source": 1
+    },
+    {
+      "id": 269,
+      "simplified": "饿",
+      "pinyin": "è",
+      "meaning": "배고프다",
+      "source": 1
+    },
+    {
+      "id": 270,
+      "simplified": "热",
+      "pinyin": "rè",
+      "meaning": "덥다",
+      "source": 1
+    },
+    {
+      "id": 271,
+      "simplified": "渴",
+      "pinyin": "kě",
+      "meaning": "목마르다",
+      "source": 1
+    },
+    {
+      "id": 272,
+      "simplified": "累",
+      "pinyin": "lèi",
+      "meaning": "피곤하다",
+      "source": 1
+    },
+    {
+      "id": 273,
+      "simplified": "困",
+      "pinyin": "kùn",
+      "meaning": "졸리다",
+      "source": 1
+    },
+    {
+      "id": 274,
+      "simplified": "难",
+      "pinyin": "nán",
+      "meaning": "어렵다",
+      "source": 1
+    },
+    {
+      "id": 275,
+      "simplified": "喝",
+      "pinyin": "hē",
+      "meaning": "마시다",
+      "source": 1
+    },
+    {
+      "id": 276,
+      "simplified": "感谢",
+      "pinyin": "gǎnxiè",
+      "meaning": "감사하다",
+      "source": 1
+    },
+    {
+      "id": 277,
+      "simplified": "抱歉",
+      "pinyin": "bàoqiàn",
+      "meaning": "미안하다",
+      "source": 1
+    },
+    {
+      "id": 278,
+      "simplified": "道歉",
+      "pinyin": "dàoqiàn",
+      "meaning": "사과하다",
+      "source": 1
+    },
+    {
+      "id": 279,
+      "simplified": "麻烦",
+      "pinyin": "máfan",
+      "meaning": "번거롭게 하다; 폐를 끼치다",
+      "source": 1
+    },
+    {
+      "id": 280,
+      "simplified": "原谅",
+      "pinyin": "yuánliàng",
+      "meaning": "용서하다",
+      "source": 1
+    },
+    {
+      "id": 281,
+      "simplified": "澳大利亚",
+      "pinyin": "Àodàlìyà",
+      "meaning": "오스트레일리아",
+      "source": 1
+    },
+    {
+      "id": 282,
+      "simplified": "泰国",
+      "pinyin": "Tàiguó",
+      "meaning": "태국",
+      "source": 1
+    },
+    {
+      "id": 283,
+      "simplified": "新加坡",
+      "pinyin": "Xīnjiāpō",
+      "meaning": "싱가포르",
+      "source": 1
+    },
+    {
+      "id": 284,
+      "simplified": "意大利",
+      "pinyin": "Yìdàlì",
+      "meaning": "이탈리아",
+      "source": 1
+    },
+    {
+      "id": 285,
+      "simplified": "加拿大",
+      "pinyin": "Jiānádà",
+      "meaning": "캐나다",
+      "source": 1
+    },
+    {
+      "id": 286,
+      "simplified": "俄罗斯",
+      "pinyin": "Éluósī",
+      "meaning": "러시아",
+      "source": 1
+    },
+    {
+      "id": 287,
+      "simplified": "巴西",
+      "pinyin": "Bāxī",
+      "meaning": "브라질",
+      "source": 1
+    },
+    {
+      "id": 288,
+      "simplified": "墨西哥",
+      "pinyin": "Mòxīgē",
+      "meaning": "멕시코",
+      "source": 1
+    },
+    {
+      "id": 289,
+      "simplified": "越南",
+      "pinyin": "Yuènán",
+      "meaning": "베트남",
+      "source": 1
+    },
+    {
+      "id": 290,
+      "simplified": "教授",
+      "pinyin": "jiàoshòu",
+      "meaning": "교수",
+      "source": 1
+    },
+    {
+      "id": 291,
+      "simplified": "经理",
+      "pinyin": "jīnglǐ",
+      "meaning": "사장, 매니저",
+      "source": 1
+    },
+    {
+      "id": 292,
+      "simplified": "大夫",
+      "pinyin": "dàifu",
+      "meaning": "의사",
+      "source": 1
+    },
+    {
+      "id": 293,
+      "simplified": "叔叔",
+      "pinyin": "shūshu",
+      "meaning": "아저씨; 삼촌",
+      "source": 1
+    },
+    {
+      "id": 294,
+      "simplified": "阿姨",
+      "pinyin": "āyí",
+      "meaning": "아주머니; 이모",
+      "source": 1
+    },
+    {
+      "id": 295,
+      "simplified": "服务员",
+      "pinyin": "fúwùyuán",
+      "meaning": "종업원",
+      "source": 1
+    },
+    {
+      "id": 296,
+      "simplified": "老板",
+      "pinyin": "lǎobǎn",
+      "meaning": "사장; 가게 주인",
+      "source": 1
+    },
+    {
+      "id": 297,
+      "simplified": "洗脸",
+      "pinyin": "xǐliǎn",
+      "meaning": "세수하다",
+      "source": 1
+    },
+    {
+      "id": 298,
+      "simplified": "洗澡",
+      "pinyin": "xǐzǎo",
+      "meaning": "목욕하다",
+      "source": 1
+    },
+    {
+      "id": 299,
+      "simplified": "洗头",
+      "pinyin": "xǐtóu",
+      "meaning": "머리를 감다",
+      "source": 1
+    },
+    {
+      "id": 300,
+      "simplified": "刷牙",
+      "pinyin": "shuāyá",
+      "meaning": "양치하다",
+      "source": 1
+    },
+    {
+      "id": 301,
+      "simplified": "做作业",
+      "pinyin": "zuò zuòyè",
+      "meaning": "숙제하다",
+      "source": 1
+    },
+    {
+      "id": 302,
+      "simplified": "看电视",
+      "pinyin": "kàn diànshì",
+      "meaning": "TV를 보다",
+      "source": 1
+    },
+    {
+      "id": 303,
+      "simplified": "看电影",
+      "pinyin": "kàn diànyǐng",
+      "meaning": "영화를 보다",
+      "source": 1
+    },
+    {
+      "id": 304,
+      "simplified": "做运动",
+      "pinyin": "zuò yùndòng",
+      "meaning": "운동하다",
+      "source": 1
+    },
+    {
+      "id": 305,
+      "simplified": "去补习班",
+      "pinyin": "qù bǔxíbān",
+      "meaning": "학원에 가다",
+      "source": 1
+    },
+    {
+      "id": 306,
+      "simplified": "休息",
+      "pinyin": "xiūxi",
+      "meaning": "쉬다",
+      "source": 1
+    },
+    {
+      "id": 307,
+      "simplified": "胖",
+      "pinyin": "pàng",
+      "meaning": "뚱뚱하다",
+      "source": 1
+    },
+    {
+      "id": 308,
+      "simplified": "瘦",
+      "pinyin": "shòu",
+      "meaning": "마르다",
+      "source": 1
+    },
+    {
+      "id": 309,
+      "simplified": "苗条",
+      "pinyin": "miáotiáo",
+      "meaning": "날씬하다",
+      "source": 1
+    },
+    {
+      "id": 310,
+      "simplified": "矮",
+      "pinyin": "ǎi",
+      "meaning": "키가 작다",
+      "source": 1
+    },
+    {
+      "id": 311,
+      "simplified": "上班",
+      "pinyin": "shàngbān",
+      "meaning": "출근하다",
+      "source": 1
+    },
+    {
+      "id": 312,
+      "simplified": "下班",
+      "pinyin": "xiàbān",
+      "meaning": "퇴근하다",
+      "source": 1
+    },
+    {
+      "id": 313,
+      "simplified": "吃饭",
+      "pinyin": "chīfàn",
+      "meaning": "밥을 먹다",
+      "source": 1
+    },
+    {
+      "id": 314,
+      "simplified": "玩儿电脑",
+      "pinyin": "wánr diànnǎo",
+      "meaning": "컴퓨터 게임을 하다",
+      "source": 1
+    },
+    {
+      "id": 315,
+      "simplified": "喝茶",
+      "pinyin": "hē chá",
+      "meaning": "차를 마시다",
+      "source": 1
+    },
+    {
+      "id": 316,
+      "simplified": "买东西",
+      "pinyin": "mǎi dōngxi",
+      "meaning": "물건을 사다",
+      "source": 1
+    },
+    {
+      "id": 317,
+      "simplified": "年",
+      "pinyin": "nián",
+      "meaning": "해, 년",
+      "source": 1
+    },
+    {
+      "id": 318,
+      "simplified": "前年",
+      "pinyin": "qiánnián",
+      "meaning": "재작년",
+      "source": 1
+    },
+    {
+      "id": 319,
+      "simplified": "去年",
+      "pinyin": "qùnián",
+      "meaning": "작년",
+      "source": 1
+    },
+    {
+      "id": 320,
+      "simplified": "明年",
+      "pinyin": "míngnián",
+      "meaning": "내년",
+      "source": 1
+    },
+    {
+      "id": 321,
+      "simplified": "后年",
+      "pinyin": "hòunián",
+      "meaning": "후년",
+      "source": 1
+    },
+    {
+      "id": 322,
+      "simplified": "上上个月",
+      "pinyin": "shàngshàng ge yuè",
+      "meaning": "지지난달",
+      "source": 1
+    },
+    {
+      "id": 323,
+      "simplified": "上个月",
+      "pinyin": "shàng ge yuè",
+      "meaning": "지난달",
+      "source": 1
+    },
+    {
+      "id": 324,
+      "simplified": "这个月",
+      "pinyin": "zhè ge yuè",
+      "meaning": "이번 달",
+      "source": 1
+    },
+    {
+      "id": 325,
+      "simplified": "下个月",
+      "pinyin": "xià ge yuè",
+      "meaning": "다음 달",
+      "source": 1
+    },
+    {
+      "id": 326,
+      "simplified": "下下个月",
+      "pinyin": "xiàxià ge yuè",
+      "meaning": "다다음 달",
+      "source": 1
+    },
+    {
+      "id": 327,
+      "simplified": "上上个星期",
+      "pinyin": "shàngshàng ge xīngqī",
+      "meaning": "지지난주",
+      "source": 1
+    },
+    {
+      "id": 328,
+      "simplified": "上个星期",
+      "pinyin": "shàng ge xīngqī",
+      "meaning": "지난주",
+      "source": 1
+    },
+    {
+      "id": 329,
+      "simplified": "这个星期",
+      "pinyin": "zhè ge xīngqī",
+      "meaning": "이번 주",
+      "source": 1
+    },
+    {
+      "id": 330,
+      "simplified": "下个星期",
+      "pinyin": "xià ge xīngqī",
+      "meaning": "다음 주",
+      "source": 1
+    },
+    {
+      "id": 331,
+      "simplified": "下下个星期",
+      "pinyin": "xiàxià ge xīngqī",
+      "meaning": "다다음 주",
+      "source": 1
+    },
+    {
+      "id": 332,
+      "simplified": "计划生育",
+      "pinyin": "jìhuà shēngyù",
+      "meaning": "계획출산; 산아 제한 정책",
+      "source": 1
+    },
+    {
+      "id": 333,
+      "simplified": "全面两孩",
+      "pinyin": "quánmiàn liǎng hái",
+      "meaning": "전면 두 자녀 허용",
+      "source": 1
+    },
+    {
+      "id": 334,
+      "simplified": "两孩政策",
+      "pinyin": "liǎng hái zhèngcè",
+      "meaning": "두 자녀 정책",
+      "source": 1
+    },
+    {
+      "id": 335,
+      "simplified": "二胎政策",
+      "pinyin": "èr tāi zhèngcè",
+      "meaning": "두 번째 출산 정책; 두 자녀 정책",
+      "source": 1
+    },
+    {
+      "id": 336,
+      "simplified": "全面三孩",
+      "pinyin": "quánmiàn sān hái",
+      "meaning": "전면 세 자녀 허용",
+      "source": 1
+    },
+    {
+      "id": 337,
+      "simplified": "八零后",
+      "pinyin": "bā líng hòu",
+      "meaning": "1980년대 출생자",
+      "source": 1
+    },
+    {
+      "id": 338,
+      "simplified": "九零后",
+      "pinyin": "jiǔ líng hòu",
+      "meaning": "1990년대 출생자",
+      "source": 1
+    },
+    {
+      "id": 339,
+      "simplified": "零零后",
+      "pinyin": "líng líng hòu",
+      "meaning": "2000년대 이후 출생자",
+      "source": 1
+    },
+    {
+      "id": 340,
+      "simplified": "小皇帝",
+      "pinyin": "xiǎohuángdì",
+      "meaning": "소황제",
+      "source": 1
+    },
+    {
+      "id": 341,
+      "simplified": "黑孩子",
+      "pinyin": "hēiháizi",
+      "meaning": "호적에 오르지 못한 아이를 가리키는 표현",
+      "source": 1
+    },
+    {
+      "id": 342,
+      "simplified": "恭喜",
+      "pinyin": "gōngxǐ",
+      "meaning": "축하하다",
+      "source": 1
+    },
+    {
+      "id": 343,
+      "simplified": "欢迎",
+      "pinyin": "huānyíng",
+      "meaning": "환영하다",
+      "source": 1
+    },
+    {
+      "id": 344,
+      "simplified": "光临",
+      "pinyin": "guānglín",
+      "meaning": "왕림하다",
+      "source": 1
+    },
+    {
+      "id": 345,
+      "simplified": "慢走",
+      "pinyin": "màn zǒu",
+      "meaning": "살펴 가다",
+      "source": 1
+    },
+    {
+      "id": 346,
+      "simplified": "好久",
+      "pinyin": "hǎojiǔ",
+      "meaning": "오랫동안",
+      "source": 1
+    },
+    {
+      "id": 347,
+      "simplified": "不见",
+      "pinyin": "bú jiàn",
+      "meaning": "보지 못하다; 만나지 못하다",
+      "source": 1
+    },
+    {
+      "id": 348,
+      "simplified": "多谢",
+      "pinyin": "duōxiè",
+      "meaning": "감사하다",
+      "source": 1
+    },
+    {
+      "id": 349,
+      "simplified": "非常",
+      "pinyin": "fēicháng",
+      "meaning": "매우",
+      "source": 1
+    },
+    {
+      "id": 350,
+      "simplified": "十分",
+      "pinyin": "shífēn",
+      "meaning": "매우; 충분히",
+      "source": 1
+    },
+    {
+      "id": 351,
+      "simplified": "不用",
+      "pinyin": "búyòng",
+      "meaning": "~할 필요가 없다",
+      "source": 1
+    },
+    {
+      "id": 352,
+      "simplified": "祝贺",
+      "pinyin": "zhùhè",
+      "meaning": "축하하다",
+      "source": 1
+    },
+    {
+      "id": 353,
+      "simplified": "新年",
+      "pinyin": "xīnnián",
+      "meaning": "새해",
+      "source": 1
+    },
+    {
+      "id": 354,
+      "simplified": "圣诞",
+      "pinyin": "Shèngdàn",
+      "meaning": "크리스마스",
+      "source": 1
+    },
+    {
+      "id": 355,
+      "simplified": "好运",
+      "pinyin": "hǎoyùn",
+      "meaning": "행운",
+      "source": 1
+    },
+    {
+      "id": 356,
+      "simplified": "身体",
+      "pinyin": "shēntǐ",
+      "meaning": "몸",
+      "source": 1
+    },
+    {
+      "id": 357,
+      "simplified": "健康",
+      "pinyin": "jiànkāng",
+      "meaning": "건강하다",
+      "source": 1
+    },
+    {
+      "id": 358,
+      "simplified": "成功",
+      "pinyin": "chénggōng",
+      "meaning": "성공하다",
+      "source": 1
+    },
+    {
+      "id": 359,
+      "simplified": "平安",
+      "pinyin": "píng'ān",
+      "meaning": "평안하다",
+      "source": 1
+    },
+    {
+      "id": 360,
+      "simplified": "幸福",
+      "pinyin": "xìngfú",
+      "meaning": "행복하다",
+      "source": 1
+    },
+    {
+      "id": 361,
+      "simplified": "周末",
+      "pinyin": "zhōumò",
+      "meaning": "주말",
+      "source": 1
+    },
+    {
+      "id": 362,
+      "simplified": "愉快",
+      "pinyin": "yúkuài",
+      "meaning": "유쾌하다; 즐겁다",
+      "source": 1
+    },
+    {
+      "id": 363,
+      "simplified": "考上",
+      "pinyin": "kǎoshàng",
+      "meaning": "시험에 합격해 들어가다",
+      "source": 1
+    },
+    {
+      "id": 364,
+      "simplified": "见到",
+      "pinyin": "jiàndào",
+      "meaning": "만나다; 보게 되다",
+      "source": 1
+    },
+    {
+      "id": 365,
+      "simplified": "荣幸",
+      "pinyin": "róngxìng",
+      "meaning": "영광스럽다",
+      "source": 1
+    },
+    {
+      "id": 366,
+      "simplified": "久仰",
+      "pinyin": "jiǔyǎng",
+      "meaning": "오래전부터 존함을 듣다",
+      "source": 1
+    },
+    {
+      "id": 367,
+      "simplified": "初次",
+      "pinyin": "chūcì",
+      "meaning": "처음",
+      "source": 1
+    },
+    {
+      "id": 368,
+      "simplified": "见面",
+      "pinyin": "jiànmiàn",
+      "meaning": "만나다",
+      "source": 1
+    },
+    {
+      "id": 369,
+      "simplified": "介绍",
+      "pinyin": "jièshào",
+      "meaning": "소개하다",
+      "source": 1
+    },
+    {
+      "id": 370,
+      "simplified": "给",
+      "pinyin": "gěi",
+      "meaning": "주다; ~에게",
+      "source": 1
+    },
+    {
+      "id": 371,
+      "simplified": "年纪",
+      "pinyin": "niánjì",
+      "meaning": "나이",
+      "source": 1
+    },
+    {
+      "id": 372,
+      "simplified": "米",
+      "pinyin": "mǐ",
+      "meaning": "미터",
+      "source": 1
+    },
+    {
+      "id": 373,
+      "simplified": "公斤",
+      "pinyin": "gōngjīn",
+      "meaning": "킬로그램",
+      "source": 1
+    },
+    {
+      "id": 374,
+      "simplified": "口",
+      "pinyin": "kǒu",
+      "meaning": "입; 가족 수를 세는 양사",
+      "source": 1
+    },
+    {
+      "id": 375,
+      "simplified": "和",
+      "pinyin": "hé",
+      "meaning": "~와/과",
+      "source": 1
+    },
+    {
+      "id": 376,
+      "simplified": "家里",
+      "pinyin": "jiālǐ",
+      "meaning": "집 안; 집에서",
+      "source": 1
+    },
+    {
+      "id": 377,
+      "simplified": "第一",
+      "pinyin": "dìyī",
+      "meaning": "제1, 첫째",
+      "source": 1
+    },
+    {
+      "id": 378,
+      "simplified": "一年",
+      "pinyin": "yìnián",
+      "meaning": "1년",
+      "source": 1
+    },
+    {
+      "id": 379,
+      "simplified": "一定",
+      "pinyin": "yídìng",
+      "meaning": "반드시",
+      "source": 1
+    },
+    {
+      "id": 380,
+      "simplified": "一会儿",
+      "pinyin": "yíhuìr",
+      "meaning": "잠시",
+      "source": 1
+    },
+    {
+      "id": 381,
+      "simplified": "请",
+      "pinyin": "qǐng",
+      "meaning": "청하다; ~해주세요",
+      "source": 1
+    }
+  ],
+  "sentences": [
+    {
+      "id": 19,
+      "chinese": "祝你考上大学！",
+      "korean": "대학에 합격하세요!",
+      "source": 1,
+      "tokens": [
+        "祝",
+        "你",
+        "考上",
+        "大学"
+      ]
+    },
+    {
+      "id": 20,
+      "chinese": "祝你好运！",
+      "korean": "행운이 있길 빕니다!",
+      "source": 1,
+      "tokens": [
+        "祝",
+        "你",
+        "好运"
+      ]
+    },
+    {
+      "id": 21,
+      "chinese": "祝你身体健康！",
+      "korean": "건강하세요!",
+      "source": 1,
+      "tokens": [
+        "祝",
+        "你",
+        "身体",
+        "健康"
+      ]
+    },
+    {
+      "id": 22,
+      "chinese": "祝你成功！",
+      "korean": "성공하세요!",
+      "source": 1,
+      "tokens": [
+        "祝",
+        "你",
+        "成功"
+      ]
+    },
+    {
+      "id": 23,
+      "chinese": "祝你平安！",
+      "korean": "평안하길 바라!",
+      "source": 1,
+      "tokens": [
+        "祝",
+        "你",
+        "平安"
+      ]
+    },
+    {
+      "id": 24,
+      "chinese": "祝你幸福！",
+      "korean": "행복하길 바라!",
+      "source": 1,
+      "tokens": [
+        "祝",
+        "你",
+        "幸福"
+      ]
+    },
+    {
+      "id": 30,
+      "chinese": "您多大年纪了？",
+      "korean": "연세가 어떻게 되세요?",
+      "source": 1,
+      "tokens": [
+        "您",
+        "多",
+        "大",
+        "年纪",
+        "了"
+      ]
+    },
+    {
+      "id": 32,
+      "chinese": "我家有四口人。",
+      "korean": "우리 가족은 네 명이야.",
+      "source": 1,
+      "tokens": [
+        "我",
+        "家",
+        "有",
+        "四",
+        "口",
+        "人"
+      ]
+    },
+    {
+      "id": 33,
+      "chinese": "家里有什么人？",
+      "korean": "가족은 누구누구니?",
+      "source": 1,
+      "tokens": [
+        "家里",
+        "有",
+        "什么",
+        "人"
+      ]
+    },
+    {
+      "id": 34,
+      "chinese": "爸爸妈妈姐姐和我。",
+      "korean": "아빠, 엄마, 누나 그리고 나야.",
+      "source": 1,
+      "tokens": [
+        "爸爸",
+        "妈妈",
+        "姐姐",
+        "和",
+        "我"
+      ]
+    },
+    {
+      "id": 35,
+      "chinese": "你好！",
+      "korean": "안녕하세요.",
+      "source": 0,
+      "tokens": [
+        "你",
+        "好"
+      ]
+    },
+    {
+      "id": 36,
+      "chinese": "你们好！",
+      "korean": "여러분 안녕하세요.",
+      "source": 0,
+      "tokens": [
+        "你们",
+        "好"
+      ]
+    },
+    {
+      "id": 37,
+      "chinese": "老师，再见！",
+      "korean": "선생님, 안녕히 계세요!",
+      "source": 0,
+      "tokens": [
+        "老师",
+        "再见"
+      ]
+    },
+    {
+      "id": 38,
+      "chinese": "明天见！",
+      "korean": "내일 봐.",
+      "source": 0,
+      "tokens": [
+        "明天",
+        "见"
+      ]
+    },
+    {
+      "id": 39,
+      "chinese": "晚上见！",
+      "korean": "저녁에 보자.",
+      "source": 0,
+      "tokens": [
+        "晚上",
+        "见"
+      ]
+    },
+    {
+      "id": 40,
+      "chinese": "老师好！",
+      "korean": "선생님 안녕하세요.",
+      "source": 0,
+      "tokens": [
+        "老师",
+        "好"
+      ]
+    },
+    {
+      "id": 41,
+      "chinese": "同学们好！",
+      "korean": "얘들아/학생들 안녕.",
+      "source": 0,
+      "tokens": [
+        "同学",
+        "们",
+        "好"
+      ]
+    },
+    {
+      "id": 42,
+      "chinese": "谢谢你！",
+      "korean": "고마워요! (상대에게)",
+      "source": 0,
+      "tokens": [
+        "谢谢",
+        "你"
+      ]
+    },
+    {
+      "id": 43,
+      "chinese": "谢谢你！",
+      "korean": "고마워.",
+      "source": 0,
+      "tokens": [
+        "谢谢",
+        "你"
+      ]
+    },
+    {
+      "id": 44,
+      "chinese": "谢谢您！",
+      "korean": "감사합니다.",
+      "source": 0,
+      "tokens": [
+        "谢谢",
+        "您"
+      ]
+    },
+    {
+      "id": 45,
+      "chinese": "不客气！",
+      "korean": "천만에요. / 별말씀을요.",
+      "source": 0,
+      "tokens": [
+        "不",
+        "客气"
+      ]
+    },
+    {
+      "id": 46,
+      "chinese": "不谢！",
+      "korean": "별말씀을요.",
+      "source": 0,
+      "tokens": [
+        "不",
+        "谢"
+      ]
+    },
+    {
+      "id": 47,
+      "chinese": "老师，对不起！",
+      "korean": "선생님, 죄송합니다!",
+      "source": 0,
+      "tokens": [
+        "老师",
+        "对不起"
+      ]
+    },
+    {
+      "id": 48,
+      "chinese": "没关系！",
+      "korean": "괜찮아요.",
+      "source": 0,
+      "tokens": [
+        "没",
+        "关系"
+      ]
+    },
+    {
+      "id": 49,
+      "chinese": "没事儿！",
+      "korean": "괜찮아요. / 아무 일 아니에요.",
+      "source": 0,
+      "tokens": [
+        "没",
+        "事",
+        "儿"
+      ]
+    },
+    {
+      "id": 50,
+      "chinese": "真不好意思！",
+      "korean": "정말 미안해요! / 정말 실례합니다!",
+      "source": 0,
+      "tokens": [
+        "真",
+        "不好意思"
+      ]
+    },
+    {
+      "id": 51,
+      "chinese": "多谢！",
+      "korean": "감사합니다.",
+      "source": 1,
+      "tokens": [
+        "多",
+        "谢"
+      ]
+    },
+    {
+      "id": 52,
+      "chinese": "非常感谢！",
+      "korean": "정말 감사합니다.",
+      "source": 1,
+      "tokens": [
+        "非常",
+        "感谢"
+      ]
+    },
+    {
+      "id": 53,
+      "chinese": "十分感谢！",
+      "korean": "대단히 감사합니다.",
+      "source": 1,
+      "tokens": [
+        "十分",
+        "感谢"
+      ]
+    },
+    {
+      "id": 54,
+      "chinese": "不用谢！",
+      "korean": "감사할 것 없어요.",
+      "source": 1,
+      "tokens": [
+        "不用",
+        "谢"
+      ]
+    },
+    {
+      "id": 55,
+      "chinese": "谢什么！",
+      "korean": "뭘 감사해요.",
+      "source": 1,
+      "tokens": [
+        "谢",
+        "什么"
+      ]
+    },
+    {
+      "id": 56,
+      "chinese": "哪里哪里！",
+      "korean": "별말씀을요.",
+      "source": 1,
+      "tokens": [
+        "哪",
+        "里",
+        "哪",
+        "里"
+      ]
+    },
+    {
+      "id": 57,
+      "chinese": "很抱歉！",
+      "korean": "정말 죄송합니다.",
+      "source": 1,
+      "tokens": [
+        "很",
+        "抱歉"
+      ]
+    },
+    {
+      "id": 58,
+      "chinese": "很道歉！",
+      "korean": "정말 사과드립니다.",
+      "source": 1,
+      "tokens": [
+        "很",
+        "道歉"
+      ]
+    },
+    {
+      "id": 59,
+      "chinese": "老师，早！",
+      "korean": "선생님, 좋은 아침입니다!",
+      "source": 1,
+      "tokens": [
+        "老师",
+        "早"
+      ]
+    },
+    {
+      "id": 60,
+      "chinese": "你早！",
+      "korean": "좋은 아침!",
+      "source": 1,
+      "tokens": [
+        "你",
+        "早"
+      ]
+    },
+    {
+      "id": 61,
+      "chinese": "早上好！",
+      "korean": "좋은 아침입니다.",
+      "source": 1,
+      "tokens": [
+        "早上",
+        "好"
+      ]
+    },
+    {
+      "id": 62,
+      "chinese": "中午好！",
+      "korean": "좋은 점심입니다.",
+      "source": 1,
+      "tokens": [
+        "中",
+        "午",
+        "好"
+      ]
+    },
+    {
+      "id": 63,
+      "chinese": "上午好！",
+      "korean": "좋은 오전입니다.",
+      "source": 1,
+      "tokens": [
+        "上",
+        "午",
+        "好"
+      ]
+    },
+    {
+      "id": 64,
+      "chinese": "下午好！",
+      "korean": "좋은 오후입니다.",
+      "source": 1,
+      "tokens": [
+        "下",
+        "午",
+        "好"
+      ]
+    },
+    {
+      "id": 65,
+      "chinese": "晚上好！",
+      "korean": "좋은 저녁입니다.",
+      "source": 1,
+      "tokens": [
+        "晚上",
+        "好"
+      ]
+    },
+    {
+      "id": 66,
+      "chinese": "晚安！",
+      "korean": "잘 자요.",
+      "source": 1,
+      "tokens": [
+        "晚",
+        "安"
+      ]
+    },
+    {
+      "id": 67,
+      "chinese": "明天见，拜拜！",
+      "korean": "내일 봐, 바이바이!",
+      "source": 1,
+      "tokens": [
+        "明天",
+        "见",
+        "拜拜"
+      ]
+    },
+    {
+      "id": 68,
+      "chinese": "一会儿见！",
+      "korean": "잠시 후에 보자.",
+      "source": 1,
+      "tokens": [
+        "一会儿",
+        "见"
+      ]
+    },
+    {
+      "id": 69,
+      "chinese": "下次见！",
+      "korean": "다음에 봐.",
+      "source": 1,
+      "tokens": [
+        "下",
+        "次",
+        "见"
+      ]
+    },
+    {
+      "id": 70,
+      "chinese": "好久不见！",
+      "korean": "오랜만입니다.",
+      "source": 1,
+      "tokens": [
+        "好久",
+        "不见"
+      ]
+    },
+    {
+      "id": 71,
+      "chinese": "欢迎光临！",
+      "korean": "어서 오세요.",
+      "source": 1,
+      "tokens": [
+        "欢迎",
+        "光临"
+      ]
+    },
+    {
+      "id": 72,
+      "chinese": "慢走！",
+      "korean": "살펴 가세요.",
+      "source": 1,
+      "tokens": [
+        "慢",
+        "走"
+      ]
+    },
+    {
+      "id": 73,
+      "chinese": "恭喜恭喜！",
+      "korean": "축하합니다.",
+      "source": 1,
+      "tokens": [
+        "恭喜",
+        "恭喜"
+      ]
+    },
+    {
+      "id": 74,
+      "chinese": "你叫什么名字？",
+      "korean": "너는 이름이 뭐니?",
+      "source": 0,
+      "tokens": [
+        "你",
+        "叫",
+        "什么",
+        "名字"
+      ]
+    },
+    {
+      "id": 75,
+      "chinese": "我叫晶晶，你呢？",
+      "korean": "나는 징징이라고 해. 너는?",
+      "source": 0,
+      "tokens": [
+        "我",
+        "叫",
+        "晶",
+        "晶",
+        "你",
+        "呢"
+      ]
+    },
+    {
+      "id": 76,
+      "chinese": "我叫金大韩。",
+      "korean": "나는 김대한이라고 해.",
+      "source": 0,
+      "tokens": [
+        "我",
+        "叫",
+        "金",
+        "大",
+        "韩"
+      ]
+    },
+    {
+      "id": 77,
+      "chinese": "认识你很高兴。",
+      "korean": "너를 알게 되어 기뻐.",
+      "source": 0,
+      "tokens": [
+        "认识",
+        "你",
+        "很",
+        "高兴"
+      ]
+    },
+    {
+      "id": 78,
+      "chinese": "他叫什么名字？",
+      "korean": "그는 이름이 뭐니?",
+      "source": 0,
+      "tokens": [
+        "他",
+        "叫",
+        "什么",
+        "名字"
+      ]
+    },
+    {
+      "id": 79,
+      "chinese": "他叫王东。",
+      "korean": "그는 왕둥이라고 해.",
+      "source": 0,
+      "tokens": [
+        "他",
+        "叫",
+        "王",
+        "东"
+      ]
+    },
+    {
+      "id": 80,
+      "chinese": "我去，你呢？",
+      "korean": "나는 가. 너는?",
+      "source": 0,
+      "tokens": [
+        "我",
+        "去",
+        "你",
+        "呢"
+      ]
+    },
+    {
+      "id": 81,
+      "chinese": "我不去。",
+      "korean": "나는 가지 않아.",
+      "source": 0,
+      "tokens": [
+        "我",
+        "不",
+        "去"
+      ]
+    },
+    {
+      "id": 82,
+      "chinese": "我很忙。",
+      "korean": "나는 바빠.",
+      "source": 0,
+      "tokens": [
+        "我",
+        "很",
+        "忙"
+      ]
+    },
+    {
+      "id": 83,
+      "chinese": "她很漂亮。",
+      "korean": "그녀는 예뻐.",
+      "source": 0,
+      "tokens": [
+        "她",
+        "很",
+        "漂亮"
+      ]
+    },
+    {
+      "id": 84,
+      "chinese": "你是哪国人？",
+      "korean": "너는 어느 나라 사람이니?",
+      "source": 0,
+      "tokens": [
+        "你",
+        "是",
+        "哪",
+        "国",
+        "人"
+      ]
+    },
+    {
+      "id": 85,
+      "chinese": "我是中国人。",
+      "korean": "나는 중국인이야.",
+      "source": 0,
+      "tokens": [
+        "我",
+        "是",
+        "中国",
+        "人"
+      ]
+    },
+    {
+      "id": 86,
+      "chinese": "他也是中国人吗？",
+      "korean": "그도 중국인이니?",
+      "source": 0,
+      "tokens": [
+        "他",
+        "也",
+        "是",
+        "中国",
+        "人",
+        "吗"
+      ]
+    },
+    {
+      "id": 87,
+      "chinese": "不是，他是韩国人。",
+      "korean": "아니, 그는 한국인이야.",
+      "source": 0,
+      "tokens": [
+        "不",
+        "是",
+        "他",
+        "是",
+        "韩国",
+        "人"
+      ]
+    },
+    {
+      "id": 88,
+      "chinese": "我是美国人。",
+      "korean": "나는 미국인이야.",
+      "source": 0,
+      "tokens": [
+        "我",
+        "是",
+        "美国",
+        "人"
+      ]
+    },
+    {
+      "id": 89,
+      "chinese": "他不是日本人。",
+      "korean": "그는 일본인이 아니야.",
+      "source": 0,
+      "tokens": [
+        "他",
+        "不",
+        "是",
+        "日本",
+        "人"
+      ]
+    },
+    {
+      "id": 90,
+      "chinese": "他是哪国人？",
+      "korean": "그는 어느 나라 사람이니?",
+      "source": 0,
+      "tokens": [
+        "他",
+        "是",
+        "哪",
+        "国",
+        "人"
+      ]
+    },
+    {
+      "id": 91,
+      "chinese": "他是西班牙人。",
+      "korean": "그는 스페인 사람이야.",
+      "source": 0,
+      "tokens": [
+        "他",
+        "是",
+        "西班牙",
+        "人"
+      ]
+    },
+    {
+      "id": 92,
+      "chinese": "你是学生吗？",
+      "korean": "너는 학생이니?",
+      "source": 0,
+      "tokens": [
+        "你",
+        "是",
+        "学生",
+        "吗"
+      ]
+    },
+    {
+      "id": 93,
+      "chinese": "不是。",
+      "korean": "아니야.",
+      "source": 0,
+      "tokens": [
+        "不",
+        "是"
+      ]
+    },
+    {
+      "id": 94,
+      "chinese": "您贵姓？",
+      "korean": "성함이 어떻게 되시나요?",
+      "source": 1,
+      "tokens": [
+        "您",
+        "贵",
+        "姓"
+      ]
+    },
+    {
+      "id": 95,
+      "chinese": "我姓金，叫金大韩。",
+      "korean": "나는 김씨고, 김대한이라고 해.",
+      "source": 1,
+      "tokens": [
+        "我",
+        "姓",
+        "金",
+        "叫",
+        "金",
+        "大",
+        "韩"
+      ]
+    },
+    {
+      "id": 96,
+      "chinese": "初次见面！",
+      "korean": "처음 뵙겠습니다.",
+      "source": 1,
+      "tokens": [
+        "初次",
+        "见面"
+      ]
+    },
+    {
+      "id": 97,
+      "chinese": "祝你生日快乐！",
+      "korean": "생일 축하합니다!",
+      "source": 1,
+      "tokens": [
+        "祝",
+        "你",
+        "生日",
+        "快乐"
+      ]
+    },
+    {
+      "id": 98,
+      "chinese": "祝你周末愉快！",
+      "korean": "주말 잘 보내세요.",
+      "source": 1,
+      "tokens": [
+        "祝",
+        "你",
+        "周末",
+        "愉快"
+      ]
+    },
+    {
+      "id": 99,
+      "chinese": "真帅！",
+      "korean": "정말 잘생겼다!",
+      "source": 0,
+      "tokens": [
+        "真",
+        "帅"
+      ]
+    },
+    {
+      "id": 100,
+      "chinese": "这是谁？",
+      "korean": "이 사람은 누구야?",
+      "source": 0,
+      "tokens": [
+        "这",
+        "是",
+        "谁"
+      ]
+    },
+    {
+      "id": 101,
+      "chinese": "这是我的中国朋友。",
+      "korean": "이 사람은 내 중국 친구야.",
+      "source": 0,
+      "tokens": [
+        "这",
+        "是",
+        "我",
+        "的",
+        "中国",
+        "朋友"
+      ]
+    },
+    {
+      "id": 102,
+      "chinese": "这是书。",
+      "korean": "이것은 책이야.",
+      "source": 0,
+      "tokens": [
+        "这",
+        "是",
+        "书"
+      ]
+    },
+    {
+      "id": 103,
+      "chinese": "那是椅子。",
+      "korean": "저것은 의자야.",
+      "source": 0,
+      "tokens": [
+        "那",
+        "是",
+        "椅子"
+      ]
+    },
+    {
+      "id": 104,
+      "chinese": "那是她的书包。",
+      "korean": "저것은 그녀의 책가방이야.",
+      "source": 0,
+      "tokens": [
+        "那",
+        "是",
+        "她",
+        "的",
+        "书包"
+      ]
+    },
+    {
+      "id": 105,
+      "chinese": "他多大？",
+      "korean": "그는 몇 살이야?",
+      "source": 0,
+      "tokens": [
+        "他",
+        "多",
+        "大"
+      ]
+    },
+    {
+      "id": 106,
+      "chinese": "他十八岁了。",
+      "korean": "그는 열여덟 살이야.",
+      "source": 0,
+      "tokens": [
+        "他",
+        "十",
+        "八",
+        "岁",
+        "了"
+      ]
+    },
+    {
+      "id": 107,
+      "chinese": "他多高？",
+      "korean": "그는 키가 얼마나 커?",
+      "source": 0,
+      "tokens": [
+        "他",
+        "多",
+        "高"
+      ]
+    },
+    {
+      "id": 108,
+      "chinese": "长城多长？",
+      "korean": "만리장성은 얼마나 길어?",
+      "source": 0,
+      "tokens": [
+        "长城",
+        "多",
+        "长"
+      ]
+    },
+    {
+      "id": 109,
+      "chinese": "你有弟弟吗？",
+      "korean": "너는 남동생이 있니?",
+      "source": 0,
+      "tokens": [
+        "你",
+        "有",
+        "弟弟",
+        "吗"
+      ]
+    },
+    {
+      "id": 110,
+      "chinese": "没有，我有一个哥哥。",
+      "korean": "없어, 나는 오빠/형이 한 명 있어.",
+      "source": 0,
+      "tokens": [
+        "没有",
+        "我",
+        "有",
+        "一",
+        "个",
+        "哥哥"
+      ]
+    },
+    {
+      "id": 111,
+      "chinese": "他上几年级？",
+      "korean": "그는 몇 학년이야?",
+      "source": 0,
+      "tokens": [
+        "他",
+        "上",
+        "几",
+        "年级"
+      ]
+    },
+    {
+      "id": 112,
+      "chinese": "他上高中三年级。",
+      "korean": "그는 고등학교 3학년이야.",
+      "source": 0,
+      "tokens": [
+        "他",
+        "上",
+        "高中",
+        "三",
+        "年级"
+      ]
+    },
+    {
+      "id": 113,
+      "chinese": "我有小狗。",
+      "korean": "나는 강아지가 있어.",
+      "source": 0,
+      "tokens": [
+        "我",
+        "有",
+        "小狗"
+      ]
+    },
+    {
+      "id": 114,
+      "chinese": "她没有手机。",
+      "korean": "그녀는 휴대전화가 없어.",
+      "source": 0,
+      "tokens": [
+        "她",
+        "没有",
+        "手机"
+      ]
+    },
+    {
+      "id": 115,
+      "chinese": "你有几个弟弟？",
+      "korean": "너는 남동생이 몇 명 있니?",
+      "source": 0,
+      "tokens": [
+        "你",
+        "有",
+        "几",
+        "个",
+        "弟弟"
+      ]
+    },
+    {
+      "id": 116,
+      "chinese": "两个弟弟。",
+      "korean": "남동생이 두 명이야.",
+      "source": 0,
+      "tokens": [
+        "两",
+        "个",
+        "弟弟"
+      ]
+    },
+    {
+      "id": 117,
+      "chinese": "你多高？",
+      "korean": "키가 얼마나 커?",
+      "source": 1,
+      "tokens": [
+        "你",
+        "多",
+        "高"
+      ]
+    },
+    {
+      "id": 118,
+      "chinese": "1米75。",
+      "korean": "1미터 75야.",
+      "source": 1,
+      "tokens": [
+        "1",
+        "米",
+        "75"
+      ]
+    },
+    {
+      "id": 119,
+      "chinese": "你多重？",
+      "korean": "몸무게가 얼마나 나가?",
+      "source": 1,
+      "tokens": [
+        "你",
+        "多",
+        "重"
+      ]
+    },
+    {
+      "id": 120,
+      "chinese": "60公斤。",
+      "korean": "60킬로그램이야.",
+      "source": 1,
+      "tokens": [
+        "60",
+        "公斤"
+      ]
+    },
+    {
+      "id": 121,
+      "chinese": "你几岁了？",
+      "korean": "몇 살이니?",
+      "source": 1,
+      "tokens": [
+        "你",
+        "几",
+        "岁",
+        "了"
+      ]
+    },
+    {
+      "id": 122,
+      "chinese": "你多大了？",
+      "korean": "몇 살이니?",
+      "source": 1,
+      "tokens": [
+        "你",
+        "多",
+        "大",
+        "了"
+      ]
+    },
+    {
+      "id": 123,
+      "chinese": "今天是几月几号？",
+      "korean": "오늘은 몇 월 며칠이니?",
+      "source": 0,
+      "tokens": [
+        "今天",
+        "是",
+        "几",
+        "月",
+        "几",
+        "号"
+      ]
+    },
+    {
+      "id": 124,
+      "chinese": "五月七号。",
+      "korean": "5월 7일이야.",
+      "source": 0,
+      "tokens": [
+        "五",
+        "月",
+        "七",
+        "号"
+      ]
+    },
+    {
+      "id": 125,
+      "chinese": "明天是几月几号？",
+      "korean": "내일은 몇 월 며칠이니?",
+      "source": 0,
+      "tokens": [
+        "明天",
+        "是",
+        "几",
+        "月",
+        "几",
+        "号"
+      ]
+    },
+    {
+      "id": 126,
+      "chinese": "六月八号。",
+      "korean": "6월 8일이야.",
+      "source": 0,
+      "tokens": [
+        "六",
+        "月",
+        "八",
+        "号"
+      ]
+    },
+    {
+      "id": 127,
+      "chinese": "明天星期几？",
+      "korean": "내일은 무슨 요일이니?",
+      "source": 0,
+      "tokens": [
+        "明天",
+        "星期",
+        "几"
+      ]
+    },
+    {
+      "id": 128,
+      "chinese": "星期三。",
+      "korean": "수요일이야.",
+      "source": 0,
+      "tokens": [
+        "星期",
+        "三"
+      ]
+    },
+    {
+      "id": 129,
+      "chinese": "今天不是星期三。",
+      "korean": "오늘은 수요일이 아니야.",
+      "source": 0,
+      "tokens": [
+        "今天",
+        "不",
+        "是",
+        "星期",
+        "三"
+      ]
+    },
+    {
+      "id": 130,
+      "chinese": "现在几点？",
+      "korean": "지금 몇 시야?",
+      "source": 0,
+      "tokens": [
+        "现在",
+        "几",
+        "点"
+      ]
+    },
+    {
+      "id": 131,
+      "chinese": "四点二十分。",
+      "korean": "4시 20분이야.",
+      "source": 0,
+      "tokens": [
+        "四",
+        "点",
+        "二",
+        "十分"
+      ]
+    },
+    {
+      "id": 132,
+      "chinese": "我们几点吃饭？",
+      "korean": "우리 몇 시에 밥 먹어?",
+      "source": 0,
+      "tokens": [
+        "我们",
+        "几",
+        "点",
+        "吃饭"
+      ]
+    },
+    {
+      "id": 133,
+      "chinese": "六点半吃饭吧。",
+      "korean": "6시 반에 밥 먹자.",
+      "source": 0,
+      "tokens": [
+        "六",
+        "点",
+        "半",
+        "吃饭",
+        "吧"
+      ]
+    },
+    {
+      "id": 134,
+      "chinese": "我五点回家。",
+      "korean": "나는 5시에 집에 가.",
+      "source": 0,
+      "tokens": [
+        "我",
+        "五",
+        "点",
+        "回家"
+      ]
+    },
+    {
+      "id": 135,
+      "chinese": "你几点吃饭？",
+      "korean": "너는 몇 시에 밥 먹어?",
+      "source": 0,
+      "tokens": [
+        "你",
+        "几",
+        "点",
+        "吃饭"
+      ]
+    },
+    {
+      "id": 136,
+      "chinese": "我六点半吃饭。",
+      "korean": "나는 6시 반에 밥을 먹어.",
+      "source": 0,
+      "tokens": [
+        "我",
+        "六",
+        "点",
+        "半",
+        "吃饭"
+      ]
+    },
+    {
+      "id": 137,
+      "chinese": "你的生日是几月几号？",
+      "korean": "네 생일은 몇 월 며칠이야?",
+      "source": 0,
+      "tokens": [
+        "你",
+        "的",
+        "生日",
+        "是",
+        "几",
+        "月",
+        "几",
+        "号"
+      ]
+    },
+    {
+      "id": 138,
+      "chinese": "我的生日是二月十号。",
+      "korean": "내 생일은 2월 10일이야.",
+      "source": 0,
+      "tokens": [
+        "我",
+        "的",
+        "生日",
+        "是",
+        "二",
+        "月",
+        "十",
+        "号"
+      ]
+    }
+  ],
+  "grammar": [
+    {
+      "id": 1,
+      "title": "不에 대하여",
+      "explanation": "구조: 주어 + 不 + 동사/형용사\n不는 동사·형용사 앞에 놓여 부정을 나타냅니다. 교재 예시는 不多, 不看이며, 뒤에 제4성이 오면 보통 bú로 읽습니다.",
+      "correct_examples": [
+        "不多。",
+        "不看。",
+        "我不去。",
+        "他不是日本人。"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "예/아니오 의문문",
+      "explanation": "구조: 평서문 + 吗？\n평서문 끝에 吗를 붙이면 예/아니오로 답하는 의문문을 만들 수 있습니다.",
+      "correct_examples": [
+        "你是学生吗？",
+        "他也是中国人吗？",
+        "你有弟弟吗？"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "의문문",
+      "explanation": "구조: 의문사를 포함한 의문문 (단순 의문문에서는 吗를 덧붙이지 않음)\n什么, 哪, 谁, 几 같은 의문사가 들어간 단순 의문문에는 보통 吗를 함께 쓰지 않습니다.",
+      "correct_examples": [
+        "你叫什么名字？",
+        "你是哪国人？",
+        "这是谁？",
+        "他上几年级？"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "되묻기",
+      "explanation": "구조: 명사/대명사 + 呢？\n앞에서 나온 질문이나 화제를 상대에게 되물을 때 명사·대명사 뒤에 呢를 붙일 수 있습니다.",
+      "correct_examples": [
+        "我叫晶晶，你呢？",
+        "我去，你呢？"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "형용사",
+      "explanation": "구조: 주어 + 很 + 형용사\n교재에서는 형용사 술어 앞에 很을 두는 형태를 제시합니다: 我很忙, 她很漂亮.",
+      "correct_examples": [
+        "我很忙。",
+        "她很漂亮。"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "판단과 부정판단",
+      "explanation": "구조: 주어 + 是/不是 + 명사\n是는 사람의 신분·국적 등을 연결하는 판단동사이며, 부정은 是 앞에 不를 둔 不是입니다.",
+      "correct_examples": [
+        "我是中国人。",
+        "他不是日本人。"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "也의 위치",
+      "explanation": "구조: 주어 + 也 + 술어\n也는 ‘~도’라는 뜻으로 보통 주어 뒤, 술어 앞에 놓입니다.",
+      "correct_examples": [
+        "他也是中国人吗？"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "여기와 저기",
+      "explanation": "구조: 这/那 + 是 + 명사\n这는 가까운 사람·사물을, 那는 먼 사람·사물을 가리킬 때 사용합니다.",
+      "correct_examples": [
+        "这是书。",
+        "那是椅子。",
+        "那是她的书包。"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "소유·수식",
+      "explanation": "구조: 소유자/수식어 + 的 + 명사\n명사나 대명사 뒤의 的는 뒤에 오는 명사를 꾸미거나 소유 관계를 나타냅니다.",
+      "correct_examples": [
+        "这是我的中国朋友。",
+        "那是她的书包。"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "얼마나",
+      "explanation": "구조: 주어 + 多 + 형용사？\n多는 ‘많다’ 외에 ‘얼마나’의 뜻으로 단음절 형용사와 결합해 나이·높이·무게·거리·길이 등의 정도를 묻습니다.",
+      "correct_examples": [
+        "他多大？",
+        "你多高？",
+        "你多重？",
+        "长城多长？"
+      ]
+    },
+    {
+      "id": 11,
+      "title": "가지고 있거나 가지고 있지 않은 것",
+      "explanation": "구조: 주어 + 有/没有 + 명사\n有는 ‘있다, 가지고 있다’이고, 부정형은 不有가 아니라 没有입니다.",
+      "correct_examples": [
+        "我有小狗。",
+        "她没有手机。",
+        "没有，我有一个哥哥。"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "몇",
+      "explanation": "구조: 几 + 양사 + 명사\n几는 ‘몇’이라는 뜻의 의문사로, 교재에서는 일반적으로 10 이하의 수량을 물을 때 사용한다고 설명합니다. 명사를 셀 때 양사를 함께 씁니다.",
+      "correct_examples": [
+        "你有几个弟弟？",
+        "你家有几口人？"
+      ]
+    },
+    {
+      "id": 13,
+      "title": "둘과 이",
+      "explanation": "구조: 两 + 양사 + 명사\n‘두 개/두 명’처럼 양사 앞에서 2를 말할 때 교재 예시는 两个弟弟를 사용합니다.",
+      "correct_examples": [
+        "两个弟弟。"
+      ]
+    },
+    {
+      "id": 14,
+      "title": "한 일",
+      "explanation": "구조: 一 + 뒤 음절의 성조 → 一의 읽기 변화\n보충자료 기준: 一가 단독으로 읽거나 끝에 오면 yī, 뒤에 제1·2·3성이 오면 yì, 뒤에 제4성이 오면 yí로 읽습니다.",
+      "correct_examples": [
+        "一起 yìqǐ",
+        "一定 yídìng",
+        "一年 yìnián",
+        "第一 dìyī"
+      ]
+    },
+    {
+      "id": 15,
+      "title": "날짜 표현",
+      "explanation": "구조: 월수 + 月 + 일수 + 号\n날짜는 ‘월 + 月 + 일 + 号’로 나타내며, 几月几号로 날짜를 묻습니다. 교재는 일반적인 날짜·요일 문장에서 是를 생략할 수 있다고 설명합니다.",
+      "correct_examples": [
+        "今天是几月几号？",
+        "五月七号。",
+        "明天是几月几号？",
+        "六月八号。"
+      ]
+    },
+    {
+      "id": 16,
+      "title": "요일 표현",
+      "explanation": "구조: 星期 + 一~六 / 天 / 日\n요일은 星期 뒤에 숫자를 붙여 나타냅니다. 일요일은 星期天 또는 星期日로도 표현합니다.",
+      "correct_examples": [
+        "星期一",
+        "星期三",
+        "星期六",
+        "星期天",
+        "星期日"
+      ]
+    },
+    {
+      "id": 17,
+      "title": "특별한 날짜",
+      "explanation": "구조: 생일의 주인 + 的生日 + 是 + 날짜 (교재 기준)\n교재 팁에서는 생일이나 기념일처럼 특별한 날의 날짜를 말할 때 是를 생략하지 않는다고 설명합니다.",
+      "correct_examples": [
+        "你的生日是几月几号？",
+        "我的生日是二月十号。"
+      ]
+    },
+    {
+      "id": 18,
+      "title": "시각 표현",
+      "explanation": "구조: 시수 + 点 + 분수 + 分 / 시수 + 点 + 半\n点은 ‘시’, 分은 ‘분’을 나타냅니다. 一刻는 15분, 半은 30분, 三刻는 45분을 나타냅니다.",
+      "correct_examples": [
+        "四点二十分。",
+        "两点一刻。",
+        "五点半。",
+        "十二点三刻。"
+      ]
+    },
+    {
+      "id": 19,
+      "title": "2시",
+      "explanation": "구조: 两 + 点\n교재는 시각에서 ‘2시’를 二点이 아니라 两点으로 표현한다고 설명합니다.",
+      "correct_examples": [
+        "两点。"
+      ]
+    },
+    {
+      "id": 20,
+      "title": "0시 0분 전",
+      "explanation": "구조: 差 + 남은 분수 + 分 + 다음 시각 + 点\n예: 差十分三点 = 3시 10분 전, 즉 2시 50분. 差五分八点 = 8시 5분 전, 즉 7시 55분. 원본의 구조 표기를 실제 연습 예문으로 보완했습니다.",
+      "correct_examples": [
+        "差十分三点。",
+        "差五分八点。"
+      ]
+    },
+    {
+      "id": 21,
+      "title": "일과 문장의 어순",
+      "explanation": "구조: 주어 + 시간 + 동작\n교재는 일과 표현에서 ‘주어 + 시간 + 일과 표현’ 어순을 제시합니다.",
+      "correct_examples": [
+        "我五点回家。",
+        "我六点半吃饭。"
+      ]
+    },
+    {
+      "id": 22,
+      "title": "제안",
+      "explanation": "구조: 제안하는 내용 + 吧\n교재에서는 吧를 제안 등의 어감을 나타내는 어기조사로 제시하며, 六点半吃饭吧와 같이 씁니다.",
+      "correct_examples": [
+        "六点半吃饭吧。"
+      ]
+    },
+    {
+      "id": 23,
+      "title": "성 묻고 답하기",
+      "explanation": "구조: 주어 + 姓 + 성 / 你姓什么？\n상대의 성을 묻을 때 你姓什么？ 또는 정중하게 您贵姓？을 쓰고, 我姓 + 성으로 답할 수 있습니다.",
+      "correct_examples": [
+        "您贵姓？",
+        "你姓什么？",
+        "我姓金。"
+      ]
+    },
+    {
+      "id": 24,
+      "title": "축하축하",
+      "explanation": "구조: 祝 + 사람 + 축원 내용\n보충자료의 축하 표현은 祝 뒤에 상대와 바라는 내용을 이어 말하는 형태를 반복해서 제시합니다.",
+      "correct_examples": [
+        "祝你生日快乐！",
+        "祝你好运！",
+        "祝你身体健康！",
+        "祝你周末愉快！"
+      ]
+    }
+  ],
+  "culture": [
+    {
+      "id": 1,
+      "category": "인사 문화",
+      "question": "중국에서 일반적인 인사를 할 때 가장 가까운 방식은?",
+      "answer": "가볍게 고개를 숙이거나 손을 흔든다.",
+      "explanation": "교과서는 중국에서는 일반적으로 허리를 굽히지 않고 가볍게 고개를 숙이거나 손을 흔든다고 설명합니다."
+    },
+    {
+      "id": 2,
+      "category": "인사 문화",
+      "question": "상대가 차나 술을 따라 줄 때 손가락으로 탁자를 가볍게 치며 감사를 나타내는 예법은?",
+      "answer": "叩指礼(kòuzhǐlǐ)",
+      "explanation": "보충자료는 叩指礼를 차나 술을 따라 줄 때 손가락을 구부려 탁자를 가볍게 치는 감사 예법으로 설명합니다."
+    },
+    {
+      "id": 3,
+      "category": "전통 인사",
+      "question": "공수(拱手)에서 교과서가 제시한 남성의 손 위치는?",
+      "answer": "왼손을 오른손 위에 놓는다.",
+      "explanation": "교과서의 전통 인사 설명에서는 남자는 왼손을 오른손 위에, 여자는 오른손을 왼손 위에 놓는다고 제시합니다."
+    },
+    {
+      "id": 4,
+      "category": "성씨 문화",
+      "question": "교과서가 제시한 중국의 5대 성씨에 포함되는 것은?",
+      "answer": "王·李·张·刘·陈",
+      "explanation": "교과서는 王, 李, 张, 刘, 陈을 중국의 5대 성씨로 제시하고 이들이 전체 성씨의 약 30.8%를 차지한다고 설명합니다."
+    },
+    {
+      "id": 5,
+      "category": "이름 문화",
+      "question": "중국어 이름의 글자를 木子李, 弓长张처럼 쪼개어 말하는 이유는?",
+      "answer": "이름을 정확히 전달하기 위해서",
+      "explanation": "교과서는 중국어에 동음이의어가 많아 이름을 정확히 전달하려고 글자를 구성 요소로 나누어 말하기도 한다고 설명합니다."
+    },
+    {
+      "id": 6,
+      "category": "호칭 문화",
+      "question": "성(姓) 앞에 老를 붙이는 경우로 교과서가 설명한 것은?",
+      "answer": "나이가 많거나 존경하는 사람·동료를 부를 때",
+      "explanation": "교과서는 존경을 담아 성 앞에 老를 붙이는 호칭을 소개합니다."
+    },
+    {
+      "id": 7,
+      "category": "호칭 문화",
+      "question": "나이가 많은 사람이 젊은 사람을 친근하게 부를 때 성 앞에 붙일 수 있는 말은?",
+      "answer": "小",
+      "explanation": "교과서는 나이가 더 많은 사람이 젊은 사람을 부를 때 성 앞에 小를 붙이기도 한다고 설명합니다."
+    },
+    {
+      "id": 8,
+      "category": "호칭 문화",
+      "question": "보충자료에서 음식점 직원을 부를 때 쓰는 호칭은?",
+      "answer": "服务员(fúwùyuán)",
+      "explanation": "보충자료는 음식점 직원을 부를 때 服务员을 사용한다고 설명합니다."
+    },
+    {
+      "id": 9,
+      "category": "학교생활",
+      "question": "중국의 새 학년이 시작하는 달로 교과서가 제시한 것은?",
+      "answer": "9월",
+      "explanation": "교과서는 중국은 9월에 새 학년이 시작된다고 설명합니다."
+    },
+    {
+      "id": 10,
+      "category": "학교생활",
+      "question": "교과서가 소개한 중국 학교의 쉬는 시간 활동은?",
+      "answer": "눈 체조와 체조",
+      "explanation": "교과서는 건강한 눈을 위한 눈 체조와 전교생이 함께하는 체조 시간을 소개합니다."
+    },
+    {
+      "id": 11,
+      "category": "학교생활",
+      "question": "교과서가 소개한 중국 학교 점심시간의 특징은?",
+      "answer": "약 2시간이며 낮잠 시간이 있다.",
+      "explanation": "교과서는 점심시간이 약 2시간이고 체력을 보충할 수 있는 낮잠 시간이 있다고 설명합니다."
+    },
+    {
+      "id": 12,
+      "category": "교육",
+      "question": "중국의 대학 입학시험 이름은?",
+      "answer": "高考(gāokǎo)",
+      "explanation": "교과서는 중국의 대학 입학시험을 高考라고 소개합니다."
+    },
+    {
+      "id": 13,
+      "category": "교육",
+      "question": "교과서가 제시한 가오카오 실시 시기는?",
+      "answer": "매년 6월 7일~10일",
+      "explanation": "교과서는 가오카오를 매년 6월 7일~10일, 이틀에서 나흘에 걸쳐 실시한다고 설명합니다."
+    },
+    {
+      "id": 14,
+      "category": "시간 문화",
+      "question": "중국 전역에서 공식적으로 사용하는 표준시는?",
+      "answer": "베이징 표준시",
+      "explanation": "교과서는 동서로 실제 태양시 차이가 크지만 전국이 베이징 표준시를 사용해 공식 시간이 같다고 설명합니다."
+    },
+    {
+      "id": 15,
+      "category": "기념일",
+      "question": "중국에서 5월 20일이 고백과 연결되는 이유로 교과서가 설명한 것은?",
+      "answer": "520의 발음이 비슷해서",
+      "explanation": "교과서는 5월 20일의 520 발음이 我爱你와 비슷해 좋아하는 사람에게 마음을 고백하는 날로 소개합니다."
+    },
+    {
+      "id": 16,
+      "category": "기념일",
+      "question": "11월 11일과 관련해 교과서가 소개한 것은?",
+      "answer": "솔로 데이",
+      "explanation": "교과서는 11월 11일을 솔로 데이이자 중국의 최대 쇼핑데이로 소개합니다."
+    },
+    {
+      "id": 17,
+      "category": "전통 명절",
+      "question": "춘절(春节)의 날짜는?",
+      "answer": "음력 1월 1일",
+      "explanation": "교과서는 춘절을 중국의 최대 명절이자 한국의 설에 해당하는 명절로 소개합니다."
+    },
+    {
+      "id": 18,
+      "category": "전통 명절",
+      "question": "춘절에 악귀를 쫓고 평안을 기원하는 풍습으로 교과서가 소개한 것은?",
+      "answer": "폭죽을 터뜨리고 춘롄을 대문에 붙인다.",
+      "explanation": "교과서는 춘절에 폭죽을 터뜨리고 춘롄을 붙이는 풍습을 설명합니다."
+    },
+    {
+      "id": 19,
+      "category": "전통 명절",
+      "question": "교과서가 소개한 춘절 음식의 지역 차이는?",
+      "answer": "북방은 饺子, 남방은 年糕",
+      "explanation": "교과서는 춘절에 북방에서는 饺子, 남방에서는 年糕를 먹는다고 설명합니다."
+    },
+    {
+      "id": 20,
+      "category": "전통 명절",
+      "question": "중추절(中秋节)의 날짜는?",
+      "answer": "음력 8월 15일",
+      "explanation": "교과서는 중추절을 한국의 추석에 해당하는 명절로 소개합니다."
+    },
+    {
+      "id": 21,
+      "category": "전통 명절",
+      "question": "중추절의 대표 음식으로 교과서가 소개한 것은?",
+      "answer": "月饼(yuèbǐng)",
+      "explanation": "교과서는 중추절에 보름달을 감상하고 월병을 먹는다고 설명합니다."
+    },
+    {
+      "id": 22,
+      "category": "전통 명절",
+      "question": "단오절(端午节)이 기리는 인물은?",
+      "answer": "굴원",
+      "explanation": "교과서는 단오절을 초나라 시인 굴원을 기리기 위한 날로 설명합니다."
+    },
+    {
+      "id": 23,
+      "category": "전통 명절",
+      "question": "단오절의 풍습으로 교과서가 소개한 것은?",
+      "answer": "粽子를 먹고 용선 경기를 한다.",
+      "explanation": "교과서는 단오절에 찹쌀밥을 대나무 잎에 싸서 찐 粽子를 먹고 용선 경기를 한다고 설명합니다."
+    },
+    {
+      "id": 24,
+      "category": "국기",
+      "question": "보충자료에서 중국 국기의 이름으로 제시한 것은?",
+      "answer": "五星红旗(Wǔxīng-Hóngqí)",
+      "explanation": "보충자료는 중국 국기를 五星红旗라고 소개하며 가로세로 비율을 3:2로 제시합니다."
+    },
+    {
+      "id": 25,
+      "category": "행정구역",
+      "question": "보충자료가 제시한 중국의 직할시 수는?",
+      "answer": "4개",
+      "explanation": "보충자료는 베이징·톈진·상하이·충칭을 4개 직할시로 제시합니다."
+    },
+    {
+      "id": 26,
+      "category": "행정구역",
+      "question": "보충자료가 제시한 특별행정구는?",
+      "answer": "홍콩과 마카오",
+      "explanation": "보충자료는 홍콩(香港)과 마카오(澳门)를 2개 특별행정구로 제시합니다."
+    },
+    {
+      "id": 27,
+      "category": "지역 문화",
+      "question": "하얼빈의 冰灯节은 무엇을 이용한 축제인가?",
+      "answer": "얼음 조각 축제",
+      "explanation": "보충자료는 헤이룽장성 하얼빈의 冰灯节에서 쑹화강의 얼음으로 만든 조각품을 전시한다고 설명합니다."
+    },
+    {
+      "id": 28,
+      "category": "문화유산",
+      "question": "보충자료의 布达拉宫 설명에서 위치로 제시된 곳은?",
+      "answer": "라싸",
+      "explanation": "보충자료는 포탈라궁을 시짱 자치구 라싸에 있는 궁전으로 소개하며 1994년 세계문화유산 지정 사실을 적고 있습니다."
+    },
+    {
+      "id": 29,
+      "category": "도시 상징",
+      "question": "东方明珠는 어느 도시의 대표적 상징물로 소개되는가?",
+      "answer": "상하이",
+      "explanation": "보충자료는 푸둥 지역의 468m 방송 송수신 탑 东方明珠를 상하이의 대표적 상징물로 소개합니다."
+    },
+    {
+      "id": 30,
+      "category": "지리",
+      "question": "보충자료에서 ‘동양의 하와이’로 소개한 지역은?",
+      "answer": "海南(하이난)",
+      "explanation": "보충자료는 하이난을 중국 최남단 섬으로 소개하며 연중 따뜻해 ‘동양의 하와이’라 불린다고 설명합니다."
+    },
+    {
+      "id": 31,
+      "category": "언어 문화",
+      "question": "보충자료가 외래어를 받아들이는 방식으로 구분한 세 범주는?",
+      "answer": "음역·의역·음의역",
+      "explanation": "보충자료는 중국어 외래어를 음역, 의역, 음의역의 세 유형으로 나누어 예를 제시합니다."
+    },
+    {
+      "id": 32,
+      "category": "인구정책",
+      "question": "보충자료 기준 한 가정 한 자녀 정책 시행 연도는?",
+      "answer": "1979년",
+      "explanation": "보충자료는 1979년 계획생육(计划生育) 정책을 실시했다고 정리합니다."
+    },
+    {
+      "id": 33,
+      "category": "인구정책",
+      "question": "보충자료 기준 한 가정 두 자녀 허용 시기는?",
+      "answer": "2016년",
+      "explanation": "보충자료는 2016년 全面两孩 정책을 실시했다고 정리합니다."
+    },
+    {
+      "id": 34,
+      "category": "인구정책",
+      "question": "보충자료 기준 한 가정 세 자녀 허용 시기는?",
+      "answer": "2021년",
+      "explanation": "보충자료는 2021년 全面三孩 정책을 실시했다고 정리합니다."
+    },
+    {
+      "id": 35,
+      "category": "세대 표현",
+      "question": "八零后가 가리키는 사람은?",
+      "answer": "1980년대 출생자",
+      "explanation": "보충자료는 八零后를 1980년대 출생자를 가리키는 표현으로 설명합니다."
+    },
+    {
+      "id": 36,
+      "category": "인구정책",
+      "question": "보충자료에서 小皇帝가 생겨난 배경으로 설명한 것은?",
+      "answer": "한 자녀 정책",
+      "explanation": "보충자료는 한 자녀 정책 이후 외동 자녀가 가정에서 황제처럼 대접받는다는 뜻에서 小皇帝라는 말이 생겼다고 설명합니다."
+    },
+    {
+      "id": 37,
+      "category": "인구정책",
+      "question": "보충자료에서 黑孩子가 가리키는 것은?",
+      "answer": "호적에 오르지 못한 아이",
+      "explanation": "보충자료는 당시 산아 제한 정책을 위반해 호적에 올리지 못한 아이들을 黑孩子라고 설명합니다."
+    }
+  ]
+}

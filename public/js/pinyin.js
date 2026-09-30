@@ -68,7 +68,13 @@ function describe(text) {
 // the NFC input exactly, including whitespace and straight/curly apostrophes.
 export function parseSyllables(pinyin, count) {
   const text = pinyin.normalize("NFC");
-  const memo = new Map();
+  // Pinyin orthography puts an apostrophe before a non-initial syllable that
+  // starts with a/o/e, so "niángāo" is nián+gāo, never niáng+āo. Such splits
+  // are only a fallback for unseparated input like "xian" read as 2 syllables.
+  const strictMemo = new Map();
+  const looseMemo = new Map();
+  let strict;
+  let memo;
   function split(offset, remaining) {
     if (offset === text.length)
       return remaining == null || remaining === 0 ? [] : null;
@@ -97,6 +103,13 @@ export function parseSyllables(pinyin, count) {
             !/[\s'’]/.test(text[offset + length])))
       )
         continue;
+      if (
+        strict &&
+        offset > 0 &&
+        !/[\s'’]/.test(text[offset - 1]) &&
+        /^[aoe]/i.test(unmark(item.text))
+      )
+        continue;
       const rest = split(
         offset + length,
         remaining == null ? null : remaining - 1,
@@ -111,9 +124,16 @@ export function parseSyllables(pinyin, count) {
     return null;
   }
   if (!text.trim()) return null;
+  const attempt = (isStrict, remaining) => {
+    strict = isStrict;
+    memo = isStrict ? strictMemo : looseMemo;
+    return split(0, remaining);
+  };
+  const counted = Number.isInteger(count) && count > 0;
   return (
-    (Number.isInteger(count) && count > 0 ? split(0, count) : null) ||
-    split(0, null)
+    (counted && (attempt(true, count) || attempt(false, count))) ||
+    attempt(true, null) ||
+    attempt(false, null)
   );
 }
 export function toneVariants(pinyin, count, n = 3) {
