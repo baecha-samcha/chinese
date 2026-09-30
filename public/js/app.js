@@ -47,17 +47,23 @@ async function route() {
             button("다시 연결", () => {
               dataset = null;
               route();
+if ("serviceWorker" in navigator)
+  navigator.serviceWorker.register("/sw.js").catch(() => {});
             }),
           ),
         );
       if (token !== version) return;
-      if (path === "/match") cleanup = renderMatch(screen, dataset);
-      else if (path === "/") renderHome(screen, dataset);
+      // Screens re-render their root with replaceChildren, so give them their
+      // own container to keep the offline note above visible.
+      const content = el("div", {});
+      screen.append(content);
+      if (path === "/match") cleanup = renderMatch(content, dataset);
+      else if (path === "/") renderHome(content, dataset);
       else if (areas[path.slice(1)])
-        renderLearning(screen, dataset, path.slice(1));
-      else if (path === "/test") renderTest(screen, dataset);
+        renderLearning(content, dataset, path.slice(1));
+      else if (path === "/test") renderTest(content, dataset);
       else
-        screen.append(
+        content.append(
           title(
             "404",
             "페이지를 찾을 수 없습니다.",
@@ -88,6 +94,8 @@ document.addEventListener("click", (e) => {
   e.preventDefault();
   history.pushState({}, "", a.href);
   route();
+if ("serviceWorker" in navigator)
+  navigator.serviceWorker.register("/sw.js").catch(() => {});
   window.scrollTo(0, 0);
 });
 window.addEventListener("popstate", route);
@@ -95,3 +103,5 @@ window.addEventListener("offline", () =>
   toast("연결이 끊겼습니다. 이미 불러온 학습은 계속할 수 있어요."),
 );
 route();
+if ("serviceWorker" in navigator)
+  navigator.serviceWorker.register("/sw.js").catch(() => {});
