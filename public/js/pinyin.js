@@ -183,3 +183,13 @@ export function pinyinAnswerKey(value) {
   if (/[a-zü][0-5]/.test(text)) text = numberedToMarked(text);
   return text.replace(/[\s\p{P}`]/gu, "").normalize("NFC");
 }
+// The typing shortcuts the pinyin input guide teaches. The guide renders
+// straight from this list and tests/quiz.test.mjs grades every `typed` form
+// against its `answer`, so the guide can never promise something the grader
+// rejects.
+export const PINYIN_INPUT_EXAMPLES = [
+  { answer: "nǐ hǎo", typed: ["ni3 hao3"] },
+  { answer: "lǜ", typed: ["lv4", "lu:4"], note: "ü는 v 또는 u:" },
+  { answer: "gěi nǐ", typed: ["gei3 ni3", "gei3ni3"], note: "띄어쓰기는 상관없어요" },
+  { answer: "māma", typed: ["ma1 ma", "ma1 ma5"], note: "경성은 숫자 없이 또는 5" },
+];

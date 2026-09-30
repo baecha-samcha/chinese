@@ -10,6 +10,7 @@ import {
   codePointLabel,
 } from "./utils.js";
 import { normalizePinyin } from "./validation.js";
+import { PINYIN_INPUT_EXAMPLES } from "./pinyin.js";
 import {
   eligible,
   makeQuestion,
@@ -251,8 +252,46 @@ function fieldToggles(settings, key, label, refresh) {
   }
   return group;
 }
+// Typing ā/ǎ/ǜ is hard on a Chromebook keyboard, so the first typed-pinyin
+// session explains the number/v shortcuts. "확인" hides it until the next
+// visit; "다시 보지 않기" hides it for good (the ? button still opens it).
+export const PINYIN_GUIDE_KEY = "ch.pinyinInputGuideDismissed";
+let pinyinGuideSeen = false;
+function pinyinGuide(onClose) {
+  return el(
+    "aside",
+    { class: "note pinyin-guide", ariaLabel: "병음 입력 안내" },
+    el("strong", {}, "병음 성조는 숫자로 입력해도 돼요."),
+    el(
+      "ul",
+      {},
+      ...PINYIN_INPUT_EXAMPLES.map(({ answer, typed, note }) =>
+        el(
+          "li",
+          {},
+          el("span", { lang: "zh-Latn" }, answer),
+          " → ",
+          ...typed.flatMap((t, i) => [i ? " 또는 " : "", el("code", {}, t)]),
+          note ? el("span", { class: "muted" }, ` · ${note}`) : null,
+        ),
+      ),
+    ),
+    el(
+      "p",
+      { class: "muted" },
+      "1 ā · 2 á · 3 ǎ · 4 à — 대문자·소문자는 구분하지 않아요. 성조는 맞아야 정답이에요.",
+    ),
+    el(
+      "div",
+      { class: "row" },
+      button("확인", () => onClose(false), "primary"),
+      button("다시 보지 않기", () => onClose(true)),
+    ),
+  );
+}
 function quizSettings(settings, data, refresh) {
   const wrap = el("div", { class: "quiz-settings" });
+  let guideRequested = false;
   const draw = () => {
     const target = selectSetting(
       settings,
@@ -286,8 +325,16 @@ function quizSettings(settings, data, refresh) {
       change,
     );
     mode.setAttribute("aria-label", "답 방식");
+    const typed = settings.answerMode === "input",
+      help = typed
+        ? button("?", () => {
+            guideRequested = true;
+            draw();
+          })
+        : null;
+    help?.setAttribute("aria-label", "병음 입력 도움말");
     wrap.replaceChildren(
-      el("div", { class: "toolbar" }, target, category, mode),
+      el("div", { class: "toolbar" }, target, category, mode, help),
       el(
         "div",
         { class: "toolbar" },
@@ -302,6 +349,20 @@ function quizSettings(settings, data, refresh) {
           { class: "note" },
           "문제와 정답에서 서로 다른 필드를 하나 이상씩 선택하세요.",
         ),
+      );
+    const typedPinyin =
+      typed && quizDirections(settings).some((d) => d.endsWith(">pinyin"));
+    if (
+      guideRequested ||
+      (typedPinyin && !pinyinGuideSeen && !readLocal(PINYIN_GUIDE_KEY, false))
+    )
+      wrap.append(
+        pinyinGuide((dismiss) => {
+          pinyinGuideSeen = true;
+          guideRequested = false;
+          if (dismiss) writeLocal(PINYIN_GUIDE_KEY, true);
+          draw();
+        }),
       );
   };
   const change = () => {

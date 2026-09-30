@@ -44,7 +44,7 @@ test("sentence quiz: 자기소개 category, every direction, typed pinyin with m
   // Typed pinyin: a wrong answer shows both what I typed and the answer...
   await onlyDirection(page, "뜻", "병음");
   await page.getByLabel("답 방식").selectOption("input");
-  await page.getByLabel("병음 입력").fill("wo3 shi4");
+  await page.getByLabel("병음 입력", { exact: true }).fill("wo3 shi4");
   await page.getByRole("button", { name: "정답 확인" }).click();
   await expect(page.locator(".feedback.error")).toContainText("내 답: wo3 shi4");
   const meaning = await page.locator(".question .prompt").innerText();
@@ -60,8 +60,8 @@ test("sentence quiz: 자기소개 category, every direction, typed pinyin with m
     "예전부터 존함을 들었습니다.": "jiu3yang3 jiu3yang3",
     "처음 뵙겠습니다.": "chu1ci4 jian4mian4",
   }[next];
-  await page.getByLabel("병음 입력").fill(numbered);
-  await page.getByLabel("병음 입력").press("Enter");
+  await page.getByLabel("병음 입력", { exact: true }).fill(numbered);
+  await page.getByLabel("병음 입력", { exact: true }).press("Enter");
   await expect(page.locator(".feedback")).toContainText("정답이에요!");
   await expect(page.locator(".my-answer")).toHaveCount(0);
   // Settings persist and progress is recorded per direction.
@@ -91,4 +91,53 @@ test("word quiz keeps working with a single direction and blocks same-field-only
   await expect(page.locator(".question")).toHaveCount(0);
   await fieldButton(page, "정답", "뜻").click();
   await expect(page.locator(".question")).toBeVisible();
+});
+test("typed-pinyin guide: shown on first typed pinyin session, 확인 hides until next visit, 다시 보지 않기 persists, ? reopens", async ({ page }) => {
+  const guide = page.getByRole("complementary", { name: "병음 입력 안내" });
+  await page.goto("/learn");
+  await page.getByLabel("학습 대상").selectOption("sentence");
+  await onlyDirection(page, "뜻", "병음");
+  await expect(guide).toHaveCount(0); // choice mode: no guide
+  await page.getByLabel("답 방식").selectOption("input");
+  await expect(guide).toBeVisible();
+  await expect(guide).toContainText("ni3 hao3");
+  await expect(guide).toContainText("lv4");
+  await guide.getByRole("button", { name: "확인" }).click();
+  await expect(guide).toHaveCount(0);
+  // Same visit: stays closed while changing settings.
+  await onlyDirection(page, "한자", "병음");
+  await expect(guide).toHaveCount(0);
+  // Typed answers without a pinyin target never trigger it.
+  await page.reload();
+  await onlyDirection(page, "뜻", "한자");
+  await expect(guide).toHaveCount(0);
+  // Next visit with a pinyin target: shown again, then dismissed for good.
+  await onlyDirection(page, "뜻", "병음");
+  await expect(guide).toBeVisible();
+  await guide.getByRole("button", { name: "다시 보지 않기" }).click();
+  await expect(guide).toHaveCount(0);
+  expect(await page.evaluate(() => localStorage.getItem("ch.pinyinInputGuideDismissed"))).toBe("true");
+  await page.reload();
+  await expect(page.getByLabel("병음 입력", { exact: true })).toBeVisible();
+  await expect(guide).toHaveCount(0);
+  // The ? help button still opens it on demand.
+  await page.getByRole("button", { name: "병음 입력 도움말" }).click();
+  await expect(guide).toBeVisible();
+  await guide.getByRole("button", { name: "확인" }).click();
+  await expect(guide).toHaveCount(0);
+  // The guide's example format is what the grader accepts.
+  const prompt = await page.locator(".question .prompt").innerText();
+  const answer = {
+    "제 소개 좀 할게요.": "wo3 lai2 zi4wo3 jie4shao4 yi2xia4",
+    "제가 소개해 드릴게요.": "Wo3 gei3ni3 jie4shao4 yi2xia4",
+    "만나서 기뻐요.": "jian4dao4 ni3 hen3 gao1xing4",
+    "알게 되어 영광입니다.": "ren4shi ni3 hen3 rong2xing4",
+    "예전부터 존함을 들었습니다.": "JIU3YANG3 jiu3yang3",
+    "처음 뵙겠습니다.": "chu1ci4 jian4mian4",
+  }[prompt];
+  // Only the 자기소개 sentences carry pinyin in the test DB.
+  expect(answer, `prompt ${prompt}`).toBeTruthy();
+  await page.getByLabel("병음 입력", { exact: true }).fill(answer);
+  await page.getByLabel("병음 입력", { exact: true }).press("Enter");
+  await expect(page.locator(".feedback")).toContainText("정답이에요!");
 });

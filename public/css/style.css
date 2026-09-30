@@ -670,3 +670,18 @@ footer {
 .my-answer {
   color: var(--danger);
 }
+.pinyin-guide ul {
+  margin: 10px 0;
+  padding-left: 1.2em;
+  line-height: 1.9;
+}
+.pinyin-guide code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: #283128;
+  color: var(--text);
+}
+.pinyin-guide .row {
+  gap: 10px;
+  flex-wrap: wrap;
+}

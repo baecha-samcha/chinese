@@ -20,6 +20,22 @@ test("app shell and study data keep working offline after one visit", async ({ p
   await expect(page.locator(".question .prompt")).not.toBeEmpty();
   await page.locator(".option").first().click();
   await expect(page.locator(".feedback")).toBeVisible();
+  // Typed pinyin (with the Chromebook-friendly numbered tones) and the
+  // dismissed guide both keep working offline.
+  await page.getByLabel("답 방식").selectOption("input");
+  for (const [group, keep] of [["문제", "뜻"], ["정답", "병음"]])
+    for (const name of ["뜻", "한자", "병음"]) {
+      const b = page.getByRole("group", { name: `${group} 필드` }).getByRole("button", { name, exact: true });
+      if ((await b.getAttribute("aria-pressed")) !== String(name === keep)) await b.click();
+    }
+  const guide = page.getByRole("complementary", { name: "병음 입력 안내" });
+  await guide.getByRole("button", { name: "다시 보지 않기" }).click();
+  await page.reload();
+  await expect(page.getByLabel("병음 입력", { exact: true })).toBeVisible();
+  await expect(guide).toHaveCount(0);
+  await page.getByLabel("병음 입력", { exact: true }).fill("wo3 shi4");
+  await page.getByLabel("병음 입력", { exact: true }).press("Enter");
+  await expect(page.locator(".feedback .my-answer")).toHaveText("내 답: wo3 shi4");
   await context.setOffline(false);
   expect(errors).toEqual([]);
 });

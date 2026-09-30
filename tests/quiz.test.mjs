@@ -25,7 +25,7 @@ const {
 const { quizDirections, quizFields, categories, expressionGroup } = await import(
   "../public/js/quiz.js"
 );
-const { pinyinAnswerKey } = await import("../public/js/pinyin.js");
+const { pinyinAnswerKey, PINYIN_INPUT_EXAMPLES } = await import("../public/js/pinyin.js");
 
 function seeded(seed) {
   return () => {
@@ -178,6 +178,26 @@ test("pinyin grading normalizes presentation, never tones", () => {
   const q = makeQuestion(data, "learn", { studyTarget: "sentence", quizSource: ["meaning"], quizTarget: ["pinyin"], answerMode: "input" }, eligible(data, "learn", { studyTarget: "sentence", quizCategory: "자기소개" }).find((e) => e.item.hanzi === "我给你介绍一下。"));
   assert.ok(grade(q, "wo3 gei3 ni3 jie4shao4 yi2xia4"));
   assert.ok(!grade(q, "wo3 gei3 ni3 jie4shao4 yi1xia4"));
+});
+
+test("every typing shortcut shown in the pinyin input guide is graded correct", () => {
+  assert.ok(PINYIN_INPUT_EXAMPLES.length >= 4);
+  for (const { answer, typed } of PINYIN_INPUT_EXAMPLES)
+    for (const t of typed) assert.equal(pinyinAnswerKey(t), pinyinAnswerKey(answer), `${t} → ${answer}`);
+  // The guide's explicit promises, spelled out so a guide edit can't drop them.
+  const promised = [
+    ["nǐ hǎo", ["ni3 hao3", "nǐ hǎo", "Ni3 Hao3", "NI3HAO3", "  ni3   hao3  ", "nǐhǎo"]],
+    ["lǜ", ["lv4", "lu:4", "LV4", "lü4", "lu\u0308\u0300"]],
+    ["gěi nǐ", ["gei3 ni3", "gei3ni3", "gěinǐ", "Gěi Nǐ"]],
+    ["Xī'ān", ["xi1'an1", "xi1’an1", "xi1 an1", "xī’ān"]],
+    ["hǎo", ["ha\u030co", "hǎo".normalize("NFD"), "HǍO".normalize("NFD")]],
+    ["nǐ hǎo".normalize("NFD"), ["ni3 hao3"]],
+  ];
+  for (const [answer, typed] of promised)
+    for (const t of typed) assert.equal(pinyinAnswerKey(t), pinyinAnswerKey(answer), `${JSON.stringify(t)} → ${answer}`);
+  // ...while tones still matter.
+  for (const [answer, wrong] of [["nǐ hǎo", "ni2 hao3"], ["nǐ hǎo", "ni hao"], ["lǜ", "lv3"], ["lǜ", "lu4"], ["gěi nǐ", "gei4 ni3"], ["māma", "ma1 ma1"]])
+    assert.notEqual(pinyinAnswerKey(wrong), pinyinAnswerKey(answer), `${wrong} ≠ ${answer}`);
 });
 
 test("choice distractors never include another spelling of the answer", () => {
