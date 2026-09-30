@@ -1,0 +1,4 @@
+{
+  "_comment": "Characters outside the BMP that the *production* D1 database is currently known to use as decomposition components (fixtures/data.json is too small to cover these). Refresh with: npx wrangler d1 execute ch-study --remote --json --command \"SELECT decomposition FROM characters WHERE decomposition IS NOT NULL\" > /tmp/export.json && node scripts/scan-rare-components.mjs /tmp/export.json --format=d1 -- then add any newly reported characters here and rerun `npm run vendor`.",
+  "chars": ["𠂇", "𠂋", "𤴓", "𦍌"]
+}

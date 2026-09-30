@@ -61,6 +61,16 @@ test("match plays, refills, resets timers, ends and restarts on mobile", async (
   await page.getByRole("button", { name: "学生", exact: true }).click();
   await page.getByRole("button", { name: "今天", exact: true }).click();
   await expect(
+    page.getByRole("button", { name: "今天", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await expect(
+    page.getByRole("button", { name: "学生", exact: true }),
+  ).toHaveAttribute("aria-pressed", "false");
+  await expect(
+    page.getByRole("status").filter({ hasText: "오답" }),
+  ).toHaveCount(0);
+  await page.getByRole("button", { name: "학생", exact: true }).click();
+  await expect(
     page.getByRole("status").filter({ hasText: "오답" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "学生", exact: true }).click();

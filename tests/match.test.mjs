@@ -36,17 +36,26 @@ test("small expiration resets without a penalty, including a delayed tick", () =
   assert.equal(g.bigTimer, 134.8);
   assert.equal(g.smallTimer, 4.8);
 });
-test("same-kind and mismatched cards count once and reset the timer", () => {
+test("mismatched cards count once and reset the timer", () => {
+  const g = createMatchGame(vocabulary, 0);
+  const a = g.cards.find((c) => c.kind === "zh");
+  const b = g.cards.find((c) => c.kind === "ko" && c.pair !== a.pair);
+  selectMatchCard(g, a.id, 1000);
+  assert.equal(g.wrong, 0);
+  assert.equal(selectMatchCard(g, b.id, 5000).points, 0);
+  assert.equal(g.wrong, 1);
+  assert.equal(g.smallTimer, 10);
+  assert.equal(g.selected, null);
+});
+test("selecting a card in the same column moves the selection without grading", () => {
   for (const kind of ["zh", "ko"]) {
     const g = createMatchGame(vocabulary, 0);
-    const a = g.cards.find((c) => c.kind === "zh");
-    const b = g.cards.find((c) => c.kind === kind && c.pair !== a.pair);
+    const [a, b] = g.cards.filter((c) => c.kind === kind);
     selectMatchCard(g, a.id, 1000);
+    assert.equal(selectMatchCard(g, b.id, 5000), null);
+    assert.equal(g.selected, b.id);
     assert.equal(g.wrong, 0);
-    assert.equal(selectMatchCard(g, b.id, 5000).points, 0);
-    assert.equal(g.wrong, 1);
-    assert.equal(g.smallTimer, 10);
-    assert.equal(g.selected, null);
+    assert.equal(g.score, 0);
   }
 });
 test("correct cards are disabled and score from the current timestamps", () => {

@@ -20,7 +20,7 @@
     {
       "binding": "DB",
       "database_name": "ch-study",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "database_id": "d7c8729c-1ed2-411f-b5d3-e84583e0bf26",
       "migrations_dir": "migrations",
     },
   ],

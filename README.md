@@ -13,6 +13,8 @@ cp .dev.vars.example .dev.vars
 
 `postinstall`은 SheetJS 0.20.3을 `public/vendor`로 복사합니다. XLSX 화면에서만 지연 로드하며, 실행 중 외부 CDN 요청은 없습니다. `.npmrc`는 npm 12의 직접 지정 tarball 의존성을 허용합니다. `.dev.vars`는 Git에 포함하지 않습니다.
 
+`postinstall`은 또한 decomposition에 쓰이는 BMP 밖 한자(CJK 확장 B 이상, 예: 𠂇 U+20087)를 위한 self-hosted fallback 폰트를 `public/vendor/fonts/hanamin`에 준비합니다. 시스템/일반 CJK 웹폰트는 이 범위를 거의 지원하지 않아 tofu(□)로 깨지므로, `@vp-tw/cjk-web-fonts-hanamin`(Hanazono, MIT/OFL) 패키지에서 실제로 필요한 unicode-range 블록만 복사합니다. `scripts/scan-rare-components.mjs <export.json>`으로 현재 vocabulary/D1 데이터에 새로운 BMP 밖 구성요소가 생겼는지 점검할 수 있고, 있다면 `scripts/data/cjk-fallback-known.json`에 추가한 뒤 `npm run vendor`를 다시 실행하세요. `.hanzi`/`.component`에만 fallback으로 적용되어 기존 한글/영문 UI 폰트는 그대로입니다.
+
 ## 2. D1 생성
 
 Cloudflare 계정 없이 로컬 개발만 할 경우 DB 생성과 database_id 교체는 배포 직전까지 건너뛰어도 됩니다.
@@ -91,8 +93,8 @@ Worker는 jose를 사용하여 서명, RS256 알고리즘, issuer, audience, 만
 ## 페이지
 
 - `/`: 학습 대시보드, 누적 통계, 단어 검색
-- `/match`: 3분 중국어·한국어 짝 맞추기 (최대 4쌍 · 4행 2열, 정답 두 자리만 연속 보충)
 - `/learn`: 중국어↔한국어 뜻 선택
+- `/match`: 3분 중국어·한국어 짝 맞추기 (최대 4쌍 · 4행 2열, 정답 두 자리만 연속 보충)
 - `/write`: 재귀 component 조립, Easy/Normal/Hard
 - `/pronunciation`: 한자→병음, 듣기→한자, 병음→한자, TTS 속도 설정
 - `/sentence`: 클릭 기반 문장 배열, 반복 토큰 지원, 선택 취소
@@ -109,18 +111,35 @@ CSV는 UTF-8, 첫 행은 영문 필드명입니다. XLSX도 첫 행이 필드명
 
 | 유형 | 필수 열 | 선택 열 |
 | --- | --- | --- |
-| vocabulary | simplified, pinyin, meaning | traditional, korean_hanja_reading, characters |
-| sentences | korean, chinese, tokens | explanation |
+| vocabulary | simplified, pinyin, meaning | traditional, korean_hanja_reading, characters, source |
+| sentences | korean, chinese, tokens | explanation, source |
 | grammar | title, explanation, correct_examples, wrong_examples | tags, questions |
 | culture | category, question, answer | distractors, explanation |
 
 배열/객체 열은 **JSON 문자열**로 저장합니다. `characters`가 없으면 simplified를 Unicode 글자 단위로 분리합니다. 분해 없는 글자는 뜻·발음은 학습하지만 조립에서는 제외됩니다.
+
+### 교과서 / 보충자료 선택
+
+홈, 학습 화면, 종합시험의 **학습 범위**에서 `둘 다`, `교과서만`, `보충자료만`을 선택합니다. 선택은 이 브라우저에 저장되어 화면 이동·새로고침 후에도 유지됩니다. 단어 뜻·발음·조립, 문장 배열, 검색, 종합시험의 출제 수와 객관식 오답 후보에도 같은 범위를 적용합니다. 시험 시작 후에는 범위를 변경할 수 없습니다. 범위를 바꾸면 연습 문제 대기열과 시험 자동 배분을 새 범위로 다시 구성합니다. 누적 풀이 통계는 기존 전체 학습 기록입니다.
+
+단어·문장 시트의 `source`는 `0`=교과서, `1`=보충자료입니다. XLSX 숫자와 CSV/JSON의 `"0"`, `"1"` 문자열을 모두 처리합니다. 빈칸·null·열 누락은 **출처 미지정**으로 보존하고 ‘둘 다’에서만 포함합니다. 기존 데이터를 교과서로 임의 분류하지 않습니다. 문법·문화는 출처 구분 없이 공통 범위입니다. `source_url`은 참고 출처 URL이며 학습 범위를 지정하는 `source`와는 별개의 열입니다.
+
+기존 설치에는 `0002_study_source.sql` migration이 필요합니다. 운영에 반영할 때는 다음 순서를 사용합니다.
+
+```bash
+npx wrangler d1 migrations apply ch-study --remote
+npm run deploy
+```
+
+이후 `/admin/import`에서 `chinese_study_dataset_with_source.xlsx`의 `vocabulary`, `sentences`를 각각 검증·가져오기 합니다. 기존 동일 항목의 출처를 갱신하려면 **덮어쓰기**를 선택합니다(`기존 유지`는 기존 출처도 유지). DB migration만 적용하면 기존 행은 미지정이므로 특정 출처 선택 시 나오지 않습니다. 한 내용이 두 자료에 모두 있는 별도 행을 함께 보관하려면 `둘 다 유지` 정책으로 각 출처 행을 보관할 수 있습니다. JSON 백업과 CSV 내보내기에도 source를 포함합니다.
 
 ```json
 {"simplified":"请","traditional":"請","pinyin":"qǐng","meaning":"부탁하다","korean_hanja_reading":"청","characters":[{"char":"请","traditional":"請","decomposition":{"type":"layout","layout":"left-right","children":[{"type":"character","value":"讠"},{"type":"character","value":"青"}]}}]}
 ```
 
 `layout`: `left-right`, `top-bottom`, `surround`, `other`. 재귀 깊이 8, 자식 2~8개, 단어 최대 32글자입니다. 한자음은 검색에만 사용합니다. 성조 정보는 pinyin에 포함하며 별도 성조 필드를 만들지 않습니다.
+
+각 글자는 선택적으로 `assemblyEnabled: true|false`를 가질 수 있습니다. decomposition이 있어도 `public/js/validation.js`의 `assemblyEligible`은 leaf 2~3개·깊이 2 이하인 "의미 있는 구성요소" 수준의 분해만 자동으로 조립 문제 대상으로 삼습니다 (실제 데이터 감사 기준: 好=女+子, 明=日+月처럼 남아있는 모든 정상 분해는 이 범위 안에 있고, 德=彳+十+罒+一+心처럼 5개로 쪼개지는 항목만 벗어납니다). `assemblyEnabled`를 명시하면 이 휴리스틱을 오버라이드합니다 — decomposition 자체는 절대 지우지 않고 "조립 문제로 낼지"만 별도로 표시합니다. 한 단어의 모든 글자가 조립 대상에서 제외되면 그 단어는 조립 문제 후보군에서 자동으로 빠집니다(에러 없음). `scripts/apply-assembly-review.mjs`가 이런 리뷰를 재현 가능한 SQL로 만들어 주며, `scripts/data/assembly-overrides.json`에 현재 리뷰 목록이 있습니다.
 
 ```json
 {"korean":"너는 학생이니?","chinese":"你是学生吗？","tokens":["你","是","学生","吗"]}
@@ -178,6 +197,8 @@ CSV는 UTF-8, 첫 행은 영문 필드명입니다. XLSX도 첫 행이 필드명
 ## 학습 기록 · 오프라인 · 발음
 
 `localStorage`: `ch.stats`(유형별 키, vocabularyId, correct/wrong/lastSeen/streak), `ch.settings`, `ch.speech`, `ch.dataset`. 틀린 횟수가 많고 연속 정답이 적은 항목의 가중치를 높입니다. 다른 기기로 동기화하지 않으며 브라우저 데이터를 삭제하면 기록도 사라집니다.
+
+문제 출제는 독립 가중 무작위 추출이 아니라 가중 shuffle bag(`public/js/study.js`의 `buildQueue`/`drawFromQueue`)입니다. 매 cycle마다 현재 설정에서 출제 가능한 모든 항목이 최소 1번씩 후보가 되고, 약점 항목은 최대 4배까지만 더 자주 나오도록 상한이 있어 소수 문제가 한 cycle을 독점하지 않습니다. cycle이 끝나면 재섞고, 직전 문제와 동일한 문제는 가능하면 피합니다(후보가 1개뿐이면 불가피하게 반복). 설정 변경 등으로 후보군 자체가 바뀌면 큐를 새로 만듭니다.
 
 로드한 데이터는 메모리와 localStorage에 캐시합니다. 연결이 끊겨도 현재 화면과 SPA 학습을 유지하고 API 실패 시 마지막 데이터를 사용합니다. Service Worker 기반의 완전 오프라인 새로고침은 제공하지 않습니다.
 

@@ -191,7 +191,12 @@ export function selectMatchCard(game, id, now) {
     return null;
   }
   const first = game.cards.find((c) => c.id === game.selected);
-  const correct = first.kind !== card.kind && first.pair === card.pair;
+  if (first.kind === card.kind) {
+    // Same column: move the selection instead of grading it as wrong.
+    game.selected = id;
+    return null;
+  }
+  const correct = first.pair === card.pair;
   const points = matchPoints(game.bigTimer, game.smallTimer, correct);
   game.score += points;
   game[correct ? "correct" : "wrong"]++;

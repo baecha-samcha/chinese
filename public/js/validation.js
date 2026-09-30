@@ -52,12 +52,29 @@ export function usableComponents(decomposition, rootChar) {
   if (rootChar && usable.every((n) => n.value === rootChar)) return [];
   return usable;
 }
-// A character is only fair game for an assembly (component recall) question
-// when its decomposition is well-formed and actually breaks it into 2+ parts.
-// Malformed/empty/self-referential decompositions still work fine for
-// meaning/pronunciation study — they're just excluded here.
-export const assemblyEligible = (c) =>
-  !!c && usableComponents(c.decomposition, c.char).length >= 2;
+// How many "layout" hops separate a leaf from the decomposition root — see
+// leaves()'s path convention (one extra ".N" segment per layout level).
+const depthOf = (n) => n.path.split(".").length - 1;
+// A character is fair game for an assembly (component recall) question only
+// when its decomposition is well-formed, breaks into 2+ real parts, and stays
+// at a "meaningful component" grain rather than fragmenting down toward
+// individual strokes: at most 3 leaves, at most 2 layout levels deep. Both
+// thresholds come from auditing this project's actual decomposition data —
+// every legitimate 2-3 part split found there (好=女+子, 明=日+月, 前=䒑+月+刂,
+// even 天=一+大) stays within them, while the handful of over-fragmented
+// entries (e.g. 德=彳+十+罒+一+心, 5 leaves) fall outside. Malformed, empty,
+// self-referential, or over-fragmented decompositions still work fine for
+// meaning/pronunciation study — they're just excluded from assembly here.
+// `assemblyEnabled` on the character record (true/false) always overrides
+// this heuristic, for curating specific characters either way without
+// touching — or deleting — the underlying decomposition data itself.
+export function assemblyEligible(c) {
+  if (!c) return false;
+  const nodes = usableComponents(c.decomposition, c.char);
+  if (nodes.length < 2) return false;
+  if (typeof c.assemblyEnabled === "boolean") return c.assemblyEnabled;
+  return nodes.length <= 3 && nodes.every((n) => depthOf(n) <= 2);
+}
 function checkNode(n, depth = 0) {
   if (!n || typeof n !== "object" || depth > 8)
     throw Error("component 분해 깊이/구조 오류");
@@ -97,6 +114,15 @@ export function validateRow(kind, raw, existing = []) {
   try {
     if (!kinds.includes(kind) || !raw || typeof raw !== "object")
       throw Error("데이터 유형 오류");
+    if (kind === "vocabulary" || kind === "sentences") {
+      const source = typeof raw.source === "string" ? raw.source.trim() : raw.source;
+      if (source == null || source === "") {
+        data.source = null;
+        warnings.push("출처 미지정: ‘둘 다’ 범위에서만 학습합니다");
+      } else if (source === 0 || source === "0") data.source = 0;
+      else if (source === 1 || source === "1") data.source = 1;
+      else errors.push("source: 0(교과서) 또는 1(보충자료)만 입력하세요");
+    }
     const fields =
       kind === "vocabulary"
         ? [
@@ -142,10 +168,18 @@ export function validateRow(kind, raw, existing = []) {
         if (c.char !== [...data.simplified][i])
           throw Error("characters 순서와 simplified 불일치");
         if (c.decomposition) checkNode(c.decomposition);
+        if (
+          c.assemblyEnabled !== undefined &&
+          typeof c.assemblyEnabled !== "boolean"
+        )
+          throw Error("assemblyEnabled: boolean 필요");
         return {
           char: c.char,
           traditional: trim(c.traditional),
           ...(c.decomposition ? { decomposition: c.decomposition } : {}),
+          ...(typeof c.assemblyEnabled === "boolean"
+            ? { assemblyEnabled: c.assemblyEnabled }
+            : {}),
         };
       });
       if (!data.traditional) warnings.push("번체자 누락");

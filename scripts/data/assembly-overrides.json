@@ -1,0 +1,23 @@
+[
+  {
+    "simplified": "南丁格尔",
+    "pinyin": "nándīnggé'ěr",
+    "char": "南",
+    "assemblyEnabled": false,
+    "reason": "4 leaves nested 3 layout levels deep (十 / 冂{丷+干}) - past the 'meaningful component, shallow structure' grain every other kept decomposition stays within (see assemblyEligible in public/js/validation.js)."
+  },
+  {
+    "simplified": "德国",
+    "pinyin": "déguó",
+    "char": "德",
+    "assemblyEnabled": false,
+    "reason": "5 flat leaves (彳+十+罒+一+心), including a bare single stroke (一) mixed in with real radicals - over-fragmented past how 德 is normally taught."
+  },
+  {
+    "simplified": "漂亮",
+    "pinyin": "piàoliang",
+    "char": "亮",
+    "assemblyEnabled": false,
+    "reason": "4 flat leaves (亠+口+冖+几) - more granular than how 亮 is normally taught (top/bottom two-part split)."
+  }
+]

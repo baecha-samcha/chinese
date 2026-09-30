@@ -17,6 +17,7 @@
     "fixtures": "node scripts/seed.mjs && node scripts/xlsx-fixture.mjs"
   },
   "dependencies": {
+    "@vp-tw/cjk-web-fonts-hanamin": "^0.0.1",
     "jose": "^6.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },

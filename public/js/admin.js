@@ -119,9 +119,10 @@ export async function renderAdmin(root, path, onChanged) {
             meaning: "",
             korean_hanja_reading: "",
             characters: [],
+            source: null,
           }
         : kind === "sentences"
-          ? { korean: "", chinese: "", tokens: [], explanation: "" }
+          ? { korean: "", chinese: "", tokens: [], explanation: "", source: null }
           : kind === "grammar"
             ? {
                 title: "",
@@ -173,7 +174,7 @@ export async function renderAdmin(root, path, onChanged) {
         el(
           "p",
           { class: "muted" },
-          "배열과 재귀 분해를 보존하는 JSON 편집기입니다. 대량 등록은 파일 가져오기를 이용하세요.",
+          "배열과 재귀 분해를 보존하는 JSON 편집기입니다. 단어·문장의 source는 0=교과서, 1=보충자료, null=출처 미지정입니다. 대량 등록은 파일 가져오기를 이용하세요.",
         ),
         textarea,
         error,

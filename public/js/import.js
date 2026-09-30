@@ -69,6 +69,53 @@ export function toCSV(rows) {
     ].join("\r\n")
   );
 }
+export function parseXLSXSheet(XLSX, sheet, name, kind) {
+  const fail = (message) => {
+    throw Error(`${name} 시트: ${message}`);
+  };
+  if (!sheet?.["!ref"]) fail("빈 시트입니다.");
+  const range = XLSX.utils.decode_range(sheet["!ref"]);
+  const values = XLSX.utils.sheet_to_json(sheet, {
+    header: 1,
+    defval: "",
+    raw: false,
+    blankrows: true,
+  });
+  const headers = (values.shift() || []).map((v) => String(v).trim());
+  const positions = new Map();
+  for (let i = 0; i < headers.length; i++) {
+    const position = XLSX.utils.encode_cell({ r: range.s.r, c: range.s.c + i });
+    const header = headers[i];
+    if (!header) {
+      if (values.some((row) => String(row[i] ?? "").trim()))
+        fail(`${position}: 데이터가 있는 열의 헤더가 비어 있습니다.`);
+    } else {
+      if (positions.has(header))
+        fail(`${positions.get(header)}, ${position}: 중복 헤더 "${header}"`);
+      positions.set(header, position);
+    }
+  }
+  const required = {
+    vocabulary: ["simplified", "pinyin", "meaning"],
+    sentences: ["korean", "chinese"],
+    grammar: ["title", "explanation"],
+    culture: ["category", "question", "answer"],
+  }[kind];
+  const missing = required.filter((h) => !positions.has(h));
+  if (missing.length)
+    fail(
+      `${range.s.r + 1}행 헤더 (${XLSX.utils.encode_col(range.s.c)}–${XLSX.utils.encode_col(range.e.c)}열): 필수 열 누락: ${missing.join(", ")}`,
+    );
+  const rows = values.filter((row) => row.some((v) => String(v).trim()));
+  if (!rows.length) fail("빈 시트입니다.");
+  if (rows.length > 500)
+    fail("한 번에 최대 500개 행을 가져올 수 있습니다. 파일을 나누어 주세요.");
+  return rows.map((row) =>
+    Object.fromEntries(
+      headers.flatMap((h, i) => (h ? [[h, row[i] ?? ""]] : [])),
+    ),
+  );
+}
 let xlsxPromise;
 async function loadXLSX() {
   if (globalThis.XLSX) return globalThis.XLSX;
@@ -146,9 +193,7 @@ export function renderImport(root, onImported) {
               (k) => {
                 kind = k;
                 type.value = k;
-                raw = parsed[k];
-                invalidate();
-                showLocal();
+                selectRecords(() => parsed[k]);
               },
             );
           }
@@ -162,12 +207,9 @@ export function renderImport(root, onImported) {
               kind = k;
               type.value = k;
             }
-            raw = XLSX.utils.sheet_to_json(workbook.Sheets[k], {
-              defval: "",
-              raw: false,
-            });
-            invalidate();
-            showLocal();
+            selectRecords(() =>
+              parseXLSXSheet(XLSX, workbook.Sheets[k], k, kind),
+            );
           };
           showSheets(sheets, selectSheet);
           selectSheet(sheets[0]);
@@ -177,10 +219,27 @@ export function renderImport(root, onImported) {
         raw = records;
         showLocal();
       } catch (e) {
-        status.textContent = e.message;
+        if (gen === generation) showError(e);
       }
     },
   });
+  function showError(error) {
+    invalidate();
+    raw = [];
+    policies = [];
+    results.replaceChildren();
+    verify.disabled = true;
+    status.textContent = error.message;
+  }
+  function selectRecords(read) {
+    invalidate();
+    try {
+      raw = read();
+      showLocal();
+    } catch (error) {
+      showError(error);
+    }
+  }
   let backup;
   const sheetHolder = el("div", {});
   function showSheets(names, fn) {
@@ -228,9 +287,9 @@ export function renderImport(root, onImported) {
         status.textContent =
           "검증 완료. 경고와 중복 정책을 확인한 뒤 가져오기를 누르세요.";
       } catch (e) {
-        status.textContent = e.message;
+        if (gen === generation) status.textContent = e.message;
       } finally {
-        verify.disabled = false;
+        if (gen === generation) verify.disabled = !raw.length;
       }
     },
     "primary",
@@ -262,15 +321,17 @@ export function renderImport(root, onImported) {
         status.textContent = e.message;
         preview = null;
       } finally {
-        verify.disabled = false;
+        verify.disabled = !raw.length;
         container.inert = false;
       }
     },
     "primary",
   );
   commit.disabled = true;
+  verify.disabled = true;
   function invalidate() {
     generation++;
+    verify.disabled = true;
     preview = null;
     commit.disabled = true;
     status.textContent = "변경한 내용은 서버에서 다시 검증해야 합니다.";
@@ -288,6 +349,7 @@ export function renderImport(root, onImported) {
     showRows(raw.map((r) => validateRow(kind, r)));
   }
   function showRows(rows) {
+    verify.disabled = !raw.length;
     results.replaceChildren();
     results.append(
       el("h3", {}, `${filename} · 총 ${rows.length}개 항목`),
@@ -396,6 +458,9 @@ export function renderImport(root, onImported) {
             ),
             el("div", { class: "muted" }, data.pinyin || data.answer || ""),
             el("div", {}, data.meaning || ""),
+            ["vocabulary", "sentences"].includes(kind)
+              ? el("span", { class: "badge" }, data.source === 0 ? "교과서" : data.source === 1 ? "보충자료" : "출처 미지정")
+              : null,
           ),
           el("td", {}, [...r.errors, ...r.warnings].join(" / ") || "정상"),
           cell,
@@ -417,7 +482,7 @@ export function renderImport(root, onImported) {
     el(
       "div",
       { class: "note" },
-      "CSV 첫 행은 필드명입니다. characters / tokens / 예문 배열은 JSON 형식으로 입력하세요. XLSX는 vocabulary, sentences, grammar, culture 시트를 각각 선택해 가져옵니다. 최대 500행 · 파일 5 MB · JSON 요청 2 MB.",
+      "CSV 첫 행은 필드명입니다. characters / tokens / 예문 배열은 JSON 형식으로 입력하세요. 단어·문장의 source 열: 0=교과서, 1=보충자료, 빈칸=출처 미지정(둘 다에서만 학습). XLSX는 vocabulary, sentences, grammar, culture 시트를 각각 선택해 가져옵니다. 최대 500행 · 파일 5 MB · JSON 요청 2 MB.",
     ),
     el(
       "div",

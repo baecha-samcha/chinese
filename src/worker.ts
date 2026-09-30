@@ -27,8 +27,9 @@ const columns: Record<string, string[]> = {
     "meaning",
     "korean_hanja_reading",
     "characters",
+    "source",
   ],
-  sentences: ["korean", "chinese", "tokens", "explanation"],
+  sentences: ["korean", "chinese", "tokens", "explanation", "source"],
   grammar: [
     "title",
     "explanation",

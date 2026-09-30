@@ -1,4 +1,7 @@
 import { test, expect } from "@playwright/test";
+import XLSX from "xlsx";
+import { readFile } from "node:fs/promises";
+import { validateRow } from "../../public/js/validation.js";
 const origin = "http://127.0.0.1:8788";
 const row = {
   simplified: "河",
@@ -317,7 +320,7 @@ test("mixed exam completes and records statistics once per answer", async ({
 }) => {
   await page.goto("/test");
   await page.getByLabel("총 문제 수", { exact: true }).fill("6");
-  await page.getByRole("button", { name: "전체 범위 자동 배분" }).click();
+  await page.getByRole("button", { name: "선택 범위 자동 배분" }).click();
   await page.getByRole("button", { name: "시험 시작", exact: true }).click();
   for (let i = 0; i < 6; i++) {
     await expect(page.locator(".question")).toBeVisible();
@@ -354,7 +357,11 @@ test("backup exports JSON and CSV", async ({ page, request }) => {
 
 test("XLSX parses all four sheets in browser, previews and saves each in bulk", async ({
   page,
+  request,
 }) => {
+  const source = XLSX.read(await readFile("public/fixtures/sample.xlsx"), {
+    type: "buffer",
+  });
   await page.goto("/admin/import");
   await page
     .getByLabel("가져올 파일")
@@ -380,6 +387,17 @@ test("XLSX parses all four sheets in browser, previews and saves each in bulk", 
     await page.getByRole("button", { name: "확인한 데이터 가져오기" }).click();
     expect((await saved).ok()).toBeTruthy();
     await expect(page.getByText(/저장 완료:/)).toBeVisible();
+    const actual = await (await request.get(`/api/${kind}`)).json();
+    const expected = XLSX.utils.sheet_to_json(source.Sheets[kind], {
+      defval: "",
+      raw: false,
+    });
+    for (const row of expected) {
+      const normalized = validateRow(kind, row).data;
+      expect(actual).toEqual(
+        expect.arrayContaining([expect.objectContaining(normalized)]),
+      );
+    }
   }
 });
 test("production mode rejects unauthenticated writes, admin HTML and forged JWT", async ({
@@ -411,4 +429,117 @@ test("production mode rejects unauthenticated writes, admin HTML and forged JWT"
     data: row,
   });
   expect(r.status()).toBe(401);
+});
+
+test("XLSX header and row errors clear previews and recover on sheet changes", async ({
+  page,
+}) => {
+  const book = XLSX.utils.book_new();
+  const headers = [" simplified ", "pinyin", " meaning "];
+  const record = ["河", "hé", "강"];
+  for (const [name, rows] of [
+    ["vocabulary", [headers, record]],
+    [
+      "duplicate",
+      [
+        [...headers, "meaning"],
+        [...record, "다른 뜻"],
+      ],
+    ],
+    [
+      "unnamed",
+      [
+        [...headers, ""],
+        [...record, "숨은 값"],
+      ],
+    ],
+    [
+      "missing",
+      [
+        ["simplified", "pinyin"],
+        ["河", "hé"],
+      ],
+    ],
+    ["limit", [headers, ...Array(500).fill(record)]],
+    ["overflow", [headers, ...Array(501).fill(record)]],
+    ["empty", []],
+  ])
+    XLSX.utils.book_append_sheet(book, XLSX.utils.aoa_to_sheet(rows), name);
+  await page.goto("/admin/import");
+  const verify = page.getByRole("button", { name: "서버 검증 · 미리보기" });
+  const commit = page.getByRole("button", { name: "확인한 데이터 가져오기" });
+  await expect(verify).toBeDisabled();
+  await page.getByLabel("가져올 파일").setInputFiles({
+    name: "edges.xlsx",
+    mimeType:
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    buffer: XLSX.write(book, { type: "buffer", bookType: "xlsx" }),
+  });
+  const selector = page.getByLabel("시트 선택");
+  const status = page
+    .locator('[aria-live="polite"]')
+    .filter({ hasText: /시트:|검증 완료|저장 완료/ });
+  for (const [name, error] of [
+    ["duplicate", "C1, D1: 중복 헤더"],
+    ["unnamed", "D1: 데이터가 있는 열"],
+    ["missing", "필수 열 누락: meaning"],
+    ["overflow", "최대 500개"],
+    ["empty", "빈 시트"],
+  ]) {
+    await verify.click();
+    await expect(commit).toBeEnabled();
+    await selector.selectOption(name);
+    await expect(status).toContainText(error);
+    await expect(page.locator("tbody tr")).toHaveCount(0);
+    await expect(verify).toBeDisabled();
+    await expect(commit).toBeDisabled();
+    await selector.selectOption("vocabulary");
+    await expect(page.locator("tbody tr")).toHaveCount(1);
+    await expect(verify).toBeEnabled();
+    await expect(commit).toBeDisabled();
+  }
+  await selector.selectOption("limit");
+  await expect(page.locator("tbody tr")).toHaveCount(500);
+  await verify.click();
+  await expect(commit).toBeEnabled();
+  await page.getByLabel("가져올 파일").setInputFiles({
+    name: "broken.xlsx",
+    mimeType: "application/octet-stream",
+    buffer: Buffer.from([0x50, 0x4b, 3, 4, 0]),
+  });
+  await expect(page.locator("tbody tr")).toHaveCount(0);
+  await expect(verify).toBeDisabled();
+  await expect(commit).toBeDisabled();
+  await expect(
+    page.locator('section.card > p[aria-live="polite"]'),
+  ).not.toBeEmpty();
+  await page
+    .getByLabel("가져올 파일")
+    .setInputFiles("public/fixtures/sample.xlsx");
+  await expect(page.locator("tbody tr")).toHaveCount(13);
+  await expect(verify).toBeEnabled();
+});
+
+test("pronunciation tone mode offers four same-spelling tone choices", async ({
+  page,
+}) => {
+  test.setTimeout(180000);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/pronunciation");
+  await page.getByLabel("pronunciationMode", { exact: true }).selectOption("tone");
+  const buttons = page.locator(".question .options button");
+  await expect(buttons).toHaveCount(4);
+  await expect(page.locator(".question .hanzi.prompt")).toBeVisible();
+  const options = await buttons.locator("span").allTextContents();
+  const unmark = (s) =>
+    s.normalize("NFD").replace(/[\u0304\u0301\u030c\u0300]/g, "");
+  expect(new Set(options).size).toBe(4);
+  expect(new Set(options.map(unmark)).size).toBe(1);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBeTruthy();
+  await buttons.first().click();
+  await expect(page.locator(".question [aria-live=polite]")).not.toBeEmpty();
 });

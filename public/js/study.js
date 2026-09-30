@@ -1,5 +1,6 @@
 import { shuffle, readLocal, writeLocal, sameComponentMultiset } from "./utils.js";
 import { strip, usableComponents, assemblyEligible } from "./validation.js";
+import { toneVariants } from "./pinyin.js";
 export function getStats() {
   const s = readLocal("ch.stats", {});
   return s && typeof s === "object" && !Array.isArray(s) ? s : {};
@@ -40,6 +41,79 @@ export function weightedPick(
     if (n <= 0) return items[i];
   }
   return items.at(-1);
+}
+// A stable identity for a candidate pool: same items regardless of order, so
+// a settings/data change that leaves the eligible set unchanged doesn't
+// discard an in-progress queue, but one that actually adds/removes items does.
+export function poolSignature(pool, key = (x) => x.key) {
+  return pool
+    .map(key)
+    .sort()
+    .join("|");
+}
+// weight()'s value for an item with no recorded history yet — the reference
+// point copy counts are normalized against, so an all-fresh pool produces a
+// cycle whose length equals the pool size (one copy each) rather than 2x it.
+const BASELINE_WEIGHT = 2;
+// One full "cycle" of a weighted shuffle bag: every eligible item appears at
+// least once, and a currently-weak item (see `weight`) gets a few extra
+// copies so it comes up more often — capped at 4x so a handful of hard items
+// can't crowd out everything else in a single cycle. This is deliberately
+// *not* independent weighted sampling (`weightedPick`, still used for
+// one-shot exams in buildExam): over a long free-practice session,
+// independent per-draw sampling from a large pool lets low-weight items go
+// arbitrarily long without ever being picked while a few high-weight items
+// keep recurring — which is exactly the "only a few questions keep
+// repeating" symptom. A shuffle bag bounds both: nothing is starved, and
+// nothing dominates beyond its capped share of one cycle.
+export function buildQueue(pool, key = (x) => x.key, stats = getStats(), rng = Math.random) {
+  const bag = pool.flatMap((item) =>
+    Array(
+      Math.min(
+        4,
+        Math.max(1, Math.round(weight(key(item), stats) / BASELINE_WEIGHT)),
+      ),
+    ).fill(item),
+  );
+  return shuffle(bag, rng);
+}
+function avoidRepeat(queue, lastKey, rng) {
+  if (queue[0]?.key !== lastKey) return queue;
+  const alternatives = queue.flatMap((item, i) =>
+    item.key !== lastKey ? [i] : [],
+  );
+  if (!alternatives.length) return queue;
+  const j = alternatives[Math.floor(rng() * alternatives.length)];
+  queue = [...queue];
+  [queue[0], queue[j]] = [queue[j], queue[0]];
+  return queue;
+}
+// Draws the next question from a shuffle-bag `queue`, transparently starting
+// a new cycle (a fresh buildQueue) when it runs out or when `pool` no longer
+// matches what the queue was built from (settings/data changed). Avoids an
+// exact immediate repeat of `lastKey` whenever the pool has any alternative:
+// normally by swapping another queued item to the front, or — when the
+// queue contains only copies of that matching item — by pulling the *next*
+// cycle forward a draw early and folding the deferred items into it, rather
+// than surfacing an avoidable repeat just because the old cycle happened to
+// end there. Genuinely impossible (and not attempted) only when the pool
+// itself has just one item. Returns a new state for the caller to carry
+// between calls without managing the rebuild/signature bookkeeping itself.
+export function drawFromQueue(state, pool, lastKey, rng = Math.random) {
+  const sig = poolSignature(pool);
+  if (!pool.length) return { ...state, queue: [], signature: sig, item: null };
+  let queue = state.signature === sig ? state.queue : [];
+  if (!queue.length) {
+    queue = buildQueue(pool, undefined, undefined, rng);
+  } else if (
+    queue.every((item) => item.key === lastKey) &&
+    pool.some((item) => item.key !== lastKey)
+  ) {
+    queue = [...buildQueue(pool, undefined, undefined, rng), ...queue];
+  }
+  queue = avoidRepeat(queue, lastKey, rng);
+  const [item, ...rest] = queue;
+  return { queue: rest, signature: sig, item };
 }
 const shapes = [
   ["讠", "氵", "冫", "忄", "扌", "亻", "彳"],
@@ -156,8 +230,19 @@ export function filterStudySource(data, settings = {}) {
   };
 }
 export function eligible(data, area, settings = {}) {
+  data = filterStudySource(data, settings);
   if (area === "learn" || area === "pronunciation")
-    return data.vocabulary.map((v) => ({ key: `vocabulary:${v.id}`, v }));
+    return data.vocabulary
+      .filter(
+        (v) =>
+          area !== "pronunciation" ||
+          settings.pronunciationMode !== "tone" ||
+          toneVariants(
+            v.pinyin,
+            v.characters?.length || [...v.simplified].length,
+          ).length > 0,
+      )
+      .map((v) => ({ key: `vocabulary:${v.id}`, v }));
   if (area === "write")
     return data.vocabulary.flatMap((v) =>
       v.characters.flatMap((c, i) =>
@@ -179,6 +264,7 @@ export function eligible(data, area, settings = {}) {
     .map((x) => ({ key: `${area}:${x.id}`, item: x }));
 }
 export function makeQuestion(data, area, settings = {}, source) {
+  data = filterStudySource(data, settings);
   const entry = source || weightedPick(eligible(data, area, settings));
   if (!entry) return null;
   const base = { key: entry.key, area };
@@ -209,7 +295,12 @@ export function makeQuestion(data, area, settings = {}, source) {
   if (area === "pronunciation") {
     const v = entry.v,
       mode = settings.pronunciationMode || "pinyin",
-      answer = mode === "pinyin" ? v.pinyin : v.simplified;
+      answer =
+        mode === "tone"
+          ? v.pinyin.normalize("NFC")
+          : mode === "pinyin"
+            ? v.pinyin
+            : v.simplified;
     return {
       ...base,
       vocabularyId: v.id,
@@ -222,15 +313,20 @@ export function makeQuestion(data, area, settings = {}, source) {
             : v.simplified,
       answer,
       options: choice(
-        data.vocabulary
-          .filter((x) =>
-            mode === "character"
-              ? x.pinyin !== v.pinyin
-              : mode === "pinyin"
-                ? x.simplified !== v.simplified
-                : x.pinyin !== v.pinyin,
-          )
-          .map((x) => (mode === "pinyin" ? x.pinyin : x.simplified)),
+        mode === "tone"
+          ? toneVariants(
+              v.pinyin,
+              v.characters?.length || [...v.simplified].length,
+            )
+          : data.vocabulary
+              .filter((x) =>
+                mode === "character"
+                  ? x.pinyin !== v.pinyin
+                  : mode === "pinyin"
+                    ? x.simplified !== v.simplified
+                    : x.pinyin !== v.pinyin,
+              )
+              .map((x) => (mode === "pinyin" ? x.pinyin : x.simplified)),
         answer,
       ),
       listen: mode === "listen",

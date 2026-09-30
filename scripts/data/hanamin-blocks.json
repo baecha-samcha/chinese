@@ -1,0 +1,603 @@
+[
+ {
+  "file": "HanaMin.Basic-Latin.woff2",
+  "ranges": [
+   [
+    32,
+    126
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Symbols-and-Punctuation.woff2",
+  "ranges": [
+   [
+    12288,
+    12288
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs.woff2",
+  "ranges": [
+   [
+    19968,
+    19968
+   ],
+   [
+    22290,
+    22290
+   ],
+   [
+    26126,
+    26126
+   ],
+   [
+    26397,
+    26397
+   ],
+   [
+    33457,
+    33457
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-001.woff2",
+  "ranges": [
+   [
+    131072,
+    132095
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-002.woff2",
+  "ranges": [
+   [
+    132096,
+    133119
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-003.woff2",
+  "ranges": [
+   [
+    133120,
+    134143
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-004.woff2",
+  "ranges": [
+   [
+    134144,
+    135167
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-005.woff2",
+  "ranges": [
+   [
+    135168,
+    136191
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-006.woff2",
+  "ranges": [
+   [
+    136192,
+    137215
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-007.woff2",
+  "ranges": [
+   [
+    137216,
+    138239
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-008.woff2",
+  "ranges": [
+   [
+    138240,
+    139263
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-009.woff2",
+  "ranges": [
+   [
+    139264,
+    140287
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-010.woff2",
+  "ranges": [
+   [
+    140288,
+    141311
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-011.woff2",
+  "ranges": [
+   [
+    141312,
+    142335
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-012.woff2",
+  "ranges": [
+   [
+    142336,
+    143359
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-013.woff2",
+  "ranges": [
+   [
+    143360,
+    144383
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-014.woff2",
+  "ranges": [
+   [
+    144384,
+    145407
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-015.woff2",
+  "ranges": [
+   [
+    145408,
+    146431
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-016.woff2",
+  "ranges": [
+   [
+    146432,
+    147455
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-017.woff2",
+  "ranges": [
+   [
+    147456,
+    148479
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-018.woff2",
+  "ranges": [
+   [
+    148480,
+    149503
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-019.woff2",
+  "ranges": [
+   [
+    149504,
+    150527
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-020.woff2",
+  "ranges": [
+   [
+    150528,
+    151551
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-021.woff2",
+  "ranges": [
+   [
+    151552,
+    152575
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-022.woff2",
+  "ranges": [
+   [
+    152576,
+    153599
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-023.woff2",
+  "ranges": [
+   [
+    153600,
+    154623
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-024.woff2",
+  "ranges": [
+   [
+    154624,
+    155647
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-025.woff2",
+  "ranges": [
+   [
+    155648,
+    156671
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-026.woff2",
+  "ranges": [
+   [
+    156672,
+    157695
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-027.woff2",
+  "ranges": [
+   [
+    157696,
+    158719
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-028.woff2",
+  "ranges": [
+   [
+    158720,
+    159743
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-029.woff2",
+  "ranges": [
+   [
+    159744,
+    160767
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-030.woff2",
+  "ranges": [
+   [
+    160768,
+    161791
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-031.woff2",
+  "ranges": [
+   [
+    161792,
+    162815
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-032.woff2",
+  "ranges": [
+   [
+    162816,
+    163839
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-033.woff2",
+  "ranges": [
+   [
+    163840,
+    164863
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-034.woff2",
+  "ranges": [
+   [
+    164864,
+    165887
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-035.woff2",
+  "ranges": [
+   [
+    165888,
+    166911
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-036.woff2",
+  "ranges": [
+   [
+    166912,
+    167935
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-037.woff2",
+  "ranges": [
+   [
+    167936,
+    168959
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-038.woff2",
+  "ranges": [
+   [
+    168960,
+    169983
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-039.woff2",
+  "ranges": [
+   [
+    169984,
+    171007
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-040.woff2",
+  "ranges": [
+   [
+    171008,
+    172031
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-041.woff2",
+  "ranges": [
+   [
+    172032,
+    173055
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-B-042.woff2",
+  "ranges": [
+   [
+    173056,
+    173782
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-C-001.woff2",
+  "ranges": [
+   [
+    173824,
+    174847
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-C-002.woff2",
+  "ranges": [
+   [
+    174848,
+    175871
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-C-003.woff2",
+  "ranges": [
+   [
+    175872,
+    176895
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-C-004.woff2",
+  "ranges": [
+   [
+    176896,
+    177919
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-C-005.woff2",
+  "ranges": [
+   [
+    177920,
+    177972
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-D.woff2",
+  "ranges": [
+   [
+    177984,
+    178205
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-E-001.woff2",
+  "ranges": [
+   [
+    178208,
+    179231
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-E-002.woff2",
+  "ranges": [
+   [
+    179232,
+    180255
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-E-003.woff2",
+  "ranges": [
+   [
+    180256,
+    181279
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-E-004.woff2",
+  "ranges": [
+   [
+    181280,
+    182303
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-E-005.woff2",
+  "ranges": [
+   [
+    182304,
+    183327
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-E-006.woff2",
+  "ranges": [
+   [
+    183328,
+    183969
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-F-001.woff2",
+  "ranges": [
+   [
+    183984,
+    185007
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-F-002.woff2",
+  "ranges": [
+   [
+    185008,
+    186031
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-F-003.woff2",
+  "ranges": [
+   [
+    186032,
+    187055
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-F-004.woff2",
+  "ranges": [
+   [
+    187056,
+    188079
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-F-005.woff2",
+  "ranges": [
+   [
+    188080,
+    189103
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-F-006.woff2",
+  "ranges": [
+   [
+    189104,
+    190127
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-F-007.woff2",
+  "ranges": [
+   [
+    190128,
+    191151
+   ]
+  ]
+ },
+ {
+  "file": "HanaMin.CJK-Unified-Ideographs-Extension-F-008.woff2",
+  "ranges": [
+   [
+    191152,
+    191456
+   ]
+  ]
+ }
+]

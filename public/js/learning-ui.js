@@ -17,7 +17,8 @@ import {
   record,
   buildExam,
   getStats,
-  weightedPick,
+  drawFromQueue,
+  filterStudySource,
 } from "./study.js";
 import { speechControls, speechSettings, speechAvailable } from "./speech.js";
 export const areas = {
@@ -74,6 +75,9 @@ export function searchBox(data) {
   return el("section", {}, el("div", { class: "toolbar" }, input), results);
 }
 export function renderHome(root, data) {
+  const fullData = data;
+  const settings = readLocal("ch.settings", {});
+  data = filterStudySource(data, settings);
   const stats = Object.values(getStats()),
     correct = stats.reduce((s, x) => s + x.correct, 0),
     wrong = stats.reduce((s, x) => s + x.wrong, 0);
@@ -113,6 +117,10 @@ export function renderHome(root, data) {
       ),
     ),
   );
+  root.append(sourceControl(settings, () => {
+    root.replaceChildren();
+    renderHome(root, fullData);
+  }));
   root.append(
     el(
       "div",
@@ -205,6 +213,7 @@ export function sourceControl(settings, refresh) {
   );
 }
 export function renderLearning(root, data, area) {
+  const fullData = data;
   const [name, desc] = areas[area],
     settings = readLocal("ch.settings", {
       difficulty: "normal",
@@ -213,16 +222,18 @@ export function renderLearning(root, data, area) {
       grammarMode: "mixed",
       cultureMode: "choice",
     });
+  data = filterStudySource(data, settings);
   let q, lastKey;
+  let queueState = { queue: [], signature: "" };
   const host = el("div", { class: "study" }),
     toolbar = el("div", { class: "toolbar" });
   const next = () => {
     let pool = eligible(data, area, settings);
     if (area === "grammar" && settings.grammarMode !== "mixed")
       pool = pool.filter((e) => makeQuestion(data, area, settings, e));
-    if (pool.length > 1) pool = pool.filter((e) => e.key !== lastKey);
-    q = pool.length
-      ? makeQuestion(data, area, settings, weightedPick(pool))
+    queueState = drawFromQueue(queueState, pool, lastKey);
+    q = queueState.item
+      ? makeQuestion(data, area, settings, queueState.item)
       : null;
     host.replaceChildren();
     if (!q) {
@@ -249,6 +260,10 @@ export function renderLearning(root, data, area) {
     renderQuestion(host, q, { onNext: next });
   };
   root.append(title("PRACTICE", name, desc));
+  root.append(sourceControl(settings, () => {
+    root.replaceChildren();
+    renderLearning(root, fullData, area);
+  }));
   if (area === "learn")
     toolbar.append(
       selectSetting(
@@ -282,6 +297,7 @@ export function renderLearning(root, data, area) {
         "pronunciationMode",
         [
           ["pinyin", "한자 → 병음"],
+          ["tone", "한자 → 성조 (Hard)"],
           ["listen", "듣기 → 한자"],
           ["character", "병음 → 한자"],
         ],
@@ -609,6 +625,10 @@ export function renderTest(root, data) {
   settings.pronunciationMode = "pinyin";
   settings.grammarMode = "mixed";
   settings.cultureMode = "choice";
+  root.append(sourceControl(settings, () => {
+    root.replaceChildren();
+    renderTest(root, data);
+  }));
   const setup = el("div", { class: "card" }),
     counts = {},
     inputs = {},
@@ -672,7 +692,7 @@ export function renderTest(root, data) {
       "div",
       { class: "toolbar" },
       el("label", {}, "총 문제 수", total),
-      button("전체 범위 자동 배분", distribute),
+      button("선택 범위 자동 배분", distribute),
     ),
   );
   setup.append(
@@ -689,6 +709,7 @@ export function renderTest(root, data) {
           const questions = buildExam(data, counts, settings);
           if (!questions.length) throw Error("문제 수를 선택하세요.");
           setup.remove();
+          root.querySelector(".source-filter select").disabled = true;
           const host = el("div", { class: "study" });
           root.append(host);
           let index = 0;
