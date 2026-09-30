@@ -122,9 +122,21 @@ export function answerKey(field, value) {
   return String(value).trim().normalize("NFC");
 }
 
-function options(item, field, pool, rng) {
+// A distractor must be wrong for *this prompt*: besides never repeating the
+// answer, it can't come from another item that shows the same prompt (같은 뜻
+// "몇 살이니?" → 你几岁了？/你多大了？, same pinyin qíng → 晴/情), since
+// that item's answer would be just as correct.
+function options(item, source, field, pool, rng) {
   const answer = item[field],
-    seen = new Set([answerKey(field, answer)]),
+    prompt = answerKey(source, item[source]),
+    // Answers of every item showing this same prompt count as correct too,
+    // wherever else that value appears (认识 "알다" vs 认识 "알게 되다").
+    seen = new Set([
+      answerKey(field, answer),
+      ...pool
+        .filter((o) => o[source] && o[field] && answerKey(source, o[source]) === prompt)
+        .map((o) => answerKey(field, o[field])),
+    ]),
     others = [];
   for (const other of shuffle(pool, rng)) {
     const value = other[field],
@@ -179,7 +191,7 @@ export function buildQuizQuestion(item, direction, pool, settings = {}, rng = Ma
   return {
     ...question,
     type: "choice",
-    options: options(item, target, pool, rng),
+    options: options(item, source, target, pool, rng),
   };
 }
 

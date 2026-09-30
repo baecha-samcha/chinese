@@ -504,6 +504,11 @@ export function renderImport(root, onImported) {
       el("label", {}, "전체 중복 정책", policy),
       el("label", {}, filter, "문제 있는 행만 보기"),
     ),
+    el(
+      "p",
+      { class: "muted" },
+      "덮어쓰기: 없는 열은 기존 값 유지 · 있는 열의 빈 칸은 비움 (characters 빈 칸은 기존 분해 유지)",
+    ),
     results,
     status,
     el("div", { class: "toolbar" }, verify, commit),

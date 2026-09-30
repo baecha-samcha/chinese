@@ -253,15 +253,27 @@ function fieldToggles(settings, key, label, refresh) {
   return group;
 }
 // Typing ā/ǎ/ǜ is hard on a Chromebook keyboard, so the first typed-pinyin
-// session explains the number/v shortcuts. "확인" hides it until the next
-// visit; "다시 보지 않기" hides it for good (the ? button still opens it).
+// session explains the number/v shortcuts in a small modal card. "확인" hides
+// it until the next visit; "다시 보지 않기" hides it for good (the ? button
+// next to 답 방식 still opens it).
 export const PINYIN_GUIDE_KEY = "ch.pinyinInputGuideDismissed";
 let pinyinGuideSeen = false;
-function pinyinGuide(onClose) {
-  return el(
-    "aside",
-    { class: "note pinyin-guide", ariaLabel: "병음 입력 안내" },
-    el("strong", {}, "병음 성조는 숫자로 입력해도 돼요."),
+let guideDialog = null;
+// A compact modal card (native <dialog>: dimmed backdrop, focus kept inside,
+// Esc = 확인). Only one at a time; closing it never touches the quiz state.
+function openPinyinGuide(onClose) {
+  if (guideDialog?.open) return;
+  const close = (dismiss) => {
+    if (!dialog.open) return;
+    dialog.close();
+    dialog.remove();
+    guideDialog = null;
+    onClose(dismiss);
+  };
+  const dialog = el(
+    "dialog",
+    { class: "card pinyin-guide", ariaLabel: "병음 입력 안내" },
+    el("h2", {}, "병음 성조는 숫자로 입력해도 돼요"),
     el(
       "ul",
       {},
@@ -271,7 +283,7 @@ function pinyinGuide(onClose) {
           {},
           el("span", { lang: "zh-Latn" }, answer),
           " → ",
-          ...typed.flatMap((t, i) => [i ? " 또는 " : "", el("code", {}, t)]),
+          ...typed.flatMap((t, i) => [i ? " / " : "", el("code", {}, t)]),
           note ? el("span", { class: "muted" }, ` · ${note}`) : null,
         ),
       ),
@@ -279,19 +291,33 @@ function pinyinGuide(onClose) {
     el(
       "p",
       { class: "muted" },
-      "1 ā · 2 á · 3 ǎ · 4 à — 대문자·소문자는 구분하지 않아요. 성조는 맞아야 정답이에요.",
+      "1=ā · 2=á · 3=ǎ · 4=à",
+      el("br"),
+      "띄어쓰기 차이와 대소문자는 채점에 영향 없어요. 성조는 맞아야 정답이에요.",
     ),
     el(
       "div",
       { class: "row" },
-      button("확인", () => onClose(false), "primary"),
-      button("다시 보지 않기", () => onClose(true)),
+      button("확인", () => close(false), "primary"),
+      button("다시 보지 않기", () => close(true)),
     ),
   );
+  dialog.addEventListener("cancel", (e) => {
+    e.preventDefault();
+    close(false);
+  });
+  // Leaving the page (back button) shouldn't strand the card over it.
+  window.addEventListener("popstate", () => close(false), { once: true });
+  document.body.append(dialog);
+  guideDialog = dialog;
+  dialog.showModal();
 }
 function quizSettings(settings, data, refresh) {
   const wrap = el("div", { class: "quiz-settings" });
-  let guideRequested = false;
+  const guideClosed = (dismiss) => {
+    pinyinGuideSeen = true;
+    if (dismiss) writeLocal(PINYIN_GUIDE_KEY, true);
+  };
   const draw = () => {
     const target = selectSetting(
       settings,
@@ -327,10 +353,7 @@ function quizSettings(settings, data, refresh) {
     mode.setAttribute("aria-label", "답 방식");
     const typed = settings.answerMode === "input",
       help = typed
-        ? button("?", () => {
-            guideRequested = true;
-            draw();
-          })
+        ? button("?", () => openPinyinGuide(guideClosed))
         : null;
     help?.setAttribute("aria-label", "병음 입력 도움말");
     wrap.replaceChildren(
@@ -352,18 +375,8 @@ function quizSettings(settings, data, refresh) {
       );
     const typedPinyin =
       typed && quizDirections(settings).some((d) => d.endsWith(">pinyin"));
-    if (
-      guideRequested ||
-      (typedPinyin && !pinyinGuideSeen && !readLocal(PINYIN_GUIDE_KEY, false))
-    )
-      wrap.append(
-        pinyinGuide((dismiss) => {
-          pinyinGuideSeen = true;
-          guideRequested = false;
-          if (dismiss) writeLocal(PINYIN_GUIDE_KEY, true);
-          draw();
-        }),
-      );
+    if (typedPinyin && !pinyinGuideSeen && !readLocal(PINYIN_GUIDE_KEY, false))
+      openPinyinGuide(guideClosed);
   };
   const change = () => {
     draw();

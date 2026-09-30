@@ -18,9 +18,12 @@ UPDATE sentences SET pinyin='Wǔ yuè qī hào.' WHERE chinese='五月七号。'
 UPDATE sentences SET pinyin='Jīntiān shì jǐ yuè jǐ hào?' WHERE chinese='今天是几月几号？' AND pinyin='';
 UPDATE sentences SET pinyin='Nǐ duō dà le?' WHERE chinese='你多大了？' AND pinyin='';
 UPDATE sentences SET pinyin='Nǐ jǐ suì le?' WHERE chinese='你几岁了？' AND pinyin='';
-UPDATE sentences SET pinyin='60 gōngjīn.' WHERE chinese='60公斤。' AND pinyin='';
-UPDATE sentences SET pinyin='Nǐ duō zhòng?' WHERE chinese='你多重？' AND pinyin='';
-UPDATE sentences SET pinyin='1 mǐ 75.' WHERE chinese='1米75。' AND pinyin='';
+-- PDF: 60公斤。 (시험범위 표기)
+UPDATE sentences SET pinyin='Liù shí gōngjīn.' WHERE chinese='60公斤。' AND pinyin='';
+-- PDF: 你多重？ (시험범위 표기)
+UPDATE sentences SET pinyin='Nǐ duōzhòng?' WHERE chinese='你多重？' AND pinyin='';
+-- PDF: 1米75。 (시험범위 표기)
+UPDATE sentences SET pinyin='Yī mǐ qī wǔ.' WHERE chinese='1米75。' AND pinyin='';
 UPDATE sentences SET pinyin='Nǐ duō gāo?' WHERE chinese='你多高？' AND pinyin='';
 UPDATE sentences SET pinyin='Liǎng ge dìdi.' WHERE chinese='两个弟弟。' AND pinyin='';
 UPDATE sentences SET pinyin='Nǐ yǒu jǐ ge dìdi?' WHERE chinese='你有几个弟弟？' AND pinyin='';
@@ -59,7 +62,7 @@ UPDATE sentences SET pinyin='Tā hěn piàoliang.' WHERE chinese='她很漂亮�
 UPDATE sentences SET pinyin='Wǒ hěn máng.' WHERE chinese='我很忙。' AND pinyin='';
 UPDATE sentences SET pinyin='Wǒ bú qù.' WHERE chinese='我不去。' AND pinyin='';
 UPDATE sentences SET pinyin='Wǒ qù, nǐ ne?' WHERE chinese='我去，你呢？' AND pinyin='';
--- REVIEW: 他叫王东。 → 王 다음자(wáng)
+-- PDF: 他叫王东。 (시험범위 표기)
 UPDATE sentences SET pinyin='Tā jiào Wáng Dōng.' WHERE chinese='他叫王东。' AND pinyin='';
 UPDATE sentences SET pinyin='Tā jiào shénme míngzi?' WHERE chinese='他叫什么名字？' AND pinyin='';
 UPDATE sentences SET pinyin='Rènshi nǐ hěn gāoxìng.' WHERE chinese='认识你很高兴。' AND pinyin='';
@@ -72,19 +75,20 @@ UPDATE sentences SET pinyin='Huānyíng guānglín!' WHERE chinese='欢迎光临
 UPDATE sentences SET pinyin='Hǎojiǔ bújiàn!' WHERE chinese='好久不见！' AND pinyin='';
 UPDATE sentences SET pinyin='Xià cì jiàn!' WHERE chinese='下次见！' AND pinyin='';
 UPDATE sentences SET pinyin='Yíhuìr jiàn!' WHERE chinese='一会儿见！' AND pinyin='';
+-- PDF: 明天见，拜拜！ (시험범위 표기)
 UPDATE sentences SET pinyin='Míngtiān jiàn, báibai!' WHERE chinese='明天见，拜拜！' AND pinyin='';
 UPDATE sentences SET pinyin='Wǎn ān!' WHERE chinese='晚安！' AND pinyin='';
 UPDATE sentences SET pinyin='Wǎnshang hǎo!' WHERE chinese='晚上好！' AND pinyin='';
 UPDATE sentences SET pinyin='Xià wǔ hǎo!' WHERE chinese='下午好！' AND pinyin='';
 UPDATE sentences SET pinyin='Shàng wǔ hǎo!' WHERE chinese='上午好！' AND pinyin='';
--- REVIEW: 中午好！ → 中 다음자(zhōng)
-UPDATE sentences SET pinyin='Zhōng wǔ hǎo!' WHERE chinese='中午好！' AND pinyin='';
+-- PDF: 中午好！ (시험범위 표기)
+UPDATE sentences SET pinyin='Zhōngwǔ hǎo!' WHERE chinese='中午好！' AND pinyin='';
 UPDATE sentences SET pinyin='Zǎoshang hǎo!' WHERE chinese='早上好！' AND pinyin='';
 UPDATE sentences SET pinyin='Nǐ zǎo!' WHERE chinese='你早！' AND pinyin='';
 UPDATE sentences SET pinyin='Lǎoshī, zǎo!' WHERE chinese='老师，早！' AND pinyin='';
 UPDATE sentences SET pinyin='Hěn dàoqiàn!' WHERE chinese='很道歉！' AND pinyin='';
 UPDATE sentences SET pinyin='Hěn bàoqiàn!' WHERE chinese='很抱歉！' AND pinyin='';
--- REVIEW: 哪里哪里！ → 里 다음자(lǐ)
+-- PDF: 哪里哪里！ (시험범위 표기)
 UPDATE sentences SET pinyin='Nǎli nǎli!' WHERE chinese='哪里哪里！' AND pinyin='';
 UPDATE sentences SET pinyin='Xiè shénme!' WHERE chinese='谢什么！' AND pinyin='';
 UPDATE sentences SET pinyin='Búyòng xiè!' WHERE chinese='不用谢！' AND pinyin='';
@@ -114,7 +118,8 @@ UPDATE sentences SET pinyin='Nǐ jiā yǒu jǐ kǒu rén?' WHERE chinese='你家
 UPDATE sentences SET pinyin='Nín duō dà niánjì le?' WHERE chinese='您多大年纪了？' AND pinyin='';
 UPDATE sentences SET pinyin='Nǐ duō dà le?' WHERE chinese='你多大了？' AND pinyin='';
 UPDATE sentences SET pinyin='Nǐ jǐ suì le?' WHERE chinese='你几岁了？' AND pinyin='';
-UPDATE sentences SET pinyin='Nǐ duō zhòng?' WHERE chinese='你多重？' AND pinyin='';
+-- PDF: 你多重？ (시험범위 표기)
+UPDATE sentences SET pinyin='Nǐ duōzhòng?' WHERE chinese='你多重？' AND pinyin='';
 UPDATE sentences SET pinyin='Nǐ duō gāo?' WHERE chinese='你多高？' AND pinyin='';
 UPDATE sentences SET pinyin='Zhù nǐ zhōumò yúkuài!' WHERE chinese='祝你周末愉快！' AND pinyin='';
 UPDATE sentences SET pinyin='Zhù nǐ xìngfú!' WHERE chinese='祝你幸福！' AND pinyin='';
@@ -130,12 +135,12 @@ UPDATE sentences SET pinyin='Zhùhè nǐ!' WHERE chinese='祝贺你！' AND piny
 UPDATE sentences SET pinyin='Jiǔyǎng jiǔyǎng!' WHERE chinese='久仰久仰！' AND pinyin='';
 UPDATE sentences SET pinyin='Rènshi nǐ hěn róngxìng.' WHERE chinese='认识你很荣幸。' AND pinyin='';
 UPDATE sentences SET pinyin='Jiàndào nǐ hěn gāoxìng.' WHERE chinese='见到你很高兴。' AND pinyin='';
--- REVIEW: 我给你介绍一下。 → 一 성조 변화
-UPDATE sentences SET pinyin='Wǒ gěi nǐ jièshào yíxià.' WHERE chinese='我给你介绍一下。' AND pinyin='';
--- REVIEW: 我来自我介绍一下。 → 一 성조 변화
-UPDATE sentences SET pinyin='Wǒ lái zìwǒjièshào yíxià.' WHERE chinese='我来自我介绍一下。' AND pinyin='';
--- REVIEW: 我姓金。叫金大韩。 → 大 다음자(dà)
-UPDATE sentences SET pinyin='Wǒ xìng Jīn. Jiào Jīn Dàhán.' WHERE chinese='我姓金。叫金大韩。' AND pinyin='';
+-- PDF: 我给你介绍一下。 (시험범위 표기)
+UPDATE sentences SET pinyin='Wǒ gěinǐ jièshào yíxià.' WHERE chinese='我给你介绍一下。' AND pinyin='';
+-- PDF: 我来自我介绍一下。 (시험범위 표기)
+UPDATE sentences SET pinyin='Wǒ lái zìwǒ jièshào yíxià.' WHERE chinese='我来自我介绍一下。' AND pinyin='';
+-- PDF: 我姓金。叫金大韩。 (시험범위 표기)
+UPDATE sentences SET pinyin='Wǒ xìng Jīn, jiào Jīn Dàhán.' WHERE chinese='我姓金。叫金大韩。' AND pinyin='';
 UPDATE sentences SET pinyin='Nǐ xìng shénme?' WHERE chinese='你姓什么？' AND pinyin='';
 UPDATE sentences SET pinyin='Nín guìxìng?' WHERE chinese='您贵姓？' AND pinyin='';
 UPDATE sentences SET pinyin='Qǐng yuánliàng.' WHERE chinese='请原谅。' AND pinyin='';
@@ -144,4 +149,4 @@ UPDATE sentences SET pinyin='Hěn dàoqiàn!' WHERE chinese='很道歉！' AND p
 UPDATE sentences SET pinyin='Hěn bàoqiàn!' WHERE chinese='很抱歉！' AND pinyin='';
 UPDATE sentences SET pinyin='Gōngxǐ gōngxǐ!' WHERE chinese='恭喜恭喜！' AND pinyin='';
 UPDATE sentences SET pinyin='Nǐ zǎo!' WHERE chinese='你早！' AND pinyin='';
--- 6 sentence(s) flagged for review.
+-- 0 sentence(s) flagged for review.

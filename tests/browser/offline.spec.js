@@ -28,7 +28,7 @@ test("app shell and study data keep working offline after one visit", async ({ p
       const b = page.getByRole("group", { name: `${group} 필드` }).getByRole("button", { name, exact: true });
       if ((await b.getAttribute("aria-pressed")) !== String(name === keep)) await b.click();
     }
-  const guide = page.getByRole("complementary", { name: "병음 입력 안내" });
+  const guide = page.getByRole("dialog", { name: "병음 입력 안내" });
   await guide.getByRole("button", { name: "다시 보지 않기" }).click();
   await page.reload();
   await expect(page.getByLabel("병음 입력", { exact: true })).toBeVisible();

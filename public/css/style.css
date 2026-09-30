@@ -670,6 +670,25 @@ footer {
 .my-answer {
   color: var(--danger);
 }
+dialog.pinyin-guide {
+  width: min(420px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  margin: auto;
+  padding: 22px 22px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+dialog.pinyin-guide::backdrop {
+  background: rgba(8, 10, 9, 0.55);
+}
+.pinyin-guide h2 {
+  margin: 0 0 6px;
+  font-size: 19px;
+}
 .pinyin-guide ul {
   margin: 10px 0;
   padding-left: 1.2em;
@@ -684,4 +703,6 @@ footer {
 .pinyin-guide .row {
   gap: 10px;
   flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-top: 14px;
 }

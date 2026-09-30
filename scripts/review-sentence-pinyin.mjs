@@ -23,6 +23,7 @@ const unquote = (s) => s.replace(/''/g, "'");
 const draft = new Map(),
   review = new Map();
 for (const m of sql.matchAll(/^-- REVIEW: (.+?) → (.+)$/gm)) review.set(m[1], m[2]);
+const confirmed = new Set([...sql.matchAll(/^-- PDF: (.+?) \(시험범위 표기\)$/gm)].map((m) => m[1]));
 for (const m of sql.matchAll(/^UPDATE sentences SET pinyin='((?:[^']|'')*)' WHERE chinese='((?:[^']|'')*)'/gm))
   draft.set(unquote(m[2]), unquote(m[1]));
 const intro = new Map();
@@ -56,10 +57,14 @@ function check(s, pinyin) {
   for (const { w, syl } of words)
     if (syl === null && !/^\d+$/.test(w)) flags.push(["WARNING", `병음 철자 인식 불가: ${w}`]);
   const syllables = words.flatMap(({ syl }) => (syl || []).filter((p) => p.vowelIndex >= 0 || /^r$/i.test(p.text)));
-  if (syllables.length !== chars.length)
+  const digits = /[0-9]/.test(s.chinese);
+  // Digits are read out in the pinyin (1米75 → yī mǐ qī wǔ), so a Han-only
+  // syllable count can't line up there.
+  if (!digits && syllables.length !== chars.length)
     flags.push(["WARNING", `음절 수 불일치: 한자 ${chars.length}자 / 병음 ${syllables.length}음절`]);
-  if (/[0-9]/.test(s.chinese))
+  if (digits && /[0-9]/.test(pinyin))
     flags.push(["WARNING", "아라비아 숫자 포함: 병음에도 숫자가 그대로 남아 직접 입력 채점 시 숫자/병음 중 어느 쪽이 정답인지 모호"]);
+  else if (digits) flags.push(["INFO", "숫자를 병음으로 읽음"]);
   else if (/[零一二三四五六七八九十百两][月号点岁口年]|几[月号点岁口]|公斤|米/.test(s.chinese))
     flags.push(["INFO", "숫자/단위 포함"]);
   const zh = (s.chinese.match(zhPunct) || []).length,
@@ -77,7 +82,7 @@ function check(s, pinyin) {
     .filter((w) => !names.some((n) => n.includes(w)));
   if (proper.length) flags.push(["INFO", `고유명사: ${proper.join(", ")}`]);
   // Compare with pinyin-pro reading the whole sentence in context.
-  if (syllables.length === chars.length) {
+  if (!digits && syllables.length === chars.length) {
     const context = pinyinPro(chars.join(""), { type: "array", toneSandhi: true });
     const diffs = [],
       neutral = [];
@@ -122,7 +127,9 @@ const rows = sentences
   .map((s) => {
     const fromIntro = intro.has(s.chinese);
     const pinyin = s.pinyin || (fromIntro ? intro.get(s.chinese) : draft.get(s.chinese)) || "";
-    const flags = check(s, pinyin);
+    const flags = confirmed.has(s.chinese)
+      ? [["INFO", "시험범위 PDF 표기로 확정"]]
+      : check(s, pinyin);
     if (review.has(s.chinese))
       flags.unshift([
         "REVIEW",

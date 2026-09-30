@@ -304,3 +304,102 @@ test("mock exam word questions stay 뜻 ↔ 한자 choice whatever practice is s
     assert.ok(["meaning>hanzi", "hanzi>meaning"].includes(q.direction));
   }
 });
+
+test("no distractor shares the prompt: 같은 뜻 다른 문장 never appear as each other's wrong options", () => {
+  const ambiguous = {
+    vocabulary: [
+      { id: 1, simplified: "认识", pinyin: "rènshi", meaning: "알다", characters: [] },
+      { id: 2, simplified: "认识", pinyin: "rènshi", meaning: "알게 되다", characters: [] },
+      { id: 3, simplified: "晴", pinyin: "qíng", meaning: "날이 개다", characters: [] },
+      { id: 4, simplified: "情", pinyin: "qíng", meaning: "감정", characters: [] },
+      { id: 5, simplified: "知道", pinyin: "zhīdao", meaning: "알다", characters: [] },
+      ...["好", "你", "学生", "老师"].map((w, i) => ({ id: 10 + i, simplified: w, pinyin: ["hǎo", "nǐ", "xuésheng", "lǎoshī"][i], meaning: ["좋다", "너", "학생", "선생님"][i], characters: [] })),
+    ],
+    sentences: [
+      { id: 121, korean: "몇 살이니?", chinese: "你几岁了？", pinyin: "Nǐ jǐ suì le?", tokens: [] },
+      { id: 122, korean: "몇 살이니?", chinese: "你多大了？", pinyin: "Nǐ duō dà le?", tokens: [] },
+      { id: 3, korean: "축하합니다!", chinese: "恭喜恭喜！", pinyin: "Gōngxǐ gōngxǐ!", tokens: [] },
+      { id: 4, korean: "축하합니다!", chinese: "祝贺你！", pinyin: "Zhùhè nǐ!", tokens: [] },
+      ...["你好！", "谢谢！", "再见！", "对不起！"].map((c, i) => ({ id: 20 + i, korean: `다른 뜻 ${i}`, chinese: c, pinyin: ["Nǐ hǎo!", "Xièxie!", "Zàijiàn!", "Duìbuqǐ!"][i], tokens: [] })),
+    ],
+  };
+  const face = (studyTarget, row) =>
+    studyTarget === "word"
+      ? { meaning: row.meaning, hanzi: row.simplified, pinyin: row.pinyin }
+      : { meaning: row.korean, hanzi: row.chinese, pinyin: row.pinyin };
+  let checked = 0;
+  for (const studyTarget of ["word", "sentence"])
+    for (const [source, target] of directions) {
+      const settings = { studyTarget, quizSource: [source], quizTarget: [target] };
+      const rows = studyTarget === "word" ? ambiguous.vocabulary : ambiguous.sentences;
+      for (const entry of eligible(ambiguous, "learn", settings))
+        for (let i = 0; i < 15; i++) {
+          const q = makeQuestion(ambiguous, "learn", settings, entry);
+          // Every row showing this same prompt would be a correct answer too.
+          const alsoCorrect = rows
+            .map((r) => face(studyTarget, r))
+            .filter((f) => f[source] === q.prompt)
+            .map((f) => f[target]);
+          const wrong = q.options.filter((o) => o !== q.answer);
+          for (const o of wrong) assert.ok(!alsoCorrect.includes(o), `${studyTarget} ${source}→${target} "${q.prompt}": ${o}`);
+          checked++;
+        }
+    }
+  assert.ok(checked > 100);
+  const q = makeQuestion(ambiguous, "learn", { studyTarget: "sentence", quizSource: ["meaning"], quizTarget: ["hanzi"] }, eligible(ambiguous, "learn", { studyTarget: "sentence" }).find((e) => e.item.id === 121));
+  assert.equal(q.answer, "你几岁了？");
+  assert.ok(!q.options.includes("你多大了？"));
+});
+
+test("PDF-confirmed sentence pinyin is what the SQL writes, and digit sentences grade the PDF reading", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const sql = await readFile("scripts/data/sentence-pinyin.sql", "utf8");
+  const written = new Map(
+    [...sql.matchAll(/^UPDATE sentences SET pinyin='((?:[^']|'')*)' WHERE chinese='((?:[^']|'')*)'/gm)].map((m) => [m[2].replace(/''/g, "'"), m[1].replace(/''/g, "'")]),
+  );
+  const pdf = {
+    "我姓金。叫金大韩。": "Wǒ xìng Jīn, jiào Jīn Dàhán.",
+    "我来自我介绍一下。": "Wǒ lái zìwǒ jièshào yíxià.",
+    "我给你介绍一下。": "Wǒ gěinǐ jièshào yíxià.",
+    "哪里哪里！": "Nǎli nǎli!",
+    "中午好！": "Zhōngwǔ hǎo!",
+    "明天见，拜拜！": "Míngtiān jiàn, báibai!",
+    "你多重？": "Nǐ duōzhòng?",
+    "他叫王东。": "Tā jiào Wáng Dōng.",
+    "1米75。": "Yī mǐ qī wǔ.",
+    "60公斤。": "Liù shí gōngjīn.",
+  };
+  for (const [chinese, pinyin] of Object.entries(pdf)) assert.equal(written.get(chinese), pinyin, chinese);
+  assert.ok(!/^-- REVIEW:/m.test(sql));
+  // Only-empty fills keep the SQL idempotent.
+  assert.ok([...sql.matchAll(/^UPDATE .*$/gm)].every((m) => m[0].endsWith("AND pinyin='';")));
+  const typed = (chinese, korean) => {
+    const data = { vocabulary: [], sentences: [{ id: 1, korean, chinese, pinyin: written.get(chinese), tokens: [] }] };
+    const settings = { studyTarget: "sentence", quizSource: ["meaning"], quizTarget: ["pinyin"], answerMode: "input" };
+    return makeQuestion(data, "learn", settings, eligible(data, "learn", settings)[0]);
+  };
+  const height = typed("1米75。", "1미터 75야.");
+  for (const ok of ["yī mǐ qī wǔ", "yi1 mi3 qi1 wu3", "Yi1mi3qi1wu3.", "YĪ MǏ QĪ WǓ"]) assert.ok(grade(height, ok), ok);
+  for (const bad of ["yi1 mi3 qi1 wu2", "yi mi qi wu"]) assert.ok(!grade(height, bad), bad);
+  const weight60 = typed("60公斤。", "60킬로그램이야.");
+  for (const ok of ["liù shí gōngjīn", "liu4 shi2 gong1jin1", "liu4shi2 gong1 jin1"]) assert.ok(grade(weight60, ok), ok);
+  assert.ok(!grade(weight60, "liu4 shi2 gong1jin4"));
+  // Guide examples, grammar of the same key: gei3ni3 and gei3 ni3 both match gěinǐ.
+  const give = typed("我给你介绍一下。", "제가 소개해 드릴게요.");
+  for (const ok of ["wo3 gei3ni3 jie4shao4 yi2xia4", "wo3 gei3 ni3 jie4shao4 yi2xia4"]) assert.ok(grade(give, ok), ok);
+});
+
+test("validateRow reports which columns were present, treating an empty characters cell as absent", async () => {
+  const { validateRow } = await import("../public/js/validation.js");
+  const sentence = validateRow("sentences", { korean: "만나서 기뻐요.", chinese: "见到你很高兴。", tokens: '["见到","你","很","高兴"]' });
+  assert.deepEqual(sentence.present.sort(), ["chinese", "korean", "tokens"]);
+  const cleared = validateRow("sentences", { korean: "a", chinese: "你好", tokens: '["你","好"]', pinyin: "", category: "", source: "" });
+  assert.ok(["pinyin", "category", "source"].every((f) => cleared.present.includes(f)));
+  assert.equal(cleared.data.pinyin, "");
+  const word = validateRow("vocabulary", { simplified: "好", pinyin: "hǎo", meaning: "좋다", characters: "" });
+  assert.ok(!word.present.includes("characters"));
+  assert.ok(!word.present.includes("traditional"));
+  assert.ok(!word.present.includes("source"));
+  const withCharacters = validateRow("vocabulary", { simplified: "好", pinyin: "hǎo", meaning: "좋다", characters: '[{"char":"好"}]' });
+  assert.ok(withCharacters.present.includes("characters"));
+});

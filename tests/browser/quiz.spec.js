@@ -44,6 +44,8 @@ test("sentence quiz: 자기소개 category, every direction, typed pinyin with m
   // Typed pinyin: a wrong answer shows both what I typed and the answer...
   await onlyDirection(page, "뜻", "병음");
   await page.getByLabel("답 방식").selectOption("input");
+  // First typed-pinyin session: the input guide modal opens; 확인 closes it.
+  await page.getByRole("dialog", { name: "병음 입력 안내" }).getByRole("button", { name: "확인" }).click();
   await page.getByLabel("병음 입력", { exact: true }).fill("wo3 shi4");
   await page.getByRole("button", { name: "정답 확인" }).click();
   await expect(page.locator(".feedback.error")).toContainText("내 답: wo3 shi4");
@@ -93,7 +95,7 @@ test("word quiz keeps working with a single direction and blocks same-field-only
   await expect(page.locator(".question")).toBeVisible();
 });
 test("typed-pinyin guide: shown on first typed pinyin session, 확인 hides until next visit, 다시 보지 않기 persists, ? reopens", async ({ page }) => {
-  const guide = page.getByRole("complementary", { name: "병음 입력 안내" });
+  const guide = page.getByRole("dialog", { name: "병음 입력 안내" });
   await page.goto("/learn");
   await page.getByLabel("학습 대상").selectOption("sentence");
   await onlyDirection(page, "뜻", "병음");
@@ -102,16 +104,36 @@ test("typed-pinyin guide: shown on first typed pinyin session, 확인 hides unti
   await expect(guide).toBeVisible();
   await expect(guide).toContainText("ni3 hao3");
   await expect(guide).toContainText("lv4");
+  // A compact modal card over a dimmed page, not a full-screen sheet.
+  const box = await guide.boundingBox();
+  const viewport = page.viewportSize();
+  expect(box.width).toBeLessThan(viewport.width * 0.8);
+  expect(box.height).toBeLessThan(viewport.height);
+  expect(await guide.evaluate((d) => d.open && d.matches(":modal"))).toBe(true);
+  expect(await guide.evaluate((d) => getComputedStyle(d, "::backdrop").backgroundColor)).not.toBe("rgba(0, 0, 0, 0)");
+  // It stays until answered (no auto-dismiss); Esc behaves like 확인.
+  await page.waitForTimeout(1500);
+  await expect(guide).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(guide).toHaveCount(0);
+  expect(await page.evaluate(() => localStorage.getItem("ch.pinyinInputGuideDismissed"))).toBeNull();
+  await page.getByRole("button", { name: "병음 입력 도움말" }).click();
+  await expect(guide).toBeVisible();
   await guide.getByRole("button", { name: "확인" }).click();
   await expect(guide).toHaveCount(0);
   // Same visit: stays closed while changing settings.
   await onlyDirection(page, "한자", "병음");
   await expect(guide).toHaveCount(0);
-  // Typed answers without a pinyin target never trigger it.
+  // Next visit with typed pinyin saved: it opens again by itself.
   await page.reload();
+  await expect(guide).toBeVisible();
+  await guide.getByRole("button", { name: "확인" }).click();
+  // Typed answers without a pinyin target never trigger it, even on a new visit.
   await onlyDirection(page, "뜻", "한자");
+  await page.reload();
+  await expect(page.getByLabel("한자 입력", { exact: true })).toBeVisible();
   await expect(guide).toHaveCount(0);
-  // Next visit with a pinyin target: shown again, then dismissed for good.
+  // Choosing a pinyin answer opens it; 다시 보지 않기 stops it for good.
   await onlyDirection(page, "뜻", "병음");
   await expect(guide).toBeVisible();
   await guide.getByRole("button", { name: "다시 보지 않기" }).click();

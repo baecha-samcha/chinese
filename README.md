@@ -93,7 +93,7 @@ Worker는 jose를 사용하여 서명, RS256 알고리즘, issuer, audience, 만
 ## 페이지
 
 - `/`: 학습 대시보드, 누적 통계, 단어 검색
-- `/learn`: 단어·문장 공통 퀴즈 — 뜻·한자·병음 중 문제/정답 필드 선택, 카테고리, 객관식/직접 입력
+- `/learn`: 단어·문장 공통 퀴즈 — 뜻·한자·병음 중 문제/정답 필드 선택, 카테고리, 객관식/직접 입력 (객관식 오답 보기에는 같은 문제 값을 가진 다른 항목의 정답이 절대 들어가지 않음 — 예: 같은 뜻 "몇 살이니?"의 你几岁了？/你多大了？)
 - `/match`: 3분 중국어·한국어 짝 맞추기 (최대 4쌍 · 4행 2열, 정답 두 자리만 연속 보충)
 - `/write`: 재귀 component 조립, Easy/Normal/Hard
 - `/pronunciation`: 한자→병음, 듣기→한자, 병음→한자, TTS 속도 설정
@@ -128,9 +128,9 @@ CSV는 UTF-8, 첫 행은 영문 필드명입니다. XLSX도 첫 행이 필드명
 
 단어와 문장은 모두 `public/js/quiz.js`에서 같은 StudyItem(`meaning` 뜻 · `hanzi` 한자 · `pinyin` 병음 · `category`)으로 정규화되고, 하나의 퀴즈 엔진이 `문제 필드 → 정답 필드`로 출제합니다. 단어는 `meaning/simplified/pinyin`, 문장은 `korean/chinese/pinyin`을 사용합니다. 학습 대상(단어/문장), 카테고리, 문제·정답 필드(여러 개 선택 가능, 같은 필드끼리의 조합은 자동 제외), 답 방식을 고릅니다. 예전 `direction` 설정은 그대로 해석됩니다(forward = 한자 → 뜻, reverse = 뜻 → 한자, mixed = 둘 다). 종합시험의 뜻 학습은 연습 설정과 관계없이 단어 뜻 ↔ 한자 객관식으로 유지합니다. 문장 배열(`/sentence`)은 별도 기능으로 그대로 남아 있습니다.
 
-직접 입력은 정답이 한자·병음일 때만 제공합니다(한국어 뜻은 객관식). 병음은 성조까지 채점하며, 대소문자·Unicode 조합형·공백/띄어쓰기(gěi nǐ = gěinǐ)·apostrophe·문장부호 차이는 무시하고 `v`, `u:`를 ü로, 숫자 성조(`ni3 hao3`, 5/0은 경성)를 성조 기호로 바꿔 비교합니다(`public/js/pinyin.js`의 `pinyinAnswerKey`). 성조가 다르거나 빠진 답은 오답입니다. 오답이면 내 답과 정답을 함께 보여줍니다. Chromebook처럼 성조 문자를 입력하기 어려운 환경을 위해, 정답이 병음인 직접 입력 학습을 처음 시작하면 숫자 성조·v 입력 안내가 뜹니다. `확인`은 다음 방문까지, `다시 보지 않기`는 계속 숨기고(`localStorage`의 `ch.pinyinInputGuideDismissed`), 답 방식 옆 `?` 버튼으로 언제든 다시 볼 수 있습니다. 안내의 예시는 `public/js/pinyin.js`의 `PINYIN_INPUT_EXAMPLES` 하나에서 나오고 `tests/quiz.test.mjs`가 모두 실제 채점으로 검증합니다.
+직접 입력은 정답이 한자·병음일 때만 제공합니다(한국어 뜻은 객관식). 병음은 성조까지 채점하며, 대소문자·Unicode 조합형·공백/띄어쓰기(gěi nǐ = gěinǐ)·apostrophe·문장부호 차이는 무시하고 `v`, `u:`를 ü로, 숫자 성조(`ni3 hao3`, 5/0은 경성)를 성조 기호로 바꿔 비교합니다(`public/js/pinyin.js`의 `pinyinAnswerKey`). 성조가 다르거나 빠진 답은 오답입니다. 오답이면 내 답과 정답을 함께 보여줍니다. Chromebook처럼 성조 문자를 입력하기 어려운 환경을 위해, 정답이 병음인 직접 입력 학습을 처음 시작하면 숫자 성조·v 입력 안내가 작은 modal 카드로 뜹니다(자동으로 닫히지 않음, Esc = 확인). `확인`은 다음 방문까지, `다시 보지 않기`는 계속 숨기고(`localStorage`의 `ch.pinyinInputGuideDismissed`), 답 방식 옆 `?` 버튼으로 언제든 다시 볼 수 있습니다. 안내의 예시는 `public/js/pinyin.js`의 `PINYIN_INPUT_EXAMPLES` 하나에서 나오고 `tests/quiz.test.mjs`가 모두 실제 채점으로 검증합니다.
 
-문장 병음·카테고리는 migration `0003_sentence_pinyin_category.sql`로 추가됩니다. 이 migration은 자기소개 표현 6개를 같은 중국어 문장이 이미 있으면 그 행을 재사용해 `category='자기소개'`와 병음만 채우고, 없을 때만 새로 만듭니다. 나머지 문장의 병음은 `scripts/generate-sentence-pinyin.mjs`로 만든 초안 `scripts/data/sentence-pinyin.sql`에 있습니다(단어장 병음 우선, 없으면 pinyin-pro 사전·성조 변화 적용, `-- REVIEW:` 줄은 사람이 확인할 항목). 비어 있는 병음만 채우므로 다시 실행해도 수정한 값은 덮어쓰지 않습니다. `node scripts/review-sentence-pinyin.mjs <sentences.json> <vocabulary.json> > outputs/sentence-pinyin-review.md`로 실제 적용될 병음과 REVIEW/WARNING(음절 수, 다음자, 고유명사, 숫자, 문장부호, pinyin-pro 문맥 판독 차이, 띄어쓰기)·중복 문장을 검수표로 볼 수 있습니다. 병음이 없는 문장은 병음이 필요한 방향에서만 자동 제외됩니다.
+문장 병음·카테고리는 migration `0003_sentence_pinyin_category.sql`로 추가됩니다. 이 migration은 자기소개 표현 6개를 같은 중국어 문장이 이미 있으면 그 행을 재사용해 `category='자기소개'`와 병음만 채우고, 없을 때만 새로 만듭니다. 시험범위 PDF(중국어1.pdf, 2026년 보충자료.pdf)에 병음이 인쇄된 문장은 생성기의 PDF 표기(`pdf` 목록)를 그대로 씁니다(哪里 nǎli, 多重 duōzhòng, 拜拜 báibai, 1米75 → Yī mǐ qī wǔ, 60公斤 → Liù shí gōngjīn 등, 숫자 문장은 PDF 읽기를 병음으로 저장하므로 직접 입력도 그 읽기로 채점). 나머지 문장의 병음은 `scripts/generate-sentence-pinyin.mjs`로 만든 초안 `scripts/data/sentence-pinyin.sql`에 있습니다(단어장 병음 우선, 없으면 pinyin-pro 사전·성조 변화 적용, `-- REVIEW:` 줄은 사람이 확인할 항목). 비어 있는 병음만 채우므로 다시 실행해도 수정한 값은 덮어쓰지 않습니다. `node scripts/review-sentence-pinyin.mjs <sentences.json> <vocabulary.json> > outputs/sentence-pinyin-review.md`로 실제 적용될 병음과 REVIEW/WARNING(음절 수, 다음자, 고유명사, 숫자, 문장부호, pinyin-pro 문맥 판독 차이, 띄어쓰기)·중복 문장을 검수표로 볼 수 있습니다. 병음이 없는 문장은 병음이 필요한 방향에서만 자동 제외됩니다.
 
 운영 반영 순서(코드 배포 전에 migration 먼저):
 
@@ -140,7 +140,7 @@ npx wrangler d1 execute ch-study --remote --file=scripts/data/sentence-pinyin.sq
 npm run deploy
 ```
 
-XLSX/CSV로 문장을 **덮어쓰기** 가져올 때 `pinyin`/`category` 열이 없으면 해당 값이 빈칸이 되므로, 백업 CSV를 수정해 다시 올리는 방식을 권장합니다.
+XLSX/CSV **덮어쓰기** 가져오기는 파일에 있는 열만 갱신합니다. 열 자체가 없으면(`pinyin`, `category`, `source`, `explanation`, `traditional`, `korean_hanja_reading`, `characters` 등) 기존 값을 유지하고, 열이 있는데 칸이 비어 있으면 명시적으로 비웁니다. 단, `characters` 빈 칸은 분해가 실수로 지워지지 않도록 '없음'으로 취급해 기존 값을 유지합니다. 새 행 추가(INSERT)는 이전과 같습니다.
 
 기존 설치에는 `0002_study_source.sql` migration이 필요합니다. 운영에 반영할 때는 다음 순서를 사용합니다.
 

@@ -138,15 +138,23 @@ async function body(req: Request) {
     throw new HttpError(400, "JSON 형식 오류");
   }
 }
+// `present` (import overwrite only) limits an UPDATE to the columns the
+// imported file actually had; everything else keeps its stored value.
 function statement(
   env: Env,
   kind: string,
   data: Record<string, any>,
   id?: number,
+  present?: string[],
 ) {
   if (kind === "vocabulary")
     data = { ...data, pinyin_normalized: normalizePinyin(data.pinyin) };
-  const cols = columns[kind],
+  const cols = columns[kind].filter(
+    (c) =>
+      !id ||
+      !present ||
+      present.includes(c === "pinyin_normalized" ? "pinyin" : c),
+  ),
     values = cols.map((c) =>
       jsonFields.includes(c) ? JSON.stringify(data[c]) : data[c],
     );
@@ -244,7 +252,7 @@ async function api(req: Request, env: Env) {
           )))
     )
       throw new HttpError(400, "중복 정책 오류");
-    const plans: { data: any; id?: number }[] = [];
+    const plans: { data: any; present?: string[]; id?: number }[] = [];
     const pending = new Map<string, number>();
     let skipped = 0;
     for (let i = 0; i < preview.length; i++) {
@@ -259,17 +267,21 @@ async function api(req: Request, env: Env) {
       }
       if (policy === "overwrite" && previous !== undefined) {
         plans[previous].data = data;
+        plans[previous].present = preview[i].present;
         continue;
       }
       pending.set(key, plans.length);
       plans.push({
         data,
+        present: preview[i].present,
         ...(policy === "overwrite" && matches.length
           ? { id: Number(matches[0].id) }
           : {}),
       });
     }
-    const writes = plans.map((p) => statement(env, b.kind, p.data, p.id));
+    const writes = plans.map((p) =>
+      statement(env, b.kind, p.data, p.id, p.present),
+    );
     if (writes.length) await env.DB.batch(writes);
     return json({ written: writes.length, skipped });
   }

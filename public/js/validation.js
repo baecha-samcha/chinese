@@ -262,8 +262,20 @@ export function validateRow(kind, raw, existing = []) {
   );
   if (duplicates.length)
     warnings.push(`동일 항목 ${duplicates.length}개: 중복 정책 확인`);
+  // Which normalized fields the input actually carried a column for. An
+  // overwrite import only updates these, so a CSV/XLSX without e.g. a pinyin
+  // or source column keeps the stored value instead of blanking it. An
+  // empty cell in a present column is an explicit clear — except for
+  // characters, where an empty cell would silently drop every decomposition,
+  // so it counts as "not provided" too.
+  const present = Object.keys(data).filter(
+    (k) =>
+      Object.hasOwn(raw ?? {}, k) &&
+      !(k === "characters" && !String(raw.characters ?? "").trim()),
+  );
   return {
     data,
+    present,
     errors,
     warnings,
     duplicates: duplicates.map((r) => r.id),
