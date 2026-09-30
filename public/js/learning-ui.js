@@ -18,11 +18,21 @@ import {
   buildExam,
   getStats,
   drawFromQueue,
+  scheduleRetry,
   filterStudySource,
 } from "./study.js";
+import {
+  FIELDS,
+  FIELD_LABELS,
+  STUDY_TARGETS,
+  categories,
+  quizFields,
+  quizDirections,
+  studyTarget,
+} from "./quiz.js";
 import { speechControls, speechSettings, speechAvailable } from "./speech.js";
 export const areas = {
-  learn: ["뜻 학습", "단어와 뜻을 양방향으로 익혀요.", "01"],
+  learn: ["뜻 학습", "단어·문장을 뜻·한자·병음 사이에서 익혀요.", "01"],
   write: ["한자 조립", "구성요소를 골라 간체자를 완성해요.", "02"],
   pronunciation: ["병음 · 발음", "눈으로 익히고, 귀로 기억해요.", "03"],
   sentence: ["문장 배열", "단어를 눌러 문장 순서를 만들어요.", "04"],
@@ -212,6 +222,98 @@ export function sourceControl(settings, refresh) {
     el("p", {class: "muted"}, "단어·문장에 적용됩니다. 문법·문화는 공통 범위이며, 출처 미지정 항목은 ‘둘 다’에 포함됩니다."),
   );
 }
+// Question/answer field pickers for the shared quiz: any source × target
+// pair except same-field; picking one of each gives a single fixed direction.
+function fieldToggles(settings, key, label, refresh) {
+  const group = el("div", {
+    class: "field-toggle",
+    role: "group",
+    ariaLabel: `${label} 필드`,
+  });
+  group.append(el("span", { class: "muted" }, label));
+  for (const field of FIELDS) {
+    const b = button(FIELD_LABELS[field], () => {
+      const fields = quizFields(settings);
+      const current = new Set(fields[key === "quizSource" ? "source" : "target"]);
+      if (current.has(field)) current.delete(field);
+      else current.add(field);
+      settings.quizSource = fields.source;
+      settings.quizTarget = fields.target;
+      settings[key] = FIELDS.filter((f) => current.has(f));
+      writeLocal("ch.settings", settings);
+      refresh();
+    });
+    b.setAttribute(
+      "aria-pressed",
+      String(quizFields(settings)[key === "quizSource" ? "source" : "target"].includes(field)),
+    );
+    group.append(b);
+  }
+  return group;
+}
+function quizSettings(settings, data, refresh) {
+  const wrap = el("div", { class: "quiz-settings" });
+  const draw = () => {
+    const target = selectSetting(
+      settings,
+      "studyTarget",
+      Object.entries(STUDY_TARGETS),
+      () => {
+        settings.quizCategory = "all";
+        writeLocal("ch.settings", settings);
+        change();
+      },
+    );
+    target.setAttribute("aria-label", "학습 대상");
+    const cats = categories(data, settings);
+    if (!["all", ...cats].includes(settings.quizCategory))
+      settings.quizCategory = "all";
+    const category = selectSetting(
+      settings,
+      "quizCategory",
+      [["all", "전체 카테고리"], ...cats.map((c) => [c, c])],
+      change,
+    );
+    category.setAttribute("aria-label", "카테고리");
+    category.disabled = !cats.length;
+    const mode = selectSetting(
+      settings,
+      "answerMode",
+      [
+        ["choice", "객관식"],
+        ["input", "직접 입력 (한자·병음)"],
+      ],
+      change,
+    );
+    mode.setAttribute("aria-label", "답 방식");
+    wrap.replaceChildren(
+      el("div", { class: "toolbar" }, target, category, mode),
+      el(
+        "div",
+        { class: "toolbar" },
+        fieldToggles(settings, "quizSource", "문제", change),
+        fieldToggles(settings, "quizTarget", "정답", change),
+      ),
+    );
+    if (!quizDirections(settings).length)
+      wrap.append(
+        el(
+          "p",
+          { class: "note" },
+          "문제와 정답에서 서로 다른 필드를 하나 이상씩 선택하세요.",
+        ),
+      );
+  };
+  const change = () => {
+    draw();
+    refresh();
+  };
+  settings.studyTarget = studyTarget(settings);
+  settings.answerMode = settings.answerMode === "input" ? "input" : "choice";
+  settings.quizCategory = settings.quizCategory || "all";
+  draw();
+  return wrap;
+}
 export function renderLearning(root, data, area) {
   const fullData = data;
   const [name, desc] = areas[area],
@@ -236,6 +338,7 @@ export function renderLearning(root, data, area) {
       ? makeQuestion(data, area, settings, queueState.item)
       : null;
     host.replaceChildren();
+    if (!q && area === "learn" && !quizDirections(settings).length) return;
     if (!q) {
       host.append(
         el(
@@ -256,27 +359,22 @@ export function renderLearning(root, data, area) {
       );
       return;
     }
-    lastKey = q.key;
-    renderQuestion(host, q, { onNext: next });
+    lastKey = q.entryKey || q.key;
+    renderQuestion(host, q, {
+      onNext: next,
+      // Missed items return a few questions later instead of right away.
+      onAnswer: ({ correct, skipped }) => {
+        if (!correct && !skipped && q.entry)
+          queueState = scheduleRetry(queueState, q.entry);
+      },
+    });
   };
   root.append(title("PRACTICE", name, desc));
   root.append(sourceControl(settings, () => {
     root.replaceChildren();
     renderLearning(root, fullData, area);
   }));
-  if (area === "learn")
-    toolbar.append(
-      selectSetting(
-        settings,
-        "direction",
-        [
-          ["mixed", "양방향"],
-          ["forward", "중국어 → 한국어"],
-          ["reverse", "한국어 → 중국어"],
-        ],
-        next,
-      ),
-    );
+  if (area === "learn") toolbar.append(quizSettings(settings, data, next));
   if (area === "write")
     toolbar.append(
       selectSetting(
@@ -388,15 +486,22 @@ export function renderQuestion(host, q, { onNext, onAnswer, index, total }) {
       ),
       el("progress", { max: total, value: index }),
     );
-  else panel.append(el("div", { class: "eyebrow" }, areas[q.area][0]));
+  else
+    panel.append(
+      el(
+        "div",
+        { class: "eyebrow" },
+        q.label ? `${areas[q.area][0]} · ${q.label}` : areas[q.area][0],
+      ),
+    );
   panel.append(
     el(
       "div",
       {
         class:
-          q.area === "learn" || (q.area === "pronunciation" && !q.listen)
-            ? "hanzi prompt"
-            : "prompt",
+          q.promptClass ||
+          (q.area === "pronunciation" && !q.listen ? "hanzi prompt" : "prompt"),
+        ...(q.promptLang ? { lang: q.promptLang } : {}),
       },
       q.prompt,
     ),
@@ -423,6 +528,9 @@ export function renderQuestion(host, q, { onNext, onAnswer, index, total }) {
       { class: `feedback ${correct ? "" : "error"}` },
       el("strong", {}, correct ? "정답이에요!" : "다시 기억해 두세요."),
       ...(q.type === "component" && !correct ? componentDiff(q, value) : []),
+      q.type !== "component" && !correct && typeof value === "string" && value
+        ? el("div", { class: "my-answer" }, `내 답: ${value}`)
+        : null,
       el("div", {}, `정답: ${q.answer}`),
       q.explanation ? el("div", { class: "muted" }, q.explanation) : null,
     );
@@ -467,9 +575,13 @@ export function renderQuestion(host, q, { onNext, onAnswer, index, total }) {
   }
   if (q.type === "short") {
     const input = el("input", {
-      placeholder: "정답을 입력하세요",
-      ariaLabel: "단답형 정답",
+      placeholder: q.placeholder || "정답을 입력하세요",
+      ariaLabel: q.inputLabel || "단답형 정답",
       maxLength: 4000,
+      autocomplete: "off",
+      autocapitalize: "off",
+      spellcheck: false,
+      ...(q.grader ? { lang: "zh-CN" } : {}),
     });
     const submit = button(
       "정답 확인",
@@ -479,7 +591,11 @@ export function renderQuestion(host, q, { onNext, onAnswer, index, total }) {
       "primary",
     );
     input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") submit.click();
+      if (e.key !== "Enter") return;
+      // Without this the same Enter would also activate the "다음 문제"
+      // button that grading focuses, skipping straight past the feedback.
+      e.preventDefault();
+      submit.click();
     });
     controls.push(input, submit);
     answerBox.append(el("div", { class: "toolbar" }, input, submit));
@@ -625,6 +741,16 @@ export function renderTest(root, data) {
   settings.pronunciationMode = "pinyin";
   settings.grammarMode = "mixed";
   settings.cultureMode = "choice";
+  // The exam keeps its word questions as 뜻 ↔ 한자 multiple choice regardless
+  // of how free practice is configured, without touching those saved settings.
+  const examSettings = () => ({
+    ...settings,
+    studyTarget: "word",
+    quizCategory: "all",
+    answerMode: "choice",
+    quizSource: ["meaning", "hanzi"],
+    quizTarget: ["meaning", "hanzi"],
+  });
   root.append(sourceControl(settings, () => {
     root.replaceChildren();
     renderTest(root, data);
@@ -644,7 +770,7 @@ export function renderTest(root, data) {
   const update = () =>
     (summary.textContent = `선택한 문제: ${Object.values(counts).reduce((a, b) => a + b, 0)}개`);
   for (const [area, [label]] of Object.entries(areas)) {
-    max[area] = eligible(data, area, settings).length;
+    max[area] = eligible(data, area, examSettings()).length;
     counts[area] = 0;
     const input = el("input", {
       type: "number",
@@ -706,7 +832,7 @@ export function renderTest(root, data) {
             Object.values(counts).reduce((a, b) => a + b, 0) > 100
           )
             throw Error("문제 수는 정수로, 합계 100개 이하로 설정하세요.");
-          const questions = buildExam(data, counts, settings);
+          const questions = buildExam(data, counts, examSettings());
           if (!questions.length) throw Error("문제 수를 선택하세요.");
           setup.remove();
           root.querySelector(".source-filter select").disabled = true;

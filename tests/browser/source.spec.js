@@ -37,7 +37,9 @@ test("source survives XLSX import/API/export and scopes persistent practice, sea
     await page.goto("/learn");
     await page.getByLabel("학습 출처", { exact: true }).selectOption("0");
     await expect(page.getByLabel("학습 출처", { exact: true })).toHaveValue("0");
-    await page.getByLabel("direction", { exact: true }).selectOption("reverse");
+    // 뜻 → 한자 only (the old "reverse" direction).
+    await page.getByRole("group", { name: "문제 필드" }).getByRole("button", { name: "한자" }).click();
+    await expect(page.getByRole("group", { name: "문제 필드" }).getByRole("button", { name: "한자" })).toHaveAttribute("aria-pressed", "false");
     await expect(page.locator(".prompt")).toContainText("출처테스트 교과서");
     await page.getByLabel("학습 단어 검색").fill("출처테스트");
     await expect(page.locator(".search-results")).toContainText("교과서");

@@ -1,6 +1,16 @@
 import { shuffle, readLocal, writeLocal, sameComponentMultiset } from "./utils.js";
 import { strip, usableComponents, assemblyEligible } from "./validation.js";
 import { toneVariants } from "./pinyin.js";
+import {
+  studyItems,
+  typeItems,
+  toStudyItem,
+  quizDirections,
+  itemDirections,
+  expressionGroup,
+  buildQuizQuestion,
+  gradeQuizAnswer,
+} from "./quiz.js";
 export function getStats() {
   const s = readLocal("ch.stats", {});
   return s && typeof s === "object" && !Array.isArray(s) ? s : {};
@@ -18,14 +28,35 @@ export function record(q, correct) {
   };
   return writeLocal("ch.stats", stats);
 }
-export function weight(key, stats = getStats()) {
+const DAY_MS = 86_400_000;
+export function weight(key, stats = getStats(), now = Date.now()) {
   const s = stats[key];
   if (!s) return 2;
+  // Not reviewed for a while: up to +2, reached after two weeks untouched.
+  const idleDays = (now - Date.parse(s.lastSeen)) / DAY_MS;
   return (
     1 +
     Math.min(8, ((Number(s.wrong) || 0) * 2) / (1 + (Number(s.correct) || 0))) +
-    2 / (1 + (Number(s.streak) || 0))
+    2 / (1 + (Number(s.streak) || 0)) +
+    (idleDays > 0 ? Math.min(2, idleDays / 7) : 0)
   );
+}
+// Quiz progress is kept per item *and* direction (vocabulary:5:meaning>pinyin),
+// since recognizing a word and producing it are different skills. A direction
+// with no history yet inherits the pre-refactor item-level record for the
+// meaning/hanzi pair it used to cover, so existing progress still counts.
+const legacyDirections = new Set(["meaning>hanzi", "hanzi>meaning"]);
+export function directionWeight(entry, direction, stats = getStats()) {
+  const key = `${entry.key}:${direction}`;
+  if (!stats[key] && legacyDirections.has(direction) && stats[entry.key])
+    return weight(entry.key, stats);
+  return weight(key, stats);
+}
+// An entry that can be asked several ways is as urgent as its weakest way.
+function entryWeight(item, key, stats) {
+  return item?.directions?.length
+    ? Math.max(...item.directions.map((d) => directionWeight(item, d, stats)))
+    : weight(key(item), stats);
 }
 export function weightedPick(
   items,
@@ -34,7 +65,7 @@ export function weightedPick(
   stats = getStats(),
 ) {
   if (!items.length) return null;
-  const weights = items.map((x) => weight(key(x), stats));
+  const weights = items.map((x) => entryWeight(x, key, stats));
   let n = rng() * weights.reduce((a, b) => a + b, 0);
   for (let i = 0; i < items.length; i++) {
     n -= weights[i];
@@ -45,7 +76,9 @@ export function weightedPick(
 // A stable identity for a candidate pool: same items regardless of order, so
 // a settings/data change that leaves the eligible set unchanged doesn't
 // discard an in-progress queue, but one that actually adds/removes items does.
-export function poolSignature(pool, key = (x) => x.key) {
+const poolKey = (x) =>
+  x.directions ? `${x.key}:${x.directions.join(",")}` : x.key;
+export function poolSignature(pool, key = poolKey) {
   return pool
     .map(key)
     .sort()
@@ -71,21 +104,42 @@ export function buildQueue(pool, key = (x) => x.key, stats = getStats(), rng = M
     Array(
       Math.min(
         4,
-        Math.max(1, Math.round(weight(key(item), stats) / BASELINE_WEIGHT)),
+        Math.max(1, Math.round(entryWeight(item, key, stats) / BASELINE_WEIGHT)),
       ),
     ).fill(item),
   );
   return shuffle(bag, rng);
 }
-function avoidRepeat(queue, lastKey, rng) {
-  if (queue[0]?.key !== lastKey) return queue;
-  const alternatives = queue.flatMap((item, i) =>
-    item.key !== lastKey ? [i] : [],
-  );
-  if (!alternatives.length) return queue;
-  const j = alternatives[Math.floor(rng() * alternatives.length)];
-  queue = [...queue];
-  [queue[0], queue[j]] = [queue[j], queue[0]];
+// Wrong answers come back after this many other questions — late enough to
+// be real recall rather than short-term echo, soon enough to still matter.
+export const RETRY_GAP = 3;
+// How many recent expression groups the next question should avoid.
+const GROUP_WINDOW = 2;
+export function scheduleRetry(state, entry, gap = RETRY_GAP) {
+  return {
+    ...state,
+    retry: [
+      ...(state.retry || []).filter((r) => r.entry.key !== entry.key),
+      { entry, wait: gap + 1 },
+    ],
+  };
+}
+// Brings an acceptable item to the front: never the previous question, and
+// preferably nothing from a recently seen expression group — that second
+// rule is dropped when nothing else is left rather than stalling.
+function avoidRepeat(queue, lastKey, rng, recentGroups = []) {
+  for (const strict of [true, false]) {
+    const bad = (item) =>
+      item.key === lastKey ||
+      (strict && item.group != null && recentGroups.includes(item.group));
+    if (!bad(queue[0])) return queue;
+    const alternatives = queue.flatMap((item, i) => (bad(item) ? [] : [i]));
+    if (!alternatives.length) continue;
+    const j = alternatives[Math.floor(rng() * alternatives.length)];
+    queue = [...queue];
+    [queue[0], queue[j]] = [queue[j], queue[0]];
+    return queue;
+  }
   return queue;
 }
 // Draws the next question from a shuffle-bag `queue`, transparently starting
@@ -97,23 +151,66 @@ function avoidRepeat(queue, lastKey, rng) {
 // cycle forward a draw early and folding the deferred items into it, rather
 // than surfacing an avoidable repeat just because the old cycle happened to
 // end there. Genuinely impossible (and not attempted) only when the pool
-// itself has just one item. Returns a new state for the caller to carry
-// between calls without managing the rebuild/signature bookkeeping itself.
+// itself has just one item. Entries carrying a `group` (quiz expression
+// groups) are additionally kept away from the last GROUP_WINDOW groups the
+// same way, relaxing that rule only when nothing else could be served. A due
+// retry (scheduleRetry) is served before the queue. Returns a new state for
+// the caller to carry between calls without managing the rebuild/signature
+// bookkeeping itself.
 export function drawFromQueue(state, pool, lastKey, rng = Math.random) {
   const sig = poolSignature(pool);
   if (!pool.length) return { ...state, queue: [], signature: sig, item: null };
+  const recentGroups = state.recentGroups || [];
+  const remember = (item) =>
+    item.group == null
+      ? recentGroups
+      : [...recentGroups, item.group].slice(-GROUP_WINDOW);
+  // A due retry (see scheduleRetry) goes first, re-resolved against the
+  // current pool so a settings change can't resurrect a stale entry.
+  const retry = [];
+  let due = null;
+  for (const r of state.retry || []) {
+    const current = pool.find((p) => p.key === r.entry.key);
+    if (!current) continue;
+    const entry =
+      r.entry.direction && current.directions?.includes(r.entry.direction)
+        ? { ...current, direction: r.entry.direction }
+        : current;
+    if (!due && r.wait <= 1 && entry.key !== lastKey) due = entry;
+    else retry.push({ entry, wait: r.wait - 1 });
+  }
+  if (due)
+    return {
+      queue: state.signature === sig ? state.queue : [],
+      signature: sig,
+      retry,
+      recentGroups: remember(due),
+      item: due,
+    };
+  const acceptable = (item, strict) =>
+    item.key !== lastKey &&
+    (!strict || item.group == null || !recentGroups.includes(item.group));
   let queue = state.signature === sig ? state.queue : [];
   if (!queue.length) {
     queue = buildQueue(pool, undefined, undefined, rng);
   } else if (
-    queue.every((item) => item.key === lastKey) &&
-    pool.some((item) => item.key !== lastKey)
+    [true, false].some(
+      (strict) =>
+        !queue.some((item) => acceptable(item, strict)) &&
+        pool.some((item) => acceptable(item, strict)),
+    )
   ) {
     queue = [...buildQueue(pool, undefined, undefined, rng), ...queue];
   }
-  queue = avoidRepeat(queue, lastKey, rng);
+  queue = avoidRepeat(queue, lastKey, rng, recentGroups);
   const [item, ...rest] = queue;
-  return { queue: rest, signature: sig, item };
+  return {
+    queue: rest,
+    signature: sig,
+    retry,
+    recentGroups: remember(item),
+    item,
+  };
 }
 const shapes = [
   ["讠", "氵", "冫", "忄", "扌", "亻", "彳"],
@@ -231,11 +328,27 @@ export function filterStudySource(data, settings = {}) {
 }
 export function eligible(data, area, settings = {}) {
   data = filterStudySource(data, settings);
-  if (area === "learn" || area === "pronunciation")
+  if (area === "learn") {
+    const directions = quizDirections(settings);
+    return studyItems(data, settings).flatMap((item) => {
+      const usable = itemDirections(item, directions);
+      return usable.length
+        ? [
+            {
+              key: item.key,
+              item,
+              ...(item.type === "word" ? { v: item.row } : {}),
+              directions: usable,
+              group: expressionGroup(item),
+            },
+          ]
+        : [];
+    });
+  }
+  if (area === "pronunciation")
     return data.vocabulary
       .filter(
         (v) =>
-          area !== "pronunciation" ||
           settings.pronunciationMode !== "tone" ||
           toneVariants(
             v.pinyin,
@@ -267,29 +380,33 @@ export function makeQuestion(data, area, settings = {}, source) {
   data = filterStudySource(data, settings);
   const entry = source || weightedPick(eligible(data, area, settings));
   if (!entry) return null;
-  const base = { key: entry.key, area };
+  const base = { key: entry.key, entryKey: entry.key, entry, area };
   if (area === "learn") {
-    const v = entry.v,
-      reverse =
-        settings.direction === "reverse" ||
-        (settings.direction !== "forward" && Math.random() < 0.5),
-      answer = reverse ? v.simplified : v.meaning;
+    const item = entry.item || toStudyItem(entry.v, "word"),
+      directions = entry.direction
+        ? [entry.direction]
+        : itemDirections(item, quizDirections(settings));
+    if (!directions.length) return null;
+    // Within an item, weaker directions are asked more often.
+    const stats = getStats(),
+      direction = weightedPick(
+        directions,
+        (d) => d,
+        Math.random,
+        Object.fromEntries(
+          directions.map((d) => [
+            d,
+            stats[`${entry.key}:${d}`] ||
+              (legacyDirections.has(d) ? stats[entry.key] : undefined),
+          ]),
+        ),
+      );
     return {
       ...base,
-      vocabularyId: v.id,
-      type: "choice",
-      prompt: reverse ? v.meaning : v.simplified,
-      answer,
-      options: choice(
-        data.vocabulary
-          .filter((x) =>
-            reverse ? x.meaning !== v.meaning : x.simplified !== v.simplified,
-          )
-          .map((x) => (reverse ? x.simplified : x.meaning)),
-        answer,
-      ),
-      explanation: `${v.simplified} · ${v.pinyin} · ${v.meaning}`,
-      chinese: v.simplified,
+      key: `${entry.key}:${direction}`,
+      entry: { ...entry, direction },
+      ...(item.type === "word" ? { vocabularyId: item.id } : {}),
+      ...buildQuizQuestion(item, direction, typeItems(data, settings), settings),
     };
   }
   if (area === "pronunciation") {
@@ -437,6 +554,7 @@ export function grade(q, value) {
       )
     );
   if (q.type === "order") return strip(value) === strip(q.answer);
+  if (q.grader) return gradeQuizAnswer(q, value);
   if (q.type === "short")
     return (
       String(value).trim().normalize("NFC") === q.answer.trim().normalize("NFC")

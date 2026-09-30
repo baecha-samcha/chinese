@@ -122,7 +122,15 @@ export async function renderAdmin(root, path, onChanged) {
             source: null,
           }
         : kind === "sentences"
-          ? { korean: "", chinese: "", tokens: [], explanation: "", source: null }
+          ? {
+              korean: "",
+              chinese: "",
+              tokens: [],
+              explanation: "",
+              pinyin: "",
+              category: "",
+              source: null,
+            }
           : kind === "grammar"
             ? {
                 title: "",

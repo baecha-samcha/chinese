@@ -29,7 +29,15 @@ const columns: Record<string, string[]> = {
     "characters",
     "source",
   ],
-  sentences: ["korean", "chinese", "tokens", "explanation", "source"],
+  sentences: [
+    "korean",
+    "chinese",
+    "tokens",
+    "explanation",
+    "source",
+    "pinyin",
+    "category",
+  ],
   grammar: [
     "title",
     "explanation",

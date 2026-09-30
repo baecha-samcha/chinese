@@ -17,6 +17,7 @@ const SHELL = [
   "/js/study.js",
   "/js/validation.js",
   "/js/pinyin.js",
+  "/js/quiz.js",
   "/js/speech.js",
   "/manifest.webmanifest",
   "/icons/icon.svg",

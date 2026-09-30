@@ -24,6 +24,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260911.1",
     "@playwright/test": "^1.55.0",
+    "pinyin-pro": "^3.29.4",
     "prettier": "^3.9.6",
     "typescript": "^5.9.0",
     "wrangler": "^4.0.0"

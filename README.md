@@ -33,7 +33,7 @@ npm run db:migrate
 npm run db:seed
 ```
 
-로컬 D1은 `.wrangler/state`에 저장됩니다. seed는 단어 13개, 문장 4개, 문법 3개, 문화 4개이며 동일 seed를 다시 실행해도 중복되지 않습니다. 시험범위를 보장하는 교재가 아닌 기능 확인용 소량 데이터입니다.
+로컬 D1은 `.wrangler/state`에 저장됩니다. seed는 단어 13개, 문장 4개, 문법 3개, 문화 4개이며(migration `0003`이 자기소개 문장 6개를 추가로 보장합니다) 동일 seed를 다시 실행해도 중복되지 않습니다. 시험범위를 보장하는 교재가 아닌 기능 확인용 소량 데이터입니다.
 
 운영 D1에는 다음 명령을 별도로 실행합니다.
 
@@ -93,7 +93,7 @@ Worker는 jose를 사용하여 서명, RS256 알고리즘, issuer, audience, 만
 ## 페이지
 
 - `/`: 학습 대시보드, 누적 통계, 단어 검색
-- `/learn`: 중국어↔한국어 뜻 선택
+- `/learn`: 단어·문장 공통 퀴즈 — 뜻·한자·병음 중 문제/정답 필드 선택, 카테고리, 객관식/직접 입력
 - `/match`: 3분 중국어·한국어 짝 맞추기 (최대 4쌍 · 4행 2열, 정답 두 자리만 연속 보충)
 - `/write`: 재귀 component 조립, Easy/Normal/Hard
 - `/pronunciation`: 한자→병음, 듣기→한자, 병음→한자, TTS 속도 설정
@@ -112,7 +112,7 @@ CSV는 UTF-8, 첫 행은 영문 필드명입니다. XLSX도 첫 행이 필드명
 | 유형 | 필수 열 | 선택 열 |
 | --- | --- | --- |
 | vocabulary | simplified, pinyin, meaning | traditional, korean_hanja_reading, characters, source |
-| sentences | korean, chinese, tokens | explanation, source |
+| sentences | korean, chinese, tokens | explanation, source, pinyin, category |
 | grammar | title, explanation, correct_examples, wrong_examples | tags, questions |
 | culture | category, question, answer | distractors, explanation |
 
@@ -123,6 +123,24 @@ CSV는 UTF-8, 첫 행은 영문 필드명입니다. XLSX도 첫 행이 필드명
 홈, 학습 화면, 종합시험의 **학습 범위**에서 `둘 다`, `교과서만`, `보충자료만`을 선택합니다. 선택은 이 브라우저에 저장되어 화면 이동·새로고침 후에도 유지됩니다. 단어 뜻·발음·조립, 문장 배열, 검색, 종합시험의 출제 수와 객관식 오답 후보에도 같은 범위를 적용합니다. 시험 시작 후에는 범위를 변경할 수 없습니다. 범위를 바꾸면 연습 문제 대기열과 시험 자동 배분을 새 범위로 다시 구성합니다. 누적 풀이 통계는 기존 전체 학습 기록입니다.
 
 단어·문장 시트의 `source`는 `0`=교과서, `1`=보충자료입니다. XLSX 숫자와 CSV/JSON의 `"0"`, `"1"` 문자열을 모두 처리합니다. 빈칸·null·열 누락은 **출처 미지정**으로 보존하고 ‘둘 다’에서만 포함합니다. 기존 데이터를 교과서로 임의 분류하지 않습니다. 문법·문화는 출처 구분 없이 공통 범위입니다. `source_url`은 참고 출처 URL이며 학습 범위를 지정하는 `source`와는 별개의 열입니다.
+
+### 단어·문장 공통 퀴즈 (`/learn`)
+
+단어와 문장은 모두 `public/js/quiz.js`에서 같은 StudyItem(`meaning` 뜻 · `hanzi` 한자 · `pinyin` 병음 · `category`)으로 정규화되고, 하나의 퀴즈 엔진이 `문제 필드 → 정답 필드`로 출제합니다. 단어는 `meaning/simplified/pinyin`, 문장은 `korean/chinese/pinyin`을 사용합니다. 학습 대상(단어/문장), 카테고리, 문제·정답 필드(여러 개 선택 가능, 같은 필드끼리의 조합은 자동 제외), 답 방식을 고릅니다. 예전 `direction` 설정은 그대로 해석됩니다(forward = 한자 → 뜻, reverse = 뜻 → 한자, mixed = 둘 다). 종합시험의 뜻 학습은 연습 설정과 관계없이 단어 뜻 ↔ 한자 객관식으로 유지합니다. 문장 배열(`/sentence`)은 별도 기능으로 그대로 남아 있습니다.
+
+직접 입력은 정답이 한자·병음일 때만 제공합니다(한국어 뜻은 객관식). 병음은 성조까지 채점하며, 대소문자·Unicode 조합형·공백/띄어쓰기(gěi nǐ = gěinǐ)·apostrophe·문장부호 차이는 무시하고 `v`, `u:`를 ü로, 숫자 성조(`ni3 hao3`, 5/0은 경성)를 성조 기호로 바꿔 비교합니다(`public/js/pinyin.js`의 `pinyinAnswerKey`). 성조가 다르거나 빠진 답은 오답입니다. 오답이면 내 답과 정답을 함께 보여줍니다.
+
+문장 병음·카테고리는 migration `0003_sentence_pinyin_category.sql`로 추가됩니다. 이 migration은 자기소개 표현 6개를 같은 중국어 문장이 이미 있으면 그 행을 재사용해 `category='자기소개'`와 병음만 채우고, 없을 때만 새로 만듭니다. 나머지 문장의 병음은 `scripts/generate-sentence-pinyin.mjs`로 만든 초안 `scripts/data/sentence-pinyin.sql`에 있습니다(단어장 병음 우선, 없으면 pinyin-pro 사전·성조 변화 적용, `-- REVIEW:` 줄은 사람이 확인할 항목). 비어 있는 병음만 채우므로 다시 실행해도 수정한 값은 덮어쓰지 않습니다. 병음이 없는 문장은 병음이 필요한 방향에서만 자동 제외됩니다.
+
+운영 반영 순서(코드 배포 전에 migration 먼저):
+
+```bash
+npx wrangler d1 migrations apply ch-study --remote
+npx wrangler d1 execute ch-study --remote --file=scripts/data/sentence-pinyin.sql
+npm run deploy
+```
+
+XLSX/CSV로 문장을 **덮어쓰기** 가져올 때 `pinyin`/`category` 열이 없으면 해당 값이 빈칸이 되므로, 백업 CSV를 수정해 다시 올리는 방식을 권장합니다.
 
 기존 설치에는 `0002_study_source.sql` migration이 필요합니다. 운영에 반영할 때는 다음 순서를 사용합니다.
 
@@ -196,9 +214,9 @@ npm run deploy
 
 ## 학습 기록 · 오프라인 · 발음
 
-`localStorage`: `ch.stats`(유형별 키, vocabularyId, correct/wrong/lastSeen/streak), `ch.settings`, `ch.speech`, `ch.dataset`. 틀린 횟수가 많고 연속 정답이 적은 항목의 가중치를 높입니다. 다른 기기로 동기화하지 않으며 브라우저 데이터를 삭제하면 기록도 사라집니다.
+`localStorage`: `ch.stats`(유형별 키, vocabularyId, correct/wrong/lastSeen/streak), `ch.settings`, `ch.speech`, `ch.dataset`. 틀린 횟수가 많고 연속 정답이 적고 오래 복습하지 않은(최대 2주 기준) 항목의 가중치를 높입니다. 공통 퀴즈는 `vocabulary:<id>:meaning>pinyin`, `sentences:<id>:pinyin>meaning`처럼 항목 + 방향별로 기록하므로, 같은 항목이라도 방향마다 숙련도가 따로 쌓입니다. 방향별 기록이 아직 없는 단어의 뜻↔한자 방향은 예전 `vocabulary:<id>` 기록을 이어서 사용합니다(localStorage migration 없음). 다른 기기로 동기화하지 않으며 브라우저 데이터를 삭제하면 기록도 사라집니다.
 
-문제 출제는 독립 가중 무작위 추출이 아니라 가중 shuffle bag(`public/js/study.js`의 `buildQueue`/`drawFromQueue`)입니다. 매 cycle마다 현재 설정에서 출제 가능한 모든 항목이 최소 1번씩 후보가 되고, 약점 항목은 최대 4배까지만 더 자주 나오도록 상한이 있어 소수 문제가 한 cycle을 독점하지 않습니다. cycle이 끝나면 재섞고, 직전 문제와 동일한 문제는 가능하면 피합니다(후보가 1개뿐이면 불가피하게 반복). 설정 변경 등으로 후보군 자체가 바뀌면 큐를 새로 만듭니다.
+문제 출제는 독립 가중 무작위 추출이 아니라 가중 shuffle bag(`public/js/study.js`의 `buildQueue`/`drawFromQueue`)입니다. 매 cycle마다 현재 설정에서 출제 가능한 모든 항목이 최소 1번씩 후보가 되고, 약점 항목은 최대 4배까지만 더 자주 나오도록 상한이 있어 소수 문제가 한 cycle을 독점하지 않습니다. cycle이 끝나면 재섞고, 직전 문제와 동일한 문제는 가능하면 피합니다(후보가 1개뿐이면 불가피하게 반복). 설정 변경 등으로 후보군 자체가 바뀌면 큐를 새로 만듭니다. 틀린 문제는 바로 다시 내지 않고 다른 문제 3개 뒤에 같은 방향으로 재출제합니다(retry queue). 공통 퀴즈에서는 앞 두 글자가 같은 표현군(예: `祝你…`)이 최근 2문제 안에 겹치지 않도록 하고, 다른 후보가 없을 때만 이 조건을 풉니다.
 
 로드한 데이터는 메모리와 localStorage에 캐시합니다. API 실패 시 마지막 데이터를 사용합니다.
 

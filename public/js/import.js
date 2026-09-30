@@ -482,7 +482,7 @@ export function renderImport(root, onImported) {
     el(
       "div",
       { class: "note" },
-      "CSV 첫 행은 필드명입니다. characters / tokens / 예문 배열은 JSON 형식으로 입력하세요. 단어·문장의 source 열: 0=교과서, 1=보충자료, 빈칸=출처 미지정(둘 다에서만 학습). XLSX는 vocabulary, sentences, grammar, culture 시트를 각각 선택해 가져옵니다. 최대 500행 · 파일 5 MB · JSON 요청 2 MB.",
+      "CSV 첫 행은 필드명입니다. characters / tokens / 예문 배열은 JSON 형식으로 입력하세요. 단어·문장의 source 열: 0=교과서, 1=보충자료, 빈칸=출처 미지정(둘 다에서만 학습). 문장은 선택 열 pinyin(성조 포함 병음)과 category(예: 자기소개)를 가질 수 있습니다. XLSX는 vocabulary, sentences, grammar, culture 시트를 각각 선택해 가져옵니다. 최대 500행 · 파일 5 MB · JSON 요청 2 MB.",
     ),
     el(
       "div",

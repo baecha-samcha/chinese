@@ -159,3 +159,27 @@ export function toneVariants(pinyin, count, n = 3) {
     if (visit(0, distance)) break;
   return [...variants];
 }
+// Numbered-tone input (ni3 hao3, lv4) → tone marks, so an answer can be typed
+// without a pinyin keyboard. A digit applies to the letter run right before
+// it; 5 or 0 is the neutral tone. Runs without a digit are left as typed.
+export function numberedToMarked(text) {
+  return text.replace(/([a-zü]+)([0-5])/gi, (_, letters, digit) =>
+    markTone(letters, Number(digit) % 5),
+  );
+}
+// Comparison key for grading a typed pinyin answer. Tones stay significant
+// (unlike validation.js normalizePinyin, which is for search); only
+// presentation differences are dropped: case, Unicode composition, spacing
+// and word joining (gěi nǐ = gěinǐ), apostrophes and punctuation, and the
+// keyboard spellings v / u: for ü.
+export function pinyinAnswerKey(value) {
+  let text = String(value ?? "")
+    .normalize("NFC")
+    .toLowerCase()
+    .replace(/u:/g, "ü")
+    .normalize("NFD")
+    .replace(/v/g, "u\u0308")
+    .normalize("NFC");
+  if (/[a-zü][0-5]/.test(text)) text = numberedToMarked(text);
+  return text.replace(/[\s\p{P}`]/gu, "").normalize("NFC");
+}

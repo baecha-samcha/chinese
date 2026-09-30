@@ -133,7 +133,7 @@ export function validateRow(kind, raw, existing = []) {
             "korean_hanja_reading",
           ]
         : kind === "sentences"
-          ? ["korean", "chinese", "explanation"]
+          ? ["korean", "chinese", "explanation", "pinyin", "category"]
           : kind === "grammar"
             ? ["title", "explanation"]
             : ["category", "question", "answer", "explanation"];
