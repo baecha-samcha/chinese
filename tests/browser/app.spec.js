@@ -227,11 +227,12 @@ test("learning, component selection, sentence cancellation, grammar and culture 
   await page.locator(".question").focus();
   await page.keyboard.press("1");
   await expect(page.locator(".feedback")).toBeVisible();
-  await expect(page.getByRole("button", { name: "건너뛰기" })).toBeDisabled();
+  // Answered questions can't be skipped: the button leaves the action bar.
+  await expect(page.getByRole("button", { name: "건너뛰기" })).toBeHidden();
   await page.keyboard.press("Enter");
   await expect(page.locator(".feedback")).toHaveCount(0);
   await page.goto("/write");
-  await page.getByLabel("difficulty").selectOption("easy");
+  await page.getByLabel("난이도", { exact: true }).selectOption("easy");
   const slot = page.locator(".slot:not([disabled])");
   await expect(slot).toHaveCount(1);
   // Selected components must read visibly larger than the option pool so
@@ -270,13 +271,13 @@ test("learning, component selection, sentence cancellation, grammar and culture 
   await expect(page.locator(".feedback")).toBeVisible();
   await page.goto("/grammar");
   for (const mode of ["correct", "wrong", "error", "blank", "order"]) {
-    await page.getByLabel("grammarMode").selectOption(mode);
+    await page.getByLabel("문제 유형", { exact: true }).selectOption(mode);
     await expect(page.locator(".question")).toBeVisible();
   }
   await page.goto("/culture");
-  await page.getByLabel("cultureMode").selectOption("ox");
+  await page.getByLabel("문제 유형", { exact: true }).selectOption("ox");
   await expect(page.locator(".option")).toHaveCount(2);
-  await page.getByLabel("cultureMode").selectOption("short");
+  await page.getByLabel("문제 유형", { exact: true }).selectOption("short");
   await page.getByLabel("단답형 정답").fill("춘절");
   await page.getByRole("button", { name: "정답 확인", exact: true }).click();
   await expect(page.locator(".feedback")).toBeVisible();
@@ -303,7 +304,7 @@ test("TTS receives Chinese, rates and fallback are supported", async ({
     });
   });
   await page.goto("/pronunciation");
-  await page.getByLabel("pronunciationMode").selectOption("listen");
+  await page.getByLabel("문제 유형", { exact: true }).selectOption("listen");
   await page.getByRole("button", { name: "🔊 보통", exact: true }).click();
   await page.getByRole("button", { name: "🐢 느리게", exact: true }).click();
   const spoken = await page.evaluate(() => window.__spoken);
@@ -526,7 +527,7 @@ test("pronunciation tone mode offers four same-spelling tone choices", async ({
   test.setTimeout(180000);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/pronunciation");
-  await page.getByLabel("pronunciationMode", { exact: true }).selectOption("tone");
+  await page.getByLabel("문제 유형", { exact: true }).selectOption("tone");
   const buttons = page.locator(".question .options button");
   await expect(buttons).toHaveCount(4);
   await expect(page.locator(".question .hanzi.prompt")).toBeVisible();

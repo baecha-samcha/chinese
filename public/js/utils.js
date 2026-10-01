@@ -81,10 +81,11 @@ export function writeLocal(key, value) {
     return false;
   }
 }
+// Same markup as pageHeader in ui.js (admin and 짝 맞추기 use this one).
 export const title = (eyebrow, heading, description) =>
   el(
     "div",
-    {},
+    { class: "page-header" },
     el("div", { class: "eyebrow" }, eyebrow),
     el("h1", {}, heading),
     el("p", { class: "muted" }, description),

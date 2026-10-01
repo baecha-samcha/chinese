@@ -257,12 +257,13 @@ TTS는 Web Speech API의 zh-CN 음성에 **간체자**를 전달합니다. 기�
 
 ```
 public/index.html          SPA 진입점
-public/css/style.css       반응형 dark UI
+public/css/style.css       반응형 dark UI (상단 :root 디자인 토큰)
 public/js/app.js           라우팅
 public/js/api.js           API와 데이터 캐시
 public/js/validation.js    클라이언트/서버 공통 검증
 public/js/study.js         출제·조립·채점·가중 통계
-public/js/learning-ui.js   학습/시험 UI
+public/js/learning-ui.js   학습/시험 UI (공통 문제 카드 renderQuestion)
+public/js/ui.js            공통 UI 블록 (PageHeader·QuizToolbar·도움말·상태칩)
 public/js/speech.js        TTS
 public/js/admin.js         관리자 CRUD·export
 public/js/import.js        CSV/XLSX 파싱·미리보기

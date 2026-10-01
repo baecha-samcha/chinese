@@ -1,13 +1,40 @@
 :root {
   color-scheme: dark;
+  /* Design tokens. Every screen uses these instead of one-off values, so the
+     study modes share one spacing, card and button system. */
   --bg: #111512;
   --panel: #1b211d;
+  --panel-soft: #20291e;
+  --field-bg: #111713;
+  --button-bg: #283128;
   --line: #333c34;
+  --line-strong: #65775c;
   --text: #edf0e8;
   --muted: #a4afa3;
   --accent: #d3ed91;
+  --accent-ink: #202c15;
+  --accent-soft: #263020;
+  --success-bg: #273220;
+  --success-strong: #304224;
   --danger: #ffaca5;
+  --danger-bg: #382824;
+  --danger-strong: #412b28;
+  --warn: #eed087;
   --radius: 18px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --page-max: 1140px;
+  --study-max: 820px;
+  --card-pad: 24px;
+  --section-gap: 20px;
+  --control-h: 46px;
+  --control-h-sm: 40px;
   font-family:
     system-ui,
     -apple-system,
@@ -40,13 +67,15 @@ select,
 textarea {
   touch-action: manipulation;
 }
+/* Buttons: secondary is the default look; .primary is reserved for the one
+   main action of a view (정답 확인 · 다음 문제 · 시작). */
 button,
 .button {
-  min-height: 46px;
+  min-height: var(--control-h);
   padding: 10px 18px;
   border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #283128;
+  border-radius: var(--radius-sm);
+  background: var(--button-bg);
   color: var(--text);
   cursor: pointer;
   display: inline-flex;
@@ -62,11 +91,26 @@ button:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
+button:disabled:hover {
+  border-color: var(--line);
+}
 .primary {
   background: var(--accent);
-  color: #202c15;
+  color: var(--accent-ink);
   border-color: var(--accent);
   font-weight: 750;
+}
+.primary:hover:not(:disabled) {
+  filter: brightness(1.07);
+}
+.primary:disabled:hover {
+  border-color: var(--accent);
+}
+.icon-button {
+  min-width: var(--control-h-sm);
+  min-height: var(--control-h-sm);
+  padding: 0 12px;
+  font-weight: 700;
 }
 .danger {
   color: var(--danger);
@@ -74,12 +118,12 @@ button:disabled {
 input,
 select,
 textarea {
-  background: #111713;
+  background: var(--field-bg);
   color: var(--text);
   border: 1px solid var(--line);
-  border-radius: 9px;
+  border-radius: var(--radius-sm);
   padding: 11px;
-  min-height: 46px;
+  min-height: var(--control-h);
   max-width: 100%;
 }
 input[type="checkbox"] {
@@ -101,7 +145,7 @@ label {
   align-items: center;
   flex-wrap: wrap;
 }
-header {
+body > header {
   max-width: 1280px;
   margin: auto;
   padding: 25px 32px;
@@ -125,7 +169,7 @@ header {
   font-weight: 400;
 }
 .brand-mark {
-  color: #15220c;
+  color: var(--accent-ink);
   background: var(--accent);
   width: 42px;
   height: 42px;
@@ -147,10 +191,13 @@ nav a {
 }
 nav a.active {
   color: var(--accent);
-  background: #263020;
+  background: var(--accent-soft);
+}
+nav a:hover {
+  color: var(--text);
 }
 main {
-  max-width: 1140px;
+  max-width: var(--page-max);
   margin: 0 auto;
   padding: 42px 24px;
   min-height: 76vh;
@@ -168,6 +215,14 @@ h2 {
 h3 {
   margin: 6px 0;
 }
+/* Break Korean headings and short card copy between words, not inside them. */
+h1,
+h2,
+h3,
+.link-card {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
 .eyebrow {
   color: var(--accent);
   font-size: 12px;
@@ -177,12 +232,13 @@ h3 {
 .muted {
   color: var(--muted);
 }
+/* ---------- Home ---------- */
 .hero {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   align-items: center;
   gap: 30px;
-  padding: 32px 0 40px;
+  padding: 0 0 24px;
 }
 .hero p {
   max-width: 560px;
@@ -190,14 +246,59 @@ h3 {
 .hero-art {
   border: 1px solid var(--line);
   border-radius: 26px;
-  background: linear-gradient(140deg, #2e3a25, #1b211d);
-  padding: 25px;
+  background: linear-gradient(140deg, #2e3a25, var(--panel));
+  padding: 18px;
   display: grid;
   place-items: center;
 }
 .hero-art .hanzi {
-  font-size: 100px;
+  font-size: 80px;
+  line-height: 1.3;
   color: var(--accent);
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+  margin-top: var(--space-5);
+}
+/* Progress as one quiet line instead of three big cards. */
+.stat-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 0;
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+.stat-item + .stat-item::before {
+  content: "·";
+  margin: 0 10px;
+  color: var(--line-strong);
+}
+.stat-line strong {
+  color: var(--text);
+  font-weight: 750;
+}
+/* Heading on the left, the scope filter (which drives the counts on the
+   cards below) on the right. */
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+}
+.section-head h2 {
+  margin: 0 0 2px;
+}
+.section-head .muted {
+  font-size: 14px;
+}
+.section-head .quiz-toolbar {
+  padding: 10px 14px;
 }
 .hanzi,
 .component {
@@ -223,20 +324,40 @@ h3 {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 24px;
+  padding: var(--card-pad);
 }
 .link-card {
   display: block;
-  min-height: 170px;
+  min-height: 132px;
+}
+.link-card h3 {
+  font-size: 19px;
+}
+.link-card:focus-visible {
+  outline-offset: 2px;
+}
+.card-top h3 {
+  margin: 0;
+}
+.extra-grid {
+  margin-top: var(--space-4);
+}
+.link-card.compact {
+  min-height: 0;
+  padding: 18px var(--space-5);
+}
+.link-card.compact .card-top {
+  margin-bottom: 6px;
 }
 .link-card:hover {
-  border-color: #758c60;
+  border-color: var(--line-strong);
 }
 .card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  gap: var(--space-2);
+  margin-bottom: 14px;
 }
 .badge {
   border: 1px solid var(--line);
@@ -283,53 +404,371 @@ h3 {
   flex: 1;
   min-width: 180px;
 }
+/* ---------- Page layout ---------- */
+.page-header {
+  margin-bottom: var(--space-2);
+}
+.page-header p {
+  margin: 0;
+}
+/* Study screens: a smaller title so the question card leads. */
+.page-header.compact h1 {
+  font-size: clamp(25px, 3vw, 32px);
+  letter-spacing: -0.8px;
+  margin: 4px 0 6px;
+}
+/* One centered column shared by every study screen: header, settings,
+   question card and the search utility all line up. */
+.study-page {
+  max-width: var(--study-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+}
+.study-page > * {
+  margin: 0;
+}
 .study {
-  max-width: 780px;
-  margin: 26px auto;
+  min-width: 0;
+}
+
+/* ---------- QuizToolbar ---------- */
+.quiz-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 14px var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--panel) 55%, transparent);
+}
+.quiz-settings {
+  display: contents;
+}
+.toolbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3) var(--space-4);
+}
+/* The scope filter is global to the app; a divider sets it apart from the
+   settings that only affect this screen. */
+.scope-row:not(:last-child) {
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--muted);
+  letter-spacing: 0.2px;
+}
+.field-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.quiz-toolbar select,
+.quiz-toolbar input {
+  min-height: var(--control-h-sm);
+  padding: 7px 10px;
+}
+.quiz-toolbar button {
+  min-height: var(--control-h-sm);
+}
+.toolbar-note {
+  margin: 0;
+}
+.direction-arrow {
+  color: var(--muted);
+  padding-bottom: 8px;
+}
+/* Segmented on/off buttons (문제/정답 필드). */
+.segmented {
+  display: inline-flex;
+  gap: 0;
+}
+.segmented button {
+  min-height: var(--control-h-sm);
+  padding: 6px 14px;
+  white-space: nowrap;
+  border-radius: 0;
+  margin-left: -1px;
+}
+.segmented button:first-child {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  margin-left: 0;
+}
+.segmented button:last-child {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.segmented button:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline-offset: 2px;
+}
+/* "ⓘ …" help and other collapsible extras: a small pill until opened. */
+.help-toggle {
+  font-size: 13px;
+  color: var(--muted);
+}
+.help-toggle summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--control-h-sm);
+  padding: 0 12px;
+  border: 1px dashed var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.help-toggle summary::-webkit-details-marker {
+  display: none;
+}
+.help-toggle summary:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+.help-toggle[open] {
+  flex-basis: 100%;
+}
+.help-toggle[open] summary {
+  color: var(--accent);
+}
+.help-body {
+  margin-top: var(--space-2);
+  padding: 10px 14px;
+  border-left: 3px solid var(--accent);
+  background: var(--panel-soft);
+  color: #c4cdbf;
+  line-height: 1.6;
+}
+.speed-settings .help-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-4);
+}
+.speed-settings input {
+  width: 90px;
+}
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  margin-bottom: 4px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.status-chip.ok {
+  color: var(--accent);
+}
+.status-chip.warn {
+  color: var(--warn);
+  border-color: #5a5232;
+}
+
+/* ---------- QuizCard ----------
+   question-head → question-prompt → answer-area → feedback-area → action-bar,
+   identical for every area and before/after answering. */
+/* The card takes focus on each new question (for 1–4 keys); a quieter ring
+   than interactive controls get, so it doesn't read as "selected". */
+.question:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 3px;
 }
 .question {
   min-height: 340px;
   text-align: center;
-  padding: 35px 24px;
+  padding: 28px var(--card-pad) 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.question-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  text-align: left;
+}
+.question-head progress {
+  flex-basis: 100%;
+}
+.question-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
 }
 .prompt {
   font-size: 24px;
-  margin: 22px 0;
+  margin: 6px 0;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.answer-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.answer-area .note {
+  margin: 0;
+}
+.answer-input {
+  width: 100%;
+  min-height: 54px;
+  font-size: 20px;
 }
 .options {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 24px 0;
+  gap: var(--space-3);
+}
+/* Lay options out by count so there is never an empty grid cell:
+   2 → side by side, 3 (or 1) → one column, 4 → 2×2. */
+.options[data-count="1"],
+.options[data-count="3"] {
+  grid-template-columns: 1fr;
 }
 .option {
   min-height: 68px;
   font-size: 21px;
   justify-content: flex-start;
   text-align: left;
+  overflow-wrap: anywhere;
 }
 .option small {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
   font-size: 12px;
   color: var(--muted);
 }
+.option:disabled {
+  opacity: 1;
+  cursor: default;
+}
+.options .option:disabled:not(.correct):not(.wrong) {
+  opacity: 0.55;
+}
+.option-mark {
+  margin-left: auto;
+  padding-left: var(--space-2);
+  font-size: 13px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.correct .option-mark {
+  color: var(--accent);
+}
+.wrong .option-mark {
+  color: var(--danger);
+}
 .correct {
   border-color: var(--accent) !important;
-  background: #304224 !important;
+  background: var(--success-strong) !important;
 }
 .wrong {
   border-color: var(--danger) !important;
-  background: #412b28 !important;
+  background: var(--danger-strong) !important;
+}
+/* Reserved even before answering (it holds a one-line hint), so the result
+   appears in the same place for every area. */
+.feedback-area {
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+.feedback-hint {
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
 }
 .feedback {
-  padding: 18px;
-  border-radius: 12px;
-  background: #273220;
+  padding: var(--space-4) 18px;
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--accent);
+  background: var(--success-bg);
   text-align: left;
-  margin: 16px 0;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 .feedback.error {
-  background: #382824;
+  background: var(--danger-bg);
+  border-left-color: var(--danger);
+}
+.feedback-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: 2px;
+}
+.feedback-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 14px;
+}
+.feedback.error .feedback-icon {
+  background: var(--danger);
+  color: #3a1512;
+}
+.feedback-explanation {
+  margin-top: 4px;
+}
+/* ActionBar: secondary actions left, the one primary action right — the
+   primary (정답 확인 → 다음 문제) never moves between areas. */
+.action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  text-align: left;
+}
+.actions-secondary,
+.actions-primary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.actions-secondary .row {
+  gap: var(--space-2);
+}
+.actions-primary {
+  margin-left: auto;
+}
+.actions-primary button {
+  min-width: 140px;
 }
 .diff-row {
   margin: 10px 0;
@@ -355,13 +794,12 @@ h3 {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 12px;
-  padding: 16px 0;
-  min-height: 80px;
+  gap: var(--space-3);
+  min-height: 64px;
 }
 .slots {
-  border: 1px dashed #65775c;
-  border-radius: 14px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-md);
   min-height: 96px;
   padding: 14px;
   display: flex;
@@ -398,7 +836,7 @@ h3 {
 .note {
   border-left: 3px solid var(--accent);
   padding: 12px 18px;
-  background: #20291e;
+  background: var(--panel-soft);
   color: #c4cdbf;
   margin: 18px 0;
 }
@@ -474,19 +912,51 @@ progress {
   accent-color: var(--accent);
   height: 7px;
 }
-.settings {
-  margin: 16px 0;
+/* ---------- 종합시험 ---------- */
+.test-setup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
-.settings summary {
-  cursor: pointer;
-  padding: 10px;
+.count-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
 }
-.settings .row {
-  padding: 14px 0;
+.count-row label {
+  display: grid;
+  grid-template-columns: 7em 96px;
+  align-items: center;
+}
+.count-row input {
+  width: 96px;
+}
+.count-total label {
+  grid-template-columns: auto 96px;
+}
+.count-total {
+  justify-content: flex-start;
+  padding-bottom: var(--space-3);
+}
+.test-setup .action-bar {
+  margin-top: var(--space-2);
+  border-top: 0;
+}
+.test-setup .action-bar p {
+  margin: 0;
+}
+.result-score {
+  font-size: clamp(32px, 5vw, 43px);
+  margin: 6px 0 4px;
 }
 .results {
   display: grid;
   gap: 10px;
+  margin: var(--space-4) 0;
 }
 .result-row {
   padding: 15px;
@@ -511,9 +981,9 @@ footer {
   left: 50%;
   transform: translateX(-50%);
   background: var(--accent);
-  color: #182310;
+  color: var(--accent-ink);
   padding: 12px 20px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   z-index: 10;
   max-width: 90vw;
 }
@@ -524,6 +994,17 @@ footer {
   outline: 3px solid var(--accent);
   outline-offset: 4px;
 }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 .skip {
   position: absolute;
   top: -100px;
@@ -533,6 +1014,25 @@ footer {
   background: var(--bg);
   padding: 12px;
   z-index: 5;
+}
+/* ---------- Utility (단어 찾기) ----------
+   Secondary tools sit below the study flow, set apart by a divider. */
+.utility {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px dashed var(--line);
+}
+.study-page .utility {
+  margin-top: var(--space-3);
+}
+.utility-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 0 0 var(--space-3);
+}
+.search-field input {
+  width: 100%;
 }
 .search-results {
   max-height: 340px;
@@ -548,11 +1048,12 @@ footer {
 .search-item .hanzi {
   font-size: 30px;
 }
-.hidden {
+.hidden,
+[hidden] {
   display: none !important;
 }
 @media (max-width: 900px) {
-  header {
+  body > header {
     align-items: flex-start;
     flex-direction: column;
     padding: 18px 22px;
@@ -560,8 +1061,28 @@ footer {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .extra-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
   .brand small {
     display: none;
+  }
+  /* One scrollable row of menu links instead of 2–3 wrapped lines. */
+  body > header nav {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, #000 88%, transparent);
+    padding-right: 24px;
+  }
+  body > header nav::-webkit-scrollbar {
+    display: none;
+  }
+  nav a {
+    flex: none;
+    white-space: nowrap;
   }
 }
 @media (max-width: 560px) {
@@ -578,17 +1099,97 @@ footer {
   .grid {
     grid-template-columns: 1fr;
   }
-  .link-card {
-    min-height: 145px;
+  .mode-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
-  .card {
-    padding: 20px;
+  .extra-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .link-card {
+    min-height: 0;
+    padding: 16px;
+  }
+  .link-card .muted {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .card-top {
+    margin-bottom: 8px;
+  }
+  :root {
+    --card-pad: 18px;
+    --section-gap: 16px;
   }
   .options {
     grid-template-columns: 1fr;
   }
+  .options[data-count="2"] {
+    grid-template-columns: 1fr 1fr;
+  }
+  .option {
+    min-height: 56px;
+    font-size: 19px;
+  }
   .question {
-    padding: 25px 15px;
+    min-height: 0;
+    padding: 20px 15px 16px;
+    gap: 14px;
+  }
+  .quiz-toolbar {
+    padding: 12px;
+  }
+  /* Two settings per line on phones instead of a ragged wrap. */
+  .toolbar-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: end;
+  }
+  .toolbar-row > .toolbar-note {
+    grid-column: 1 / -1;
+  }
+  .field-control select,
+  .field-control input {
+    width: 100%;
+  }
+  .toolbar-row:has(.segmented) {
+    grid-template-columns: 1fr auto 1fr;
+  }
+  .field-control:has(> .segmented),
+  .segmented {
+    display: flex;
+    width: 100%;
+  }
+  .segmented button {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 4px;
+  }
+  .toolbar-row > .help-toggle {
+    grid-column: 1 / -1;
+  }
+  .toolbar-row > .status-chip {
+    justify-self: start;
+  }
+  .toolbar-row > .help-toggle summary {
+    min-height: 32px;
+  }
+  .action-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .actions-primary {
+    margin-left: 0;
+  }
+  .actions-primary:empty {
+    display: none;
+  }
+  .actions-primary button {
+    flex: 1;
+  }
+  .actions-secondary > button {
+    flex: 1;
   }
   .hanzi {
     font-size: 46px;
@@ -612,6 +1213,9 @@ footer {
   }
   .stat strong {
     font-size: 23px;
+  }
+  .hero-actions {
+    margin-top: var(--space-4);
   }
   footer {
     flex-direction: column;
@@ -642,14 +1246,24 @@ footer {
 .match-card.matched {
   animation: match-disappear 250ms ease-out forwards;
 }
-.match-feedback { min-height: 1.6em; }
+.match-feedback {
+  min-height: 1.6em;
+}
 @media (max-width: 600px) {
-  .match-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .match-card { min-height: 85px; font-size: 18px; }
+  .match-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .match-card {
+    min-height: 85px;
+    font-size: 18px;
+  }
 }
 
 @keyframes match-disappear {
-  to { opacity: 0; transform: scale(0.92); }
+  to {
+    opacity: 0;
+    transform: scale(0.92);
+  }
 }
 .quiz-settings {
   width: 100%;

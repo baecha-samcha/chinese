@@ -26,6 +26,15 @@ async function route() {
           (a.pathname === "/admin" && path.startsWith("/admin/")),
       ),
     );
+  // On narrow screens the menu is one horizontally scrolling row: center the
+  // current link in it without scrolling the page itself.
+  const nav = document.querySelector("header nav"),
+    active = nav?.querySelector("a.active");
+  if (active && nav.scrollWidth > nav.clientWidth)
+    nav.scrollLeft +=
+      active.getBoundingClientRect().left -
+      nav.getBoundingClientRect().left -
+      (nav.clientWidth - active.offsetWidth) / 2;
   main.replaceChildren(
     el("p", { class: "muted" }, "학습실을 준비하고 있어요…"),
   );
@@ -53,8 +62,6 @@ async function route() {
             button("다시 연결", () => {
               dataset = null;
               route();
-if ("serviceWorker" in navigator)
-  navigator.serviceWorker.register("/sw.js").catch(() => {});
             }),
           ),
         );
@@ -87,7 +94,7 @@ if ("serviceWorker" in navigator)
         el(
           "div",
           { class: "card empty" },
-          el("h2", {}, "화면을 불러오지 못했습니다."),
+          el("h1", {}, "화면을 불러오지 못했습니다."),
           el("p", { class: "muted" }, e.message),
           button("다시 시도", route),
         ),
@@ -100,8 +107,6 @@ document.addEventListener("click", (e) => {
   e.preventDefault();
   history.pushState({}, "", a.href);
   route();
-if ("serviceWorker" in navigator)
-  navigator.serviceWorker.register("/sw.js").catch(() => {});
   window.scrollTo(0, 0);
 });
 window.addEventListener("popstate", route);

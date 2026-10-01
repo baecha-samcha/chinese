@@ -41,9 +41,11 @@ export function speechSettings() {
   const value = readLocal("ch.speech", { normal: 0.9, slow: 0.6 });
   const box = el(
     "details",
-    { class: "settings" },
+    { class: "help-toggle speed-settings" },
     el("summary", {}, "발음 속도 설정"),
   );
+  const body = el("div", { class: "help-body" });
+  box.append(body);
   for (const [key, label] of [
     ["normal", "보통"],
     ["slow", "느리게"],
@@ -59,7 +61,7 @@ export function speechSettings() {
         writeLocal("ch.speech", value);
       },
     });
-    box.append(el("label", {}, label, input));
+    body.append(el("label", {}, label, input));
   }
   return box;
 }
