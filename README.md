@@ -1,6 +1,6 @@
-# 차곡 — 개인용 중국어 시험 대비
+# 차곡 — 중국어 반복 학습
 
-`ch.baecha.xyz`를 위한 한국어 UI의 중국어 반복 학습 웹앱. HTML/CSS/vanilla ES modules + Cloudflare Workers Static Assets + D1입니다. 평소 학습에는 AI API, API key, 별도 서버, 로그인 계정이 필요하지 않습니다. 기본 dark mode이며 모바일·태블릿·Chromebook·데스크톱에 대응합니다.
+단어·문장·문법을 반복 학습하고 중국어 시험을 준비하는 한국어 웹앱입니다. 학습 퀴즈, 문장 배열, 짝 맞추기와 종합시험을 제공하며 JSON·CSV·XLSX로 학습 자료를 관리할 수 있습니다. 일반 학습에는 AI API 키가 필요하지 않습니다. 직접 운영하려면 아래 Cloudflare Workers·D1 설정을 따라 하세요.
 
 ## 1. 설치
 
