@@ -1,0 +1,354 @@
+npm notice run ch-study@1.0.0 test
+npm notice run node --test tests/*.test.mjs
+TAP version 13
+# Subtest: all seed rows satisfy server/shared validation
+ok 1 - all seed rows satisfy server/shared validation
+  ---
+  duration_ms: 23.296822
+  type: 'test'
+  ...
+# Subtest: accented, spaced, numbered pinyin search
+ok 2 - accented, spaced, numbered pinyin search
+  ---
+  duration_ms: 2.578186
+  type: 'test'
+  ...
+# Subtest: required fields, malformed JSON, mismatched characters and recursive limits rejected
+ok 3 - required fields, malformed JSON, mismatched characters and recursive limits rejected
+  ---
+  duration_ms: 2.956569
+  type: 'test'
+  ...
+# Subtest: duplicates and ambiguous pinyin are warnings
+ok 4 - duplicates and ambiguous pinyin are warnings
+  ---
+  duration_ms: 3.178892
+  type: 'test'
+  ...
+# Subtest: CSV quoted commas, newlines, unicode BOM and JSON roundtrip
+ok 5 - CSV quoted commas, newlines, unicode BOM and JSON roundtrip
+  ---
+  duration_ms: 12.264682
+  type: 'test'
+  ...
+# Subtest: CSV export neutralizes spreadsheet formulas
+ok 6 - CSV export neutralizes spreadsheet formulas
+  ---
+  duration_ms: 1.2715
+  type: 'test'
+  ...
+# Subtest: sentence validation rejects incorrect token sequence
+ok 7 - sentence validation rejects incorrect token sequence
+  ---
+  duration_ms: 1.214465
+  type: 'test'
+  ...
+# Subtest: nested question clause is explicitly accepted, no global 吗 filter
+ok 8 - nested question clause is explicitly accepted, no global 吗 filter
+  ---
+  duration_ms: 3.513452
+  type: 'test'
+  ...
+# Subtest: component candidates contain correct values and only observed relevant alternatives
+ok 9 - component candidates contain correct values and only observed relevant alternatives
+  ---
+  duration_ms: 67.147569
+  type: 'test'
+  ...
+# Subtest: weak-point sampling weights wrong answers higher
+ok 10 - weak-point sampling weights wrong answers higher
+  ---
+  duration_ms: 4.295024
+  type: 'test'
+  ...
+# Subtest: multi-character decomposition, repeated components and token punctuation grading
+ok 11 - multi-character decomposition, repeated components and token punctuation grading
+  ---
+  duration_ms: 4.938614
+  type: 'test'
+  ...
+# Subtest: five grammar question types produce explicit answers
+ok 12 - five grammar question types produce explicit answers
+  ---
+  duration_ms: 3.130169
+  type: 'test'
+  ...
+# Subtest: mixed exam allocates exact counts without repeated keys
+ok 13 - mixed exam allocates exact counts without repeated keys
+  ---
+  duration_ms: 14.451499
+  type: 'test'
+  ...
+# Subtest: sameComponentMultiset ignores pick order but keeps multiplicity
+ok 14 - sameComponentMultiset ignores pick order but keeps multiplicity
+  ---
+  duration_ms: 0.88633
+  type: 'test'
+  ...
+# Subtest: diffComponentMultiset pinpoints wrong/missing components, never as a Set
+ok 15 - diffComponentMultiset pinpoints wrong/missing components, never as a Set
+  ---
+  duration_ms: 2.707614
+  type: 'test'
+  ...
+# Subtest: component grading accepts any pick order but rejects wrong multiplicity or set
+ok 16 - component grading accepts any pick order but rejects wrong multiplicity or set
+  ---
+  duration_ms: 2.186046
+  type: 'test'
+  ...
+# Subtest: assembly answer uses direct children, not a flattened recursive decomposition
+ok 17 - assembly answer uses direct children, not a flattened recursive decomposition
+  ---
+  duration_ms: 0.950065
+  type: 'test'
+  ...
+# Subtest: a nested component's own decomposition only applies when it is the question root
+ok 18 - a nested component's own decomposition only applies when it is the question root
+  ---
+  duration_ms: 1.255935
+  type: 'test'
+  ...
+# Subtest: assembly excludes decompositions with fewer than 2 usable direct children
+ok 19 - assembly excludes decompositions with fewer than 2 usable direct children
+  ---
+  duration_ms: 1.029845
+  type: 'test'
+  ...
+# Subtest: characters with degenerate decomposition stay out of assembly but remain in meaning study
+ok 20 - characters with degenerate decomposition stay out of assembly but remain in meaning study
+  ---
+  duration_ms: 1.358075
+  type: 'test'
+  ...
+# Subtest: distractor pool favors components at a similar decomposition depth when other signals are tied
+ok 21 - distractor pool favors components at a similar decomposition depth when other signals are tied
+  ---
+  duration_ms: 1.613985
+  type: 'test'
+  ...
+# Subtest: assembly heuristic excludes over-fragmented decompositions but respects an explicit override
+ok 22 - assembly heuristic excludes over-fragmented decompositions but respects an explicit override
+  ---
+  duration_ms: 1.30875
+  type: 'test'
+  ...
+# Subtest: a vocabulary word with zero assembly-eligible characters is safely dropped, not just its bad character
+ok 23 - a vocabulary word with zero assembly-eligible characters is safely dropped, not just its bad character
+  ---
+  duration_ms: 1.138039
+  type: 'test'
+  ...
+# Subtest: poolSignature is order-independent but changes when membership changes
+ok 24 - poolSignature is order-independent but changes when membership changes
+  ---
+  duration_ms: 1.255549
+  type: 'test'
+  ...
+# Subtest: buildQueue includes every eligible item at least once per cycle, weak items capped at 4 copies
+ok 25 - buildQueue includes every eligible item at least once per cycle, weak items capped at 4 copies
+  ---
+  duration_ms: 1.809611
+  type: 'test'
+  ...
+# Subtest: drawFromQueue is a shuffle bag: no item is skipped and none repeats before a full cycle completes
+ok 26 - drawFromQueue is a shuffle bag: no item is skipped and none repeats before a full cycle completes
+  ---
+  duration_ms: 4.254588
+  type: 'test'
+  ...
+# Subtest: drawFromQueue never repeats the immediately previous question when an alternative exists
+ok 27 - drawFromQueue never repeats the immediately previous question when an alternative exists
+  ---
+  duration_ms: 117.369775
+  type: 'test'
+  ...
+# Subtest: drawFromQueue handles a single-item pool without an infinite loop or crash
+ok 28 - drawFromQueue handles a single-item pool without an infinite loop or crash
+  ---
+  duration_ms: 8.846157
+  type: 'test'
+  ...
+# Subtest: drawFromQueue handles an empty pool without throwing
+ok 29 - drawFromQueue handles an empty pool without throwing
+  ---
+  duration_ms: 0.556422
+  type: 'test'
+  ...
+# Subtest: drawFromQueue rebuilds cleanly when the pool changes mid-session (settings/data change), dropping stale queue entries
+ok 30 - drawFromQueue rebuilds cleanly when the pool changes mid-session (settings/data change), dropping stale queue entries
+  ---
+  duration_ms: 5.731786
+  type: 'test'
+  ...
+# Subtest: weighted duplicate queues avoid repeats and preserve every deferred copy
+ok 31 - weighted duplicate queues avoid repeats and preserve every deferred copy
+  ---
+  duration_ms: 2.398856
+  type: 'test'
+  ...
+# Subtest: XLSX validates original headers with cell positions before mapping rows
+ok 32 - XLSX validates original headers with cell positions before mapping rows
+  ---
+  duration_ms: 62.271552
+  type: 'test'
+  ...
+# Subtest: pinyin parses syllables and preserves separators, case and ü
+ok 33 - pinyin parses syllables and preserves separators, case and ü
+  ---
+  duration_ms: 26.559279
+  type: 'test'
+  ...
+# Subtest: tone variants change only tones and prefer one-syllable mistakes
+ok 34 - tone variants change only tones and prefer one-syllable mistakes
+  ---
+  duration_ms: 27.58791
+  type: 'test'
+  ...
+# Subtest: tone questions have four choices and exclude unchangeable entries only in tone mode
+ok 35 - tone questions have four choices and exclude unchangeable entries only in tone mode
+  ---
+  duration_ms: 9.96771
+  type: 'test'
+  ...
+# Subtest: score 91/5.1 = 100
+ok 36 - score 91/5.1 = 100
+  ---
+  duration_ms: 4.965971
+  type: 'test'
+  ...
+# Subtest: score 91/5 = 50
+ok 37 - score 91/5 = 50
+  ---
+  duration_ms: 0.838231
+  type: 'test'
+  ...
+# Subtest: score 90/5.1 = 130
+ok 38 - score 90/5.1 = 130
+  ---
+  duration_ms: 0.663363
+  type: 'test'
+  ...
+# Subtest: score 90/5 = 80
+ok 39 - score 90/5 = 80
+  ---
+  duration_ms: 0.742851
+  type: 'test'
+  ...
+# Subtest: score 0/10 = 0
+ok 40 - score 0/10 = 0
+  ---
+  duration_ms: 0.910094
+  type: 'test'
+  ...
+# Subtest: wrong answers never score
+ok 41 - wrong answers never score
+  ---
+  duration_ms: 1.124364
+  type: 'test'
+  ...
+# Subtest: small expiration resets without a penalty, including a delayed tick
+ok 42 - small expiration resets without a penalty, including a delayed tick
+  ---
+  duration_ms: 4.045854
+  type: 'test'
+  ...
+# Subtest: same-kind and mismatched cards count once and reset the timer
+ok 43 - same-kind and mismatched cards count once and reset the timer
+  ---
+  duration_ms: 2.184634
+  type: 'test'
+  ...
+# Subtest: correct cards are disabled and score from the current timestamps
+ok 44 - correct cards are disabled and score from the current timestamps
+  ---
+  duration_ms: 4.884025
+  type: 'test'
+  ...
+# Subtest: deadline blocks inputs even if no render tick has run
+ok 45 - deadline blocks inputs even if no render tick has run
+  ---
+  duration_ms: 2.784821
+  type: 'test'
+  ...
+# Subtest: empty datasets and repeated labels are safe
+ok 46 - empty datasets and repeated labels are safe
+  ---
+  duration_ms: 1.425583
+  type: 'test'
+  ...
+# Subtest: selecting the same card again cancels without scoring or resetting the timer
+ok 47 - selecting the same card again cancels without scoring or resetting the timer
+  ---
+  duration_ms: 5.890023
+  type: 'test'
+  ...
+# Subtest: boards contain at most four pairs with Chinese left and Korean right
+ok 48 - boards contain at most four pairs with Chinese left and Korean right
+  ---
+  duration_ms: 2.472805
+  type: 'test'
+  ...
+# Subtest: only solved slots refill after 250ms, stale clicks cannot score, selection survives
+ok 49 - only solved slots refill after 250ms, stale clicks cannot score, selection survives
+  ---
+  duration_ms: 2.387971
+  type: 'test'
+  ...
+# Subtest: independent queues cycle, distinct replacements stay playable over rapid matches
+ok 50 - independent queues cycle, distinct replacements stay playable over rapid matches
+  ---
+  duration_ms: 135.425548
+  type: 'test'
+  ...
+# Subtest: small pools and overlapping replacements remain playable
+ok 51 - small pools and overlapping replacements remain playable
+  ---
+  duration_ms: 8.755464
+  type: 'test'
+  ...
+# Subtest: ambiguous labels are deferred across replacements
+ok 52 - ambiguous labels are deferred across replacements
+  ---
+  duration_ms: 17.987274
+  type: 'test'
+  ...
+# Subtest: deadline and navigation cancel pending replacements
+ok 53 - deadline and navigation cancel pending replacements
+  ---
+  duration_ms: 0.906797
+  type: 'test'
+  ...
+# Subtest: initial columns share only the minimum possible pairs
+ok 54 - initial columns share only the minimum possible pairs
+  ---
+  duration_ms: 118.231444
+  type: 'test'
+  ...
+# Subtest: new cards never form a pair when playable distinct replacements exist, even with aligned queues
+ok 55 - new cards never form a pair when playable distinct replacements exist, even with aligned queues
+  ---
+  duration_ms: 1189.660409
+  type: 'test'
+  ...
+# Subtest: source accepts numeric XLSX and string CSV values without interpreting missing as zero
+ok 56 - source accepts numeric XLSX and string CSV values without interpreting missing as zero
+  ---
+  duration_ms: 84.214622
+  type: 'test'
+  ...
+# Subtest: source limits all vocabulary modes, sentence pools and distractors while common areas remain
+ok 57 - source limits all vocabulary modes, sentence pools and distractors while common areas remain
+  ---
+  duration_ms: 23.721146
+  type: 'test'
+  ...
+1..57
+# tests 57
+# suites 0
+# pass 57
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2120.382537

@@ -1,0 +1,1929 @@
+[
+  {
+    "results": [
+      {
+        "id": 380,
+        "simplified": "一会儿",
+        "pinyin": "yíhuìr"
+      },
+      {
+        "id": 125,
+        "simplified": "一会儿",
+        "pinyin": "yíhuìr"
+      },
+      {
+        "id": 379,
+        "simplified": "一定",
+        "pinyin": "yídìng"
+      },
+      {
+        "id": 378,
+        "simplified": "一年",
+        "pinyin": "yìnián"
+      },
+      {
+        "id": 141,
+        "simplified": "一起",
+        "pinyin": "yìqǐ"
+      },
+      {
+        "id": 80,
+        "simplified": "上",
+        "pinyin": "shàng"
+      },
+      {
+        "id": 200,
+        "simplified": "上",
+        "pinyin": "shàng"
+      },
+      {
+        "id": 327,
+        "simplified": "上上个星期",
+        "pinyin": "shàngshàng ge xīngqī"
+      },
+      {
+        "id": 322,
+        "simplified": "上上个月",
+        "pinyin": "shàngshàng ge yuè"
+      },
+      {
+        "id": 328,
+        "simplified": "上个星期",
+        "pinyin": "shàng ge xīngqī"
+      },
+      {
+        "id": 323,
+        "simplified": "上个月",
+        "pinyin": "shàng ge yuè"
+      },
+      {
+        "id": 117,
+        "simplified": "上学",
+        "pinyin": "shàngxué"
+      },
+      {
+        "id": 311,
+        "simplified": "上班",
+        "pinyin": "shàngbān"
+      },
+      {
+        "id": 118,
+        "simplified": "上课",
+        "pinyin": "shàngkè"
+      },
+      {
+        "id": 219,
+        "simplified": "上课",
+        "pinyin": "shàngkè"
+      },
+      {
+        "id": 136,
+        "simplified": "下",
+        "pinyin": "xià"
+      },
+      {
+        "id": 331,
+        "simplified": "下下个星期",
+        "pinyin": "xiàxià ge xīngqī"
+      },
+      {
+        "id": 326,
+        "simplified": "下下个月",
+        "pinyin": "xiàxià ge yuè"
+      },
+      {
+        "id": 330,
+        "simplified": "下个星期",
+        "pinyin": "xià ge xīngqī"
+      },
+      {
+        "id": 325,
+        "simplified": "下个月",
+        "pinyin": "xià ge yuè"
+      },
+      {
+        "id": 312,
+        "simplified": "下班",
+        "pinyin": "xiàbān"
+      },
+      {
+        "id": 220,
+        "simplified": "下课",
+        "pinyin": "xiàkè"
+      },
+      {
+        "id": 156,
+        "simplified": "不",
+        "pinyin": "bù"
+      },
+      {
+        "id": 15,
+        "simplified": "不",
+        "pinyin": "bù"
+      },
+      {
+        "id": 161,
+        "simplified": "不好意思",
+        "pinyin": "bù hǎoyìsi"
+      },
+      {
+        "id": 158,
+        "simplified": "不客气",
+        "pinyin": "bú kèqi"
+      },
+      {
+        "id": 351,
+        "simplified": "不用",
+        "pinyin": "búyòng"
+      },
+      {
+        "id": 347,
+        "simplified": "不见",
+        "pinyin": "bú jiàn"
+      },
+      {
+        "id": 89,
+        "simplified": "两",
+        "pinyin": "liǎng"
+      },
+      {
+        "id": 334,
+        "simplified": "两孩政策",
+        "pinyin": "liǎng hái zhèngcè"
+      },
+      {
+        "id": 199,
+        "simplified": "个",
+        "pinyin": "ge"
+      },
+      {
+        "id": 78,
+        "simplified": "个",
+        "pinyin": "ge"
+      },
+      {
+        "id": 171,
+        "simplified": "中国",
+        "pinyin": "Zhōngguó"
+      },
+      {
+        "id": 42,
+        "simplified": "中国",
+        "pinyin": "zhōngguó"
+      },
+      {
+        "id": 128,
+        "simplified": "中学",
+        "pinyin": "zhōngxué"
+      },
+      {
+        "id": 225,
+        "simplified": "中秋节",
+        "pinyin": "Zhōngqiūjié"
+      },
+      {
+        "id": 366,
+        "simplified": "久仰",
+        "pinyin": "jiǔyǎng"
+      },
+      {
+        "id": 237,
+        "simplified": "乐天利",
+        "pinyin": "Lètiānlì"
+      },
+      {
+        "id": 252,
+        "simplified": "乒乓球",
+        "pinyin": "pīngpāngqiú"
+      },
+      {
+        "id": 338,
+        "simplified": "九零后",
+        "pinyin": "jiǔ líng hòu"
+      },
+      {
+        "id": 173,
+        "simplified": "也",
+        "pinyin": "yě"
+      },
+      {
+        "id": 43,
+        "simplified": "也",
+        "pinyin": "yě"
+      },
+      {
+        "id": 68,
+        "simplified": "书",
+        "pinyin": "shū"
+      },
+      {
+        "id": 70,
+        "simplified": "书包",
+        "pinyin": "shūbāo"
+      },
+      {
+        "id": 316,
+        "simplified": "买东西",
+        "pinyin": "mǎi dōngxi"
+      },
+      {
+        "id": 66,
+        "simplified": "了",
+        "pinyin": "le"
+      },
+      {
+        "id": 23,
+        "simplified": "事",
+        "pinyin": "shì"
+      },
+      {
+        "id": 162,
+        "simplified": "事",
+        "pinyin": "shì"
+      },
+      {
+        "id": 335,
+        "simplified": "二胎政策",
+        "pinyin": "èr tāi zhèngcè"
+      },
+      {
+        "id": 41,
+        "simplified": "人",
+        "pinyin": "rén"
+      },
+      {
+        "id": 165,
+        "simplified": "什么",
+        "pinyin": "shénme"
+      },
+      {
+        "id": 29,
+        "simplified": "什么",
+        "pinyin": "shénme"
+      },
+      {
+        "id": 92,
+        "simplified": "今天",
+        "pinyin": "jīntiān"
+      },
+      {
+        "id": 131,
+        "simplified": "今年",
+        "pinyin": "jīnnián"
+      },
+      {
+        "id": 369,
+        "simplified": "介绍",
+        "pinyin": "jièshào"
+      },
+      {
+        "id": 12,
+        "simplified": "他",
+        "pinyin": "tā"
+      },
+      {
+        "id": 147,
+        "simplified": "他们",
+        "pinyin": "tāmen"
+      },
+      {
+        "id": 3,
+        "simplified": "们",
+        "pinyin": "men"
+      },
+      {
+        "id": 306,
+        "simplified": "休息",
+        "pinyin": "xiūxi"
+      },
+      {
+        "id": 1,
+        "simplified": "你",
+        "pinyin": "nǐ"
+      },
+      {
+        "id": 146,
+        "simplified": "你们",
+        "pinyin": "nǐmen"
+      },
+      {
+        "id": 286,
+        "simplified": "俄罗斯",
+        "pinyin": "Éluósī"
+      },
+      {
+        "id": 260,
+        "simplified": "修正带",
+        "pinyin": "xiūzhèngdài"
+      },
+      {
+        "id": 301,
+        "simplified": "做作业",
+        "pinyin": "zuò zuòyè"
+      },
+      {
+        "id": 304,
+        "simplified": "做运动",
+        "pinyin": "zuò yùndòng"
+      },
+      {
+        "id": 357,
+        "simplified": "健康",
+        "pinyin": "jiànkāng"
+      },
+      {
+        "id": 265,
+        "simplified": "储物柜",
+        "pinyin": "chǔwùguì"
+      },
+      {
+        "id": 185,
+        "simplified": "兄弟",
+        "pinyin": "xiōngdì"
+      },
+      {
+        "id": 344,
+        "simplified": "光临",
+        "pinyin": "guānglín"
+      },
+      {
+        "id": 336,
+        "simplified": "全面三孩",
+        "pinyin": "quánmiàn sān hái"
+      },
+      {
+        "id": 333,
+        "simplified": "全面两孩",
+        "pinyin": "quánmiàn liǎng hái"
+      },
+      {
+        "id": 337,
+        "simplified": "八零后",
+        "pinyin": "bā líng hòu"
+      },
+      {
+        "id": 373,
+        "simplified": "公斤",
+        "pinyin": "gōngjīn"
+      },
+      {
+        "id": 19,
+        "simplified": "关系",
+        "pinyin": "guānxi"
+      },
+      {
+        "id": 151,
+        "simplified": "再见",
+        "pinyin": "zàijiàn"
+      },
+      {
+        "id": 4,
+        "simplified": "再见",
+        "pinyin": "zàijiàn"
+      },
+      {
+        "id": 247,
+        "simplified": "冰淇淋",
+        "pinyin": "bīngqílín"
+      },
+      {
+        "id": 123,
+        "simplified": "冷",
+        "pinyin": "lěng"
+      },
+      {
+        "id": 81,
+        "simplified": "几",
+        "pinyin": "jǐ"
+      },
+      {
+        "id": 103,
+        "simplified": "分",
+        "pinyin": "fēn"
+      },
+      {
+        "id": 127,
+        "simplified": "初中",
+        "pinyin": "chūzhōng"
+      },
+      {
+        "id": 367,
+        "simplified": "初次",
+        "pinyin": "chūcì"
+      },
+      {
+        "id": 300,
+        "simplified": "刷牙",
+        "pinyin": "shuāyá"
+      },
+      {
+        "id": 108,
+        "simplified": "刻",
+        "pinyin": "kè"
+      },
+      {
+        "id": 211,
+        "simplified": "刻",
+        "pinyin": "kè"
+      },
+      {
+        "id": 96,
+        "simplified": "前天",
+        "pinyin": "qiántiān"
+      },
+      {
+        "id": 318,
+        "simplified": "前年",
+        "pinyin": "qiánnián"
+      },
+      {
+        "id": 285,
+        "simplified": "加拿大",
+        "pinyin": "Jiānádà"
+      },
+      {
+        "id": 139,
+        "simplified": "加油",
+        "pinyin": "jiāyóu"
+      },
+      {
+        "id": 243,
+        "simplified": "动画",
+        "pinyin": "dònghuà"
+      },
+      {
+        "id": 113,
+        "simplified": "劳动节",
+        "pinyin": "láodòngjié"
+      },
+      {
+        "id": 350,
+        "simplified": "十分",
+        "pinyin": "shífēn"
+      },
+      {
+        "id": 106,
+        "simplified": "半",
+        "pinyin": "bàn"
+      },
+      {
+        "id": 212,
+        "simplified": "半",
+        "pinyin": "bàn"
+      },
+      {
+        "id": 50,
+        "simplified": "南丁格尔",
+        "pinyin": "nándīnggé'ěr"
+      },
+      {
+        "id": 245,
+        "simplified": "卡片",
+        "pinyin": "kǎpiàn"
+      },
+      {
+        "id": 181,
+        "simplified": "印度",
+        "pinyin": "Yìndù"
+      },
+      {
+        "id": 57,
+        "simplified": "印度",
+        "pinyin": "yìndù"
+      },
+      {
+        "id": 280,
+        "simplified": "原谅",
+        "pinyin": "yuánliàng"
+      },
+      {
+        "id": 35,
+        "simplified": "去",
+        "pinyin": "qù"
+      },
+      {
+        "id": 319,
+        "simplified": "去年",
+        "pinyin": "qùnián"
+      },
+      {
+        "id": 305,
+        "simplified": "去补习班",
+        "pinyin": "qù bǔxíbān"
+      },
+      {
+        "id": 293,
+        "simplified": "叔叔",
+        "pinyin": "shūshu"
+      },
+      {
+        "id": 374,
+        "simplified": "口",
+        "pinyin": "kǒu"
+      },
+      {
+        "id": 28,
+        "simplified": "叫",
+        "pinyin": "jiào"
+      },
+      {
+        "id": 164,
+        "simplified": "叫",
+        "pinyin": "jiào"
+      },
+      {
+        "id": 90,
+        "simplified": "可爱",
+        "pinyin": "kě'ài"
+      },
+      {
+        "id": 94,
+        "simplified": "号",
+        "pinyin": "hào"
+      },
+      {
+        "id": 207,
+        "simplified": "号",
+        "pinyin": "hào"
+      },
+      {
+        "id": 104,
+        "simplified": "吃",
+        "pinyin": "chī"
+      },
+      {
+        "id": 313,
+        "simplified": "吃饭",
+        "pinyin": "chīfàn"
+      },
+      {
+        "id": 236,
+        "simplified": "吉他",
+        "pinyin": "jítā"
+      },
+      {
+        "id": 25,
+        "simplified": "同学",
+        "pinyin": "tóngxué"
+      },
+      {
+        "id": 163,
+        "simplified": "同学",
+        "pinyin": "tóngxué"
+      },
+      {
+        "id": 30,
+        "simplified": "名字",
+        "pinyin": "míngzi"
+      },
+      {
+        "id": 98,
+        "simplified": "后天",
+        "pinyin": "hòutiān"
+      },
+      {
+        "id": 321,
+        "simplified": "后年",
+        "pinyin": "hòunián"
+      },
+      {
+        "id": 44,
+        "simplified": "吗",
+        "pinyin": "ma"
+      },
+      {
+        "id": 174,
+        "simplified": "吗",
+        "pinyin": "ma"
+      },
+      {
+        "id": 107,
+        "simplified": "吧",
+        "pinyin": "ba"
+      },
+      {
+        "id": 215,
+        "simplified": "吧",
+        "pinyin": "ba"
+      },
+      {
+        "id": 221,
+        "simplified": "听音乐",
+        "pinyin": "tīng yīnyuè"
+      },
+      {
+        "id": 166,
+        "simplified": "呢",
+        "pinyin": "ne"
+      },
+      {
+        "id": 31,
+        "simplified": "呢",
+        "pinyin": "ne"
+      },
+      {
+        "id": 361,
+        "simplified": "周末",
+        "pinyin": "zhōumò"
+      },
+      {
+        "id": 375,
+        "simplified": "和",
+        "pinyin": "hé"
+      },
+      {
+        "id": 238,
+        "simplified": "咖啡",
+        "pinyin": "kāfēi"
+      },
+      {
+        "id": 154,
+        "simplified": "哈喽",
+        "pinyin": "hālóu"
+      },
+      {
+        "id": 79,
+        "simplified": "哥哥",
+        "pinyin": "gēge"
+      },
+      {
+        "id": 39,
+        "simplified": "哪",
+        "pinyin": "nǎ"
+      },
+      {
+        "id": 170,
+        "simplified": "哪",
+        "pinyin": "nǎ"
+      },
+      {
+        "id": 246,
+        "simplified": "啤酒",
+        "pinyin": "píjiǔ"
+      },
+      {
+        "id": 275,
+        "simplified": "喝",
+        "pinyin": "hē"
+      },
+      {
+        "id": 315,
+        "simplified": "喝茶",
+        "pinyin": "hē chá"
+      },
+      {
+        "id": 153,
+        "simplified": "嗨",
+        "pinyin": "hāi"
+      },
+      {
+        "id": 110,
+        "simplified": "回",
+        "pinyin": "huí"
+      },
+      {
+        "id": 216,
+        "simplified": "回家",
+        "pinyin": "huíjiā"
+      },
+      {
+        "id": 273,
+        "simplified": "困",
+        "pinyin": "kùn"
+      },
+      {
+        "id": 40,
+        "simplified": "国",
+        "pinyin": "guó"
+      },
+      {
+        "id": 258,
+        "simplified": "圆珠笔",
+        "pinyin": "yuánzhūbǐ"
+      },
+      {
+        "id": 354,
+        "simplified": "圣诞",
+        "pinyin": "Shèngdàn"
+      },
+      {
+        "id": 268,
+        "simplified": "垃圾桶",
+        "pinyin": "lājītǒng"
+      },
+      {
+        "id": 288,
+        "simplified": "墨西哥",
+        "pinyin": "Mòxīgē"
+      },
+      {
+        "id": 21,
+        "simplified": "多",
+        "pinyin": "duō"
+      },
+      {
+        "id": 348,
+        "simplified": "多谢",
+        "pinyin": "duōxiè"
+      },
+      {
+        "id": 64,
+        "simplified": "大",
+        "pinyin": "dà"
+      },
+      {
+        "id": 292,
+        "simplified": "大夫",
+        "pinyin": "dàifu"
+      },
+      {
+        "id": 129,
+        "simplified": "大学",
+        "pinyin": "dàxué"
+      },
+      {
+        "id": 7,
+        "simplified": "大家",
+        "pinyin": "dàjiā"
+      },
+      {
+        "id": 150,
+        "simplified": "大家",
+        "pinyin": "dàjiā"
+      },
+      {
+        "id": 99,
+        "simplified": "天",
+        "pinyin": "tiān"
+      },
+      {
+        "id": 13,
+        "simplified": "她",
+        "pinyin": "tā"
+      },
+      {
+        "id": 148,
+        "simplified": "她们",
+        "pinyin": "tāmen"
+      },
+      {
+        "id": 2,
+        "simplified": "好",
+        "pinyin": "hǎo"
+      },
+      {
+        "id": 149,
+        "simplified": "好",
+        "pinyin": "hǎo"
+      },
+      {
+        "id": 346,
+        "simplified": "好久",
+        "pinyin": "hǎojiǔ"
+      },
+      {
+        "id": 355,
+        "simplified": "好运",
+        "pinyin": "hǎoyùn"
+      },
+      {
+        "id": 27,
+        "simplified": "妈妈",
+        "pinyin": "māma"
+      },
+      {
+        "id": 88,
+        "simplified": "妹妹",
+        "pinyin": "mèimei"
+      },
+      {
+        "id": 186,
+        "simplified": "姐妹",
+        "pinyin": "jiěmèi"
+      },
+      {
+        "id": 203,
+        "simplified": "姐姐",
+        "pinyin": "jiějie"
+      },
+      {
+        "id": 87,
+        "simplified": "姐姐",
+        "pinyin": "jiějie"
+      },
+      {
+        "id": 182,
+        "simplified": "姓",
+        "pinyin": "xìng"
+      },
+      {
+        "id": 49,
+        "simplified": "学生",
+        "pinyin": "xuésheng"
+      },
+      {
+        "id": 16,
+        "simplified": "客气",
+        "pinyin": "kèqi"
+      },
+      {
+        "id": 157,
+        "simplified": "客气",
+        "pinyin": "kèqi"
+      },
+      {
+        "id": 111,
+        "simplified": "家",
+        "pinyin": "jiā"
+      },
+      {
+        "id": 376,
+        "simplified": "家里",
+        "pinyin": "jiālǐ"
+      },
+      {
+        "id": 17,
+        "simplified": "对不起",
+        "pinyin": "duìbuqǐ"
+      },
+      {
+        "id": 84,
+        "simplified": "小",
+        "pinyin": "xiǎo"
+      },
+      {
+        "id": 184,
+        "simplified": "小",
+        "pinyin": "xiǎo"
+      },
+      {
+        "id": 126,
+        "simplified": "小学",
+        "pinyin": "xiǎoxué"
+      },
+      {
+        "id": 201,
+        "simplified": "小狗",
+        "pinyin": "xiǎogǒu"
+      },
+      {
+        "id": 340,
+        "simplified": "小皇帝",
+        "pinyin": "xiǎohuángdì"
+      },
+      {
+        "id": 54,
+        "simplified": "居里",
+        "pinyin": "jūlǐ"
+      },
+      {
+        "id": 194,
+        "simplified": "岁",
+        "pinyin": "suì"
+      },
+      {
+        "id": 65,
+        "simplified": "岁",
+        "pinyin": "suì"
+      },
+      {
+        "id": 213,
+        "simplified": "差",
+        "pinyin": "chà"
+      },
+      {
+        "id": 223,
+        "simplified": "差不多",
+        "pinyin": "chàbuduō"
+      },
+      {
+        "id": 287,
+        "simplified": "巴西",
+        "pinyin": "Bāxī"
+      },
+      {
+        "id": 190,
+        "simplified": "帅",
+        "pinyin": "shuài"
+      },
+      {
+        "id": 59,
+        "simplified": "帅",
+        "pinyin": "shuài"
+      },
+      {
+        "id": 188,
+        "simplified": "帅哥",
+        "pinyin": "shuàigē"
+      },
+      {
+        "id": 134,
+        "simplified": "平安",
+        "pinyin": "píng'ān"
+      },
+      {
+        "id": 359,
+        "simplified": "平安",
+        "pinyin": "píng'ān"
+      },
+      {
+        "id": 317,
+        "simplified": "年",
+        "pinyin": "nián"
+      },
+      {
+        "id": 230,
+        "simplified": "年糕",
+        "pinyin": "niángāo"
+      },
+      {
+        "id": 82,
+        "simplified": "年级",
+        "pinyin": "niánjí"
+      },
+      {
+        "id": 371,
+        "simplified": "年纪",
+        "pinyin": "niánjì"
+      },
+      {
+        "id": 133,
+        "simplified": "年纪",
+        "pinyin": "niánjì"
+      },
+      {
+        "id": 135,
+        "simplified": "幸福",
+        "pinyin": "xìngfú"
+      },
+      {
+        "id": 360,
+        "simplified": "幸福",
+        "pinyin": "xìngfú"
+      },
+      {
+        "id": 76,
+        "simplified": "弟弟",
+        "pinyin": "dìdi"
+      },
+      {
+        "id": 33,
+        "simplified": "很",
+        "pinyin": "hěn"
+      },
+      {
+        "id": 168,
+        "simplified": "很",
+        "pinyin": "hěn"
+      },
+      {
+        "id": 180,
+        "simplified": "德国",
+        "pinyin": "Déguó"
+      },
+      {
+        "id": 53,
+        "simplified": "德国",
+        "pinyin": "déguó"
+      },
+      {
+        "id": 36,
+        "simplified": "忙",
+        "pinyin": "máng"
+      },
+      {
+        "id": 121,
+        "simplified": "快乐",
+        "pinyin": "kuàilè"
+      },
+      {
+        "id": 342,
+        "simplified": "恭喜",
+        "pinyin": "gōngxǐ"
+      },
+      {
+        "id": 11,
+        "simplified": "您",
+        "pinyin": "nín"
+      },
+      {
+        "id": 143,
+        "simplified": "您",
+        "pinyin": "nín"
+      },
+      {
+        "id": 145,
+        "simplified": "您",
+        "pinyin": "nín"
+      },
+      {
+        "id": 362,
+        "simplified": "愉快",
+        "pinyin": "yúkuài"
+      },
+      {
+        "id": 284,
+        "simplified": "意大利",
+        "pinyin": "Yìdàlì"
+      },
+      {
+        "id": 276,
+        "simplified": "感谢",
+        "pinyin": "gǎnxiè"
+      },
+      {
+        "id": 345,
+        "simplified": "慢走",
+        "pinyin": "màn zǒu"
+      },
+      {
+        "id": 358,
+        "simplified": "成功",
+        "pinyin": "chénggōng"
+      },
+      {
+        "id": 10,
+        "simplified": "我",
+        "pinyin": "wǒ"
+      },
+      {
+        "id": 144,
+        "simplified": "我们",
+        "pinyin": "wǒmen"
+      },
+      {
+        "id": 86,
+        "simplified": "手机",
+        "pinyin": "shǒujī"
+      },
+      {
+        "id": 202,
+        "simplified": "手机",
+        "pinyin": "shǒujī"
+      },
+      {
+        "id": 277,
+        "simplified": "抱歉",
+        "pinyin": "bàoqiàn"
+      },
+      {
+        "id": 155,
+        "simplified": "拜拜",
+        "pinyin": "báibai"
+      },
+      {
+        "id": 251,
+        "simplified": "摩托车",
+        "pinyin": "mótuōchē"
+      },
+      {
+        "id": 218,
+        "simplified": "放学",
+        "pinyin": "fàngxué"
+      },
+      {
+        "id": 253,
+        "simplified": "教室",
+        "pinyin": "jiàoshì"
+      },
+      {
+        "id": 290,
+        "simplified": "教授",
+        "pinyin": "jiàoshòu"
+      },
+      {
+        "id": 119,
+        "simplified": "散步",
+        "pinyin": "sànbù"
+      },
+      {
+        "id": 283,
+        "simplified": "新加坡",
+        "pinyin": "Xīnjiāpō"
+      },
+      {
+        "id": 353,
+        "simplified": "新年",
+        "pinyin": "xīnnián"
+      },
+      {
+        "id": 205,
+        "simplified": "旗袍",
+        "pinyin": "qípáo"
+      },
+      {
+        "id": 140,
+        "simplified": "日",
+        "pinyin": "rì"
+      },
+      {
+        "id": 176,
+        "simplified": "日本",
+        "pinyin": "Rìběn"
+      },
+      {
+        "id": 47,
+        "simplified": "日本",
+        "pinyin": "rìběn"
+      },
+      {
+        "id": 8,
+        "simplified": "早上",
+        "pinyin": "zǎoshang"
+      },
+      {
+        "id": 5,
+        "simplified": "明天",
+        "pinyin": "míngtiān"
+      },
+      {
+        "id": 320,
+        "simplified": "明年",
+        "pinyin": "míngnián"
+      },
+      {
+        "id": 95,
+        "simplified": "星期",
+        "pinyin": "xīngqī"
+      },
+      {
+        "id": 208,
+        "simplified": "星期",
+        "pinyin": "xīngqī"
+      },
+      {
+        "id": 209,
+        "simplified": "星期天",
+        "pinyin": "xīngqītiān"
+      },
+      {
+        "id": 100,
+        "simplified": "星期日",
+        "pinyin": "xīngqīrì"
+      },
+      {
+        "id": 227,
+        "simplified": "春联",
+        "pinyin": "chūnlián"
+      },
+      {
+        "id": 224,
+        "simplified": "春节",
+        "pinyin": "Chūnjié"
+      },
+      {
+        "id": 97,
+        "simplified": "昨天",
+        "pinyin": "zuótiān"
+      },
+      {
+        "id": 38,
+        "simplified": "是",
+        "pinyin": "shì"
+      },
+      {
+        "id": 9,
+        "simplified": "晚上",
+        "pinyin": "wǎnshang"
+      },
+      {
+        "id": 152,
+        "simplified": "晚上",
+        "pinyin": "wǎnshang"
+      },
+      {
+        "id": 93,
+        "simplified": "月",
+        "pinyin": "yuè"
+      },
+      {
+        "id": 206,
+        "simplified": "月",
+        "pinyin": "yuè"
+      },
+      {
+        "id": 226,
+        "simplified": "月饼",
+        "pinyin": "yuèbǐng"
+      },
+      {
+        "id": 75,
+        "simplified": "有",
+        "pinyin": "yǒu"
+      },
+      {
+        "id": 197,
+        "simplified": "有",
+        "pinyin": "yǒu"
+      },
+      {
+        "id": 63,
+        "simplified": "朋友",
+        "pinyin": "péngyou"
+      },
+      {
+        "id": 295,
+        "simplified": "服务员",
+        "pinyin": "fúwùyuán"
+      },
+      {
+        "id": 130,
+        "simplified": "桌子",
+        "pinyin": "zhuōzi"
+      },
+      {
+        "id": 122,
+        "simplified": "棒",
+        "pinyin": "bàng"
+      },
+      {
+        "id": 69,
+        "simplified": "椅子",
+        "pinyin": "yǐzi"
+      },
+      {
+        "id": 263,
+        "simplified": "橡皮",
+        "pinyin": "xiàngpí"
+      },
+      {
+        "id": 343,
+        "simplified": "欢迎",
+        "pinyin": "huānyíng"
+      },
+      {
+        "id": 249,
+        "simplified": "比萨饼",
+        "pinyin": "bǐsàbǐng"
+      },
+      {
+        "id": 250,
+        "simplified": "汉堡包",
+        "pinyin": "hànbǎobāo"
+      },
+      {
+        "id": 137,
+        "simplified": "汉语",
+        "pinyin": "hànyǔ"
+      },
+      {
+        "id": 239,
+        "simplified": "沙发",
+        "pinyin": "shāfā"
+      },
+      {
+        "id": 18,
+        "simplified": "没",
+        "pinyin": "méi"
+      },
+      {
+        "id": 159,
+        "simplified": "没",
+        "pinyin": "méi"
+      },
+      {
+        "id": 160,
+        "simplified": "没关系",
+        "pinyin": "méi guānxi"
+      },
+      {
+        "id": 77,
+        "simplified": "没有",
+        "pinyin": "méiyǒu"
+      },
+      {
+        "id": 198,
+        "simplified": "没有",
+        "pinyin": "méiyǒu"
+      },
+      {
+        "id": 179,
+        "simplified": "法国",
+        "pinyin": "Fǎguó"
+      },
+      {
+        "id": 55,
+        "simplified": "法国",
+        "pinyin": "fǎguó"
+      },
+      {
+        "id": 282,
+        "simplified": "泰国",
+        "pinyin": "Tàiguó"
+      },
+      {
+        "id": 299,
+        "simplified": "洗头",
+        "pinyin": "xǐtóu"
+      },
+      {
+        "id": 298,
+        "simplified": "洗澡",
+        "pinyin": "xǐzǎo"
+      },
+      {
+        "id": 297,
+        "simplified": "洗脸",
+        "pinyin": "xǐliǎn"
+      },
+      {
+        "id": 271,
+        "simplified": "渴",
+        "pinyin": "kě"
+      },
+      {
+        "id": 37,
+        "simplified": "漂亮",
+        "pinyin": "piàoliang"
+      },
+      {
+        "id": 169,
+        "simplified": "漂亮",
+        "pinyin": "piàoliang"
+      },
+      {
+        "id": 281,
+        "simplified": "澳大利亚",
+        "pinyin": "Àodàlìyà"
+      },
+      {
+        "id": 102,
+        "simplified": "点",
+        "pinyin": "diǎn"
+      },
+      {
+        "id": 210,
+        "simplified": "点",
+        "pinyin": "diǎn"
+      },
+      {
+        "id": 270,
+        "simplified": "热",
+        "pinyin": "rè"
+      },
+      {
+        "id": 240,
+        "simplified": "热狗",
+        "pinyin": "règǒu"
+      },
+      {
+        "id": 26,
+        "simplified": "爸爸",
+        "pinyin": "bàba"
+      },
+      {
+        "id": 85,
+        "simplified": "狗",
+        "pinyin": "gǒu"
+      },
+      {
+        "id": 142,
+        "simplified": "玩儿",
+        "pinyin": "wánr"
+      },
+      {
+        "id": 314,
+        "simplified": "玩儿电脑",
+        "pinyin": "wánr diànnǎo"
+      },
+      {
+        "id": 101,
+        "simplified": "现在",
+        "pinyin": "xiànzài"
+      },
+      {
+        "id": 56,
+        "simplified": "甘地",
+        "pinyin": "gāndì"
+      },
+      {
+        "id": 114,
+        "simplified": "生日",
+        "pinyin": "shēngrì"
+      },
+      {
+        "id": 242,
+        "simplified": "电脑",
+        "pinyin": "diànnǎo"
+      },
+      {
+        "id": 266,
+        "simplified": "电视",
+        "pinyin": "diànshì"
+      },
+      {
+        "id": 308,
+        "simplified": "瘦",
+        "pinyin": "shòu"
+      },
+      {
+        "id": 261,
+        "simplified": "白板",
+        "pinyin": "báibǎn"
+      },
+      {
+        "id": 262,
+        "simplified": "白板笔",
+        "pinyin": "báibǎnbǐ"
+      },
+      {
+        "id": 62,
+        "simplified": "的",
+        "pinyin": "de"
+      },
+      {
+        "id": 193,
+        "simplified": "的",
+        "pinyin": "de"
+      },
+      {
+        "id": 22,
+        "simplified": "看",
+        "pinyin": "kàn"
+      },
+      {
+        "id": 303,
+        "simplified": "看电影",
+        "pinyin": "kàn diànyǐng"
+      },
+      {
+        "id": 302,
+        "simplified": "看电视",
+        "pinyin": "kàn diànshì"
+      },
+      {
+        "id": 189,
+        "simplified": "真",
+        "pinyin": "zhēn"
+      },
+      {
+        "id": 58,
+        "simplified": "真",
+        "pinyin": "zhēn"
+      },
+      {
+        "id": 217,
+        "simplified": "睡觉",
+        "pinyin": "shuìjiào"
+      },
+      {
+        "id": 112,
+        "simplified": "睡觉",
+        "pinyin": "shuìjiào"
+      },
+      {
+        "id": 124,
+        "simplified": "知道",
+        "pinyin": "zhīdào"
+      },
+      {
+        "id": 310,
+        "simplified": "矮",
+        "pinyin": "ǎi"
+      },
+      {
+        "id": 222,
+        "simplified": "祝",
+        "pinyin": "zhù"
+      },
+      {
+        "id": 120,
+        "simplified": "祝",
+        "pinyin": "zhù"
+      },
+      {
+        "id": 352,
+        "simplified": "祝贺",
+        "pinyin": "zhùhè"
+      },
+      {
+        "id": 264,
+        "simplified": "窗门",
+        "pinyin": "chuāngmén"
+      },
+      {
+        "id": 231,
+        "simplified": "端午节",
+        "pinyin": "Duānwǔjié"
+      },
+      {
+        "id": 254,
+        "simplified": "笔记本",
+        "pinyin": "bǐjìběn"
+      },
+      {
+        "id": 377,
+        "simplified": "第一",
+        "pinyin": "dìyī"
+      },
+      {
+        "id": 372,
+        "simplified": "米",
+        "pinyin": "mǐ"
+      },
+      {
+        "id": 232,
+        "simplified": "粽子",
+        "pinyin": "zòngzi"
+      },
+      {
+        "id": 272,
+        "simplified": "累",
+        "pinyin": "lèi"
+      },
+      {
+        "id": 228,
+        "simplified": "红包",
+        "pinyin": "hóngbāo"
+      },
+      {
+        "id": 291,
+        "simplified": "经理",
+        "pinyin": "jīnglǐ"
+      },
+      {
+        "id": 370,
+        "simplified": "给",
+        "pinyin": "gěi"
+      },
+      {
+        "id": 175,
+        "simplified": "美国",
+        "pinyin": "Měiguó"
+      },
+      {
+        "id": 46,
+        "simplified": "美国",
+        "pinyin": "měiguó"
+      },
+      {
+        "id": 187,
+        "simplified": "美女",
+        "pinyin": "měinǚ"
+      },
+      {
+        "id": 183,
+        "simplified": "老",
+        "pinyin": "lǎo"
+      },
+      {
+        "id": 24,
+        "simplified": "老师",
+        "pinyin": "lǎoshī"
+      },
+      {
+        "id": 296,
+        "simplified": "老板",
+        "pinyin": "lǎobǎn"
+      },
+      {
+        "id": 363,
+        "simplified": "考上",
+        "pinyin": "kǎoshàng"
+      },
+      {
+        "id": 116,
+        "simplified": "考试",
+        "pinyin": "kǎoshì"
+      },
+      {
+        "id": 91,
+        "simplified": "聪明",
+        "pinyin": "cōngming"
+      },
+      {
+        "id": 235,
+        "simplified": "肯德基",
+        "pinyin": "Kěndéjī"
+      },
+      {
+        "id": 307,
+        "simplified": "胖",
+        "pinyin": "pàng"
+      },
+      {
+        "id": 257,
+        "simplified": "自动铅笔",
+        "pinyin": "zìdòng qiānbǐ"
+      },
+      {
+        "id": 309,
+        "simplified": "苗条",
+        "pinyin": "miáotiáo"
+      },
+      {
+        "id": 178,
+        "simplified": "英国",
+        "pinyin": "Yīngguó"
+      },
+      {
+        "id": 51,
+        "simplified": "英国",
+        "pinyin": "yīngguó"
+      },
+      {
+        "id": 365,
+        "simplified": "荣幸",
+        "pinyin": "róngxìng"
+      },
+      {
+        "id": 259,
+        "simplified": "荧光笔",
+        "pinyin": "yíngguāngbǐ"
+      },
+      {
+        "id": 177,
+        "simplified": "西班牙",
+        "pinyin": "Xībānyá"
+      },
+      {
+        "id": 48,
+        "simplified": "西班牙",
+        "pinyin": "xībānyá"
+      },
+      {
+        "id": 6,
+        "simplified": "见",
+        "pinyin": "jiàn"
+      },
+      {
+        "id": 364,
+        "simplified": "见到",
+        "pinyin": "jiàndào"
+      },
+      {
+        "id": 368,
+        "simplified": "见面",
+        "pinyin": "jiànmiàn"
+      },
+      {
+        "id": 332,
+        "simplified": "计划生育",
+        "pinyin": "jìhuà shēngyù"
+      },
+      {
+        "id": 32,
+        "simplified": "认识",
+        "pinyin": "rènshi"
+      },
+      {
+        "id": 167,
+        "simplified": "认识",
+        "pinyin": "rènshi"
+      },
+      {
+        "id": 132,
+        "simplified": "词典",
+        "pinyin": "cídiǎn"
+      },
+      {
+        "id": 381,
+        "simplified": "请",
+        "pinyin": "qǐng"
+      },
+      {
+        "id": 61,
+        "simplified": "谁",
+        "pinyin": "shéi"
+      },
+      {
+        "id": 20,
+        "simplified": "谢",
+        "pinyin": "xiè"
+      },
+      {
+        "id": 14,
+        "simplified": "谢谢",
+        "pinyin": "xièxie"
+      },
+      {
+        "id": 52,
+        "simplified": "贝多芬",
+        "pinyin": "bèiduōfēn"
+      },
+      {
+        "id": 109,
+        "simplified": "起床",
+        "pinyin": "qǐchuáng"
+      },
+      {
+        "id": 289,
+        "simplified": "越南",
+        "pinyin": "Yuènán"
+      },
+      {
+        "id": 241,
+        "simplified": "足球",
+        "pinyin": "zúqiú"
+      },
+      {
+        "id": 356,
+        "simplified": "身体",
+        "pinyin": "shēntǐ"
+      },
+      {
+        "id": 138,
+        "simplified": "还",
+        "pinyin": "hái"
+      },
+      {
+        "id": 60,
+        "simplified": "这",
+        "pinyin": "zhè"
+      },
+      {
+        "id": 191,
+        "simplified": "这",
+        "pinyin": "zhè"
+      },
+      {
+        "id": 329,
+        "simplified": "这个星期",
+        "pinyin": "zhè ge xīngqī"
+      },
+      {
+        "id": 324,
+        "simplified": "这个月",
+        "pinyin": "zhè ge yuè"
+      },
+      {
+        "id": 248,
+        "simplified": "迷你裙",
+        "pinyin": "mínǐqún"
+      },
+      {
+        "id": 278,
+        "simplified": "道歉",
+        "pinyin": "dàoqiàn"
+      },
+      {
+        "id": 67,
+        "simplified": "那",
+        "pinyin": "nà"
+      },
+      {
+        "id": 192,
+        "simplified": "那",
+        "pinyin": "nà"
+      },
+      {
+        "id": 73,
+        "simplified": "重",
+        "pinyin": "zhòng"
+      },
+      {
+        "id": 267,
+        "simplified": "钟表",
+        "pinyin": "zhōngbiǎo"
+      },
+      {
+        "id": 255,
+        "simplified": "铅笔",
+        "pinyin": "qiānbǐ"
+      },
+      {
+        "id": 256,
+        "simplified": "铅笔盒",
+        "pinyin": "qiānbǐhé"
+      },
+      {
+        "id": 72,
+        "simplified": "长",
+        "pinyin": "cháng"
+      },
+      {
+        "id": 196,
+        "simplified": "长城",
+        "pinyin": "Chángchéng"
+      },
+      {
+        "id": 74,
+        "simplified": "长城",
+        "pinyin": "chángchéng"
+      },
+      {
+        "id": 294,
+        "simplified": "阿姨",
+        "pinyin": "āyí"
+      },
+      {
+        "id": 274,
+        "simplified": "难",
+        "pinyin": "nán"
+      },
+      {
+        "id": 339,
+        "simplified": "零零后",
+        "pinyin": "líng líng hòu"
+      },
+      {
+        "id": 349,
+        "simplified": "非常",
+        "pinyin": "fēicháng"
+      },
+      {
+        "id": 172,
+        "simplified": "韩国",
+        "pinyin": "Hánguó"
+      },
+      {
+        "id": 45,
+        "simplified": "韩国",
+        "pinyin": "hánguó"
+      },
+      {
+        "id": 115,
+        "simplified": "音乐",
+        "pinyin": "yīnyuè"
+      },
+      {
+        "id": 105,
+        "simplified": "饭",
+        "pinyin": "fàn"
+      },
+      {
+        "id": 214,
+        "simplified": "饭",
+        "pinyin": "fàn"
+      },
+      {
+        "id": 229,
+        "simplified": "饺子",
+        "pinyin": "jiǎozi"
+      },
+      {
+        "id": 269,
+        "simplified": "饿",
+        "pinyin": "è"
+      },
+      {
+        "id": 71,
+        "simplified": "高",
+        "pinyin": "gāo"
+      },
+      {
+        "id": 195,
+        "simplified": "高",
+        "pinyin": "gāo"
+      },
+      {
+        "id": 83,
+        "simplified": "高中",
+        "pinyin": "gāozhōng"
+      },
+      {
+        "id": 34,
+        "simplified": "高兴",
+        "pinyin": "gāoxìng"
+      },
+      {
+        "id": 204,
+        "simplified": "高考",
+        "pinyin": "gāokǎo"
+      },
+      {
+        "id": 234,
+        "simplified": "麦当劳",
+        "pinyin": "Màidāngláo"
+      },
+      {
+        "id": 279,
+        "simplified": "麻烦",
+        "pinyin": "máfan"
+      },
+      {
+        "id": 341,
+        "simplified": "黑孩子",
+        "pinyin": "hēiháizi"
+      },
+      {
+        "id": 244,
+        "simplified": "黑板",
+        "pinyin": "hēibǎn"
+      },
+      {
+        "id": 233,
+        "simplified": "龙舟",
+        "pinyin": "lóngzhōu"
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "APAC",
+      "served_by_colo": "ICN",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 1.2029
+      },
+      "duration": 1.2029,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 532480,
+      "rows_read": 381,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

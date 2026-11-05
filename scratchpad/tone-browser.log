@@ -1,0 +1,32 @@
+npm notice run ch-study@1.0.0 npx
+npm notice run 'playwright' test tests/browser/app.spec.js --grep pronunciation tone mode
+[WebServer] (node:1747751) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] npm notice run ch-study@1.0.0 npx
+[WebServer] npm notice run 'wrangler' d1 migrations apply ch-study --local --persist-to .wrangler/e2e-state
+[WebServer] (node:1749470) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] npm notice run ch-study@1.0.0 npx
+[WebServer] npm notice run 'wrangler' d1 execute ch-study --local --persist-to .wrangler/e2e-state --file=fixtures/seed.sql
+[WebServer] (node:1750323) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] npm notice run ch-study@1.0.0 npx
+[WebServer] npm notice run 'wrangler' dev --name ch-study-e2e --ip 127.0.0.1 --port 8788 --host 127.0.0.1:8788 --persist-to .wrangler/e2e-state --var LOCAL_DEV:true
+[WebServer] (node:1751487) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] npm notice run ch-study@1.0.0 npx
+[WebServer] npm notice run 'wrangler' dev --name ch-study-auth-test --ip 127.0.0.1 --port 8789 --host 127.0.0.1:8789 --persist-to .wrangler/auth-test --var LOCAL_DEV:false
+
+Running 1 test using 1 worker
+
+(node:1752902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] ▲ [WARNING] ProxyWorker: GET http://127.0.0.1:8788/api/components recovered on attempt 2 after a dropped connection to the UserWorker
+[WebServer] 
+[WebServer] 
+[WebServer] ▲ [WARNING] ProxyWorker: GET http://127.0.0.1:8788/api/culture recovered on attempt 2 after a dropped connection to the UserWorker
+[WebServer] 
+[WebServer] 
+  ✓  1 tests/browser/app.spec.js:523:1 › pronunciation tone mode offers four same-spelling tone choices (54.9s)
+
+  1 passed (2.0m)
